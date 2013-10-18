@@ -1,3 +1,6 @@
 [submodule "app/ISCache"]
 	path = app/ISCache
 	url = git@github.com:jbmorley/ISCache.git
+[submodule "app/ISUtils"]
+	path = app/ISUtils
+	url = git@github.com:jbmorley/glue.git

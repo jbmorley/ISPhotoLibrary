@@ -8,6 +8,7 @@
 
 #import "ISViewController.h"
 #import <AFNetworking/AFNetworking.h>
+#import "ISCache.h"
 
 @interface ISViewController ()
 
@@ -69,6 +70,9 @@ static NSString *kTableViewCellReuseIdentifier = @"Cell";
 {
   UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:kTableViewCellReuseIdentifier];
   cell.textLabel.text = self.items[indexPath.row][@"thumbnail"];
+  
+  // Fetch the thumbnail from the cache and display it when ready.
+  
   return cell;
 }
 

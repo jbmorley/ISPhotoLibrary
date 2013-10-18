@@ -7,13 +7,18 @@
 //
 
 #import "ISAppDelegate.h"
+#import "ISCache.h"
 
 @implementation ISAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
-    return YES;
+  // Add the basic URL handler to the cache.
+  ISCache *defaultCache = [ISCache defaultCache];
+  [defaultCache registerClass:[ISHTTPCacheHandler class]
+                   forContext:kCacheContextURL];
+  
+  return YES;
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application
