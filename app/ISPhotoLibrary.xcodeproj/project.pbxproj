@@ -22,18 +22,6 @@
 		D80A577C18111A7F003A82B1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80A575E18111A7F003A82B1 /* UIKit.framework */; };
 		D80A578418111A7F003A82B1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D80A578218111A7F003A82B1 /* InfoPlist.strings */; };
 		D80A578618111A7F003A82B1 /* ISPhotoLibraryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D80A578518111A7F003A82B1 /* ISPhotoLibraryTests.m */; };
-		D81CD31018112BFF00AD80F3 /* ISCache.m in Sources */ = {isa = PBXBuildFile; fileRef = D81CD30118112BFF00AD80F3 /* ISCache.m */; };
-		D81CD31118112BFF00AD80F3 /* ISCacheItemInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = D81CD30618112BFF00AD80F3 /* ISCacheItemInfo.m */; };
-		D81CD31218112BFF00AD80F3 /* ISCacheObserverBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = D81CD30918112BFF00AD80F3 /* ISCacheObserverBlock.m */; };
-		D81CD31318112BFF00AD80F3 /* ISHTTPCacheHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = D81CD30B18112BFF00AD80F3 /* ISHTTPCacheHandler.m */; };
-		D81CD31418112BFF00AD80F3 /* ISMockHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = D81CD30D18112BFF00AD80F3 /* ISMockHandler.m */; };
-		D81CD31518112BFF00AD80F3 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = D81CD30F18112BFF00AD80F3 /* NSString+MD5.m */; };
-		D81CD325181151F200AD80F3 /* UIAlertView+BlockExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D81CD319181151F200AD80F3 /* UIAlertView+BlockExtensions.m */; };
-		D81CD326181151F200AD80F3 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = D81CD31A181151F200AD80F3 /* README.md */; };
-		D81CD327181151F200AD80F3 /* ISTableViewSubtitleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D81CD31D181151F200AD80F3 /* ISTableViewSubtitleCell.m */; };
-		D81CD328181151F200AD80F3 /* ISNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = D81CD320181151F200AD80F3 /* ISNotifier.m */; };
-		D81CD329181151F200AD80F3 /* ISWeakReference.m in Sources */ = {isa = PBXBuildFile; fileRef = D81CD322181151F200AD80F3 /* ISWeakReference.m */; };
-		D81CD32A181151F200AD80F3 /* ISWeakReferenceArray.m in Sources */ = {isa = PBXBuildFile; fileRef = D81CD324181151F200AD80F3 /* ISWeakReferenceArray.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,33 +56,6 @@
 		D80A578118111A7F003A82B1 /* ISPhotoLibraryTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ISPhotoLibraryTests-Info.plist"; sourceTree = "<group>"; };
 		D80A578318111A7F003A82B1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D80A578518111A7F003A82B1 /* ISPhotoLibraryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISPhotoLibraryTests.m; sourceTree = "<group>"; };
-		D81CD30018112BFF00AD80F3 /* ISCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISCache.h; sourceTree = "<group>"; };
-		D81CD30118112BFF00AD80F3 /* ISCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISCache.m; sourceTree = "<group>"; };
-		D81CD30218112BFF00AD80F3 /* ISCacheBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISCacheBlock.h; sourceTree = "<group>"; };
-		D81CD30318112BFF00AD80F3 /* ISCacheHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISCacheHandler.h; sourceTree = "<group>"; };
-		D81CD30418112BFF00AD80F3 /* ISCacheHandlerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISCacheHandlerDelegate.h; sourceTree = "<group>"; };
-		D81CD30518112BFF00AD80F3 /* ISCacheItemInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISCacheItemInfo.h; sourceTree = "<group>"; };
-		D81CD30618112BFF00AD80F3 /* ISCacheItemInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISCacheItemInfo.m; sourceTree = "<group>"; };
-		D81CD30718112BFF00AD80F3 /* ISCacheObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISCacheObserver.h; sourceTree = "<group>"; };
-		D81CD30818112BFF00AD80F3 /* ISCacheObserverBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISCacheObserverBlock.h; sourceTree = "<group>"; };
-		D81CD30918112BFF00AD80F3 /* ISCacheObserverBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISCacheObserverBlock.m; sourceTree = "<group>"; };
-		D81CD30A18112BFF00AD80F3 /* ISHTTPCacheHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISHTTPCacheHandler.h; sourceTree = "<group>"; };
-		D81CD30B18112BFF00AD80F3 /* ISHTTPCacheHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISHTTPCacheHandler.m; sourceTree = "<group>"; };
-		D81CD30C18112BFF00AD80F3 /* ISMockHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISMockHandler.h; sourceTree = "<group>"; };
-		D81CD30D18112BFF00AD80F3 /* ISMockHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISMockHandler.m; sourceTree = "<group>"; };
-		D81CD30E18112BFF00AD80F3 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
-		D81CD30F18112BFF00AD80F3 /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
-		D81CD318181151F200AD80F3 /* UIAlertView+BlockExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+BlockExtensions.h"; sourceTree = "<group>"; };
-		D81CD319181151F200AD80F3 /* UIAlertView+BlockExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+BlockExtensions.m"; sourceTree = "<group>"; };
-		D81CD31A181151F200AD80F3 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		D81CD31C181151F200AD80F3 /* ISTableViewSubtitleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISTableViewSubtitleCell.h; sourceTree = "<group>"; };
-		D81CD31D181151F200AD80F3 /* ISTableViewSubtitleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISTableViewSubtitleCell.m; sourceTree = "<group>"; };
-		D81CD31F181151F200AD80F3 /* ISNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISNotifier.h; sourceTree = "<group>"; };
-		D81CD320181151F200AD80F3 /* ISNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISNotifier.m; sourceTree = "<group>"; };
-		D81CD321181151F200AD80F3 /* ISWeakReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISWeakReference.h; sourceTree = "<group>"; };
-		D81CD322181151F200AD80F3 /* ISWeakReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISWeakReference.m; sourceTree = "<group>"; };
-		D81CD323181151F200AD80F3 /* ISWeakReferenceArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISWeakReferenceArray.h; sourceTree = "<group>"; };
-		D81CD324181151F200AD80F3 /* ISWeakReferenceArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISWeakReferenceArray.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,8 +87,6 @@
 			isa = PBXGroup;
 			children = (
 				D80A576018111A7F003A82B1 /* ISPhotoLibrary */,
-				D81CD2FF18112BFF00AD80F3 /* ISCache */,
-				D81CD316181151F200AD80F3 /* ISUtils */,
 				D80A577F18111A7F003A82B1 /* ISPhotoLibraryTests */,
 				D80A575918111A7F003A82B1 /* Frameworks */,
 				D80A575818111A7F003A82B1 /* Products */,
@@ -197,71 +156,6 @@
 				D80A578218111A7F003A82B1 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		D81CD2FF18112BFF00AD80F3 /* ISCache */ = {
-			isa = PBXGroup;
-			children = (
-				D81CD30018112BFF00AD80F3 /* ISCache.h */,
-				D81CD30118112BFF00AD80F3 /* ISCache.m */,
-				D81CD30218112BFF00AD80F3 /* ISCacheBlock.h */,
-				D81CD30318112BFF00AD80F3 /* ISCacheHandler.h */,
-				D81CD30418112BFF00AD80F3 /* ISCacheHandlerDelegate.h */,
-				D81CD30518112BFF00AD80F3 /* ISCacheItemInfo.h */,
-				D81CD30618112BFF00AD80F3 /* ISCacheItemInfo.m */,
-				D81CD30718112BFF00AD80F3 /* ISCacheObserver.h */,
-				D81CD30818112BFF00AD80F3 /* ISCacheObserverBlock.h */,
-				D81CD30918112BFF00AD80F3 /* ISCacheObserverBlock.m */,
-				D81CD30A18112BFF00AD80F3 /* ISHTTPCacheHandler.h */,
-				D81CD30B18112BFF00AD80F3 /* ISHTTPCacheHandler.m */,
-				D81CD30C18112BFF00AD80F3 /* ISMockHandler.h */,
-				D81CD30D18112BFF00AD80F3 /* ISMockHandler.m */,
-				D81CD30E18112BFF00AD80F3 /* NSString+MD5.h */,
-				D81CD30F18112BFF00AD80F3 /* NSString+MD5.m */,
-			);
-			path = ISCache;
-			sourceTree = "<group>";
-		};
-		D81CD316181151F200AD80F3 /* ISUtils */ = {
-			isa = PBXGroup;
-			children = (
-				D81CD317181151F200AD80F3 /* extensions */,
-				D81CD31A181151F200AD80F3 /* README.md */,
-				D81CD31B181151F200AD80F3 /* ui */,
-				D81CD31E181151F200AD80F3 /* utilities */,
-			);
-			path = ISUtils;
-			sourceTree = "<group>";
-		};
-		D81CD317181151F200AD80F3 /* extensions */ = {
-			isa = PBXGroup;
-			children = (
-				D81CD318181151F200AD80F3 /* UIAlertView+BlockExtensions.h */,
-				D81CD319181151F200AD80F3 /* UIAlertView+BlockExtensions.m */,
-			);
-			path = extensions;
-			sourceTree = "<group>";
-		};
-		D81CD31B181151F200AD80F3 /* ui */ = {
-			isa = PBXGroup;
-			children = (
-				D81CD31C181151F200AD80F3 /* ISTableViewSubtitleCell.h */,
-				D81CD31D181151F200AD80F3 /* ISTableViewSubtitleCell.m */,
-			);
-			path = ui;
-			sourceTree = "<group>";
-		};
-		D81CD31E181151F200AD80F3 /* utilities */ = {
-			isa = PBXGroup;
-			children = (
-				D81CD31F181151F200AD80F3 /* ISNotifier.h */,
-				D81CD320181151F200AD80F3 /* ISNotifier.m */,
-				D81CD321181151F200AD80F3 /* ISWeakReference.h */,
-				D81CD322181151F200AD80F3 /* ISWeakReference.m */,
-				D81CD323181151F200AD80F3 /* ISWeakReferenceArray.h */,
-				D81CD324181151F200AD80F3 /* ISWeakReferenceArray.m */,
-			);
-			path = utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -345,7 +239,6 @@
 			files = (
 				D80A577318111A7F003A82B1 /* Images.xcassets in Resources */,
 				D80A576518111A7F003A82B1 /* InfoPlist.strings in Resources */,
-				D81CD326181151F200AD80F3 /* README.md in Resources */,
 				D80A576E18111A7F003A82B1 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -396,20 +289,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D81CD31218112BFF00AD80F3 /* ISCacheObserverBlock.m in Sources */,
-				D81CD31018112BFF00AD80F3 /* ISCache.m in Sources */,
-				D81CD31118112BFF00AD80F3 /* ISCacheItemInfo.m in Sources */,
-				D81CD329181151F200AD80F3 /* ISWeakReference.m in Sources */,
-				D81CD325181151F200AD80F3 /* UIAlertView+BlockExtensions.m in Sources */,
-				D81CD32A181151F200AD80F3 /* ISWeakReferenceArray.m in Sources */,
-				D81CD31518112BFF00AD80F3 /* NSString+MD5.m in Sources */,
 				D80A576B18111A7F003A82B1 /* ISAppDelegate.m in Sources */,
 				D80A576718111A7F003A82B1 /* main.m in Sources */,
-				D81CD31318112BFF00AD80F3 /* ISHTTPCacheHandler.m in Sources */,
-				D81CD327181151F200AD80F3 /* ISTableViewSubtitleCell.m in Sources */,
-				D81CD31418112BFF00AD80F3 /* ISMockHandler.m in Sources */,
 				D80A577118111A7F003A82B1 /* ISViewController.m in Sources */,
-				D81CD328181151F200AD80F3 /* ISNotifier.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

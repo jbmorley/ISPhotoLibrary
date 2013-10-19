@@ -4,3 +4,11 @@
 [submodule "app/ISUtils"]
 	path = app/ISUtils
 	url = git@github.com:jbmorley/glue.git
+[submodule "dependencies/ISCache"]
+	path = dependencies/ISCache
+	url = git@github.com:jbmorley/ISCache.git
+	branch = master
+[submodule "dependencies/ISUtilities"]
+	path = dependencies/ISUtilities
+	url = git@github.com:jbmorley/ISUtilities.git
+	branch = master
