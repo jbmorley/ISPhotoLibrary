@@ -1,4 +1,5 @@
 platform :ios, '7.0'
+
+pod 'AFNetworking', '~> 2.0'
 pod 'ISUtilities', :path => '../dependencies/ISUtilities'
 pod 'ISCache', :path => '../dependencies/ISCache'
-pod 'AFNetworking', '~> 2.0'
