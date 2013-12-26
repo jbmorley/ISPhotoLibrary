@@ -16,18 +16,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="mbs-4t-Hh0">
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="mbs-4t-Hh0">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="4cD-P1-CvX">
                                     <size key="itemSize" width="119" height="128"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    <inset key="sectionInset" minX="10" minY="10" maxX="10" maxY="10"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ThumbnailCell" id="rNu-ME-5ta" customClass="ISCollectionViewCell">
-                                        <rect key="frame" x="0.0" y="64" width="119" height="128"/>
+                                        <rect key="frame" x="10" y="74" width="119" height="128"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="119" height="128"/>
@@ -53,6 +53,7 @@
                                         <connections>
                                             <outlet property="activityIndicatorView" destination="VKs-UE-Lxh" id="Aiy-3j-8qE"/>
                                             <outlet property="imageView" destination="r8F-sp-joC" id="1bs-cd-yYI"/>
+                                            <segue destination="9h7-g0-btc" kind="push" identifier="DetailSegue" id="yDT-c0-XZP"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -70,6 +71,19 @@
                             <constraint firstItem="Y1d-eB-Ppw" firstAttribute="top" secondItem="mbs-4t-Hh0" secondAttribute="bottom" id="eU3-4Y-her"/>
                         </constraints>
                     </view>
+                    <toolbarItems>
+                        <barButtonItem systemItem="refresh" id="9X5-9d-u62">
+                            <connections>
+                                <action selector="refreshClicked:" destination="vXZ-lx-hvc" id="ABY-i9-Hbd"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="IRb-E2-YY9"/>
+                        <barButtonItem title="Downloads" style="plain" id="nVA-0v-V51">
+                            <connections>
+                                <segue destination="5Wq-BV-cPj" kind="modal" id="Xb2-jS-Koc"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" title="Photos" id="3V4-wj-oel"/>
                     <connections>
                         <outlet property="collectionView" destination="mbs-4t-Hh0" id="S43-5T-Khh"/>
@@ -79,7 +93,7 @@
             </objects>
             <point key="canvasLocation" x="488" y="520"/>
         </scene>
-        <!--View Controller-->
+        <!--View Controller - Downloads-->
         <scene sceneID="FHj-Kl-kas">
             <objects>
                 <viewController id="cHD-jn-jh6" sceneMemberID="viewController">
@@ -90,23 +104,53 @@
                     <view key="view" contentMode="scaleToFill" id="ctw-rO-bu5">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Jfi-qY-W0j">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="M5u-7a-Bs6">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="ywv-2t-2sf">
+                                        <rect key="frame" x="0.0" y="64" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Downloads" id="6z2-3c-Sq4">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="wqN-Ah-XNy"/>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zJS-DY-63P" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="942" y="520"/>
+            <point key="canvasLocation" x="1468" y="520"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="rDf-Ed-MsO">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="tqR-x6-xfz" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="tqR-x6-xfz" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="3cX-5W-YhI">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="UG6-kc-GSf">
+                        <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="eoa-Se-r4U"/>
                     </connections>
@@ -114,6 +158,64 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g4U-T9-OL1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-131" y="520"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="ntW-NT-crZ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="5Wq-BV-cPj" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="hKP-Kb-6Ko">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="cHD-jn-jh6" kind="relationship" relationship="rootViewController" id="PGW-UL-j6h"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="D6Q-zF-cmd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="942" y="520"/>
+        </scene>
+        <!--Item View Controller - Photo-->
+        <scene sceneID="if8-vn-TsW">
+            <objects>
+                <viewController id="9h7-g0-btc" customClass="ISItemViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Nwc-LS-dai"/>
+                        <viewControllerLayoutGuide type="bottom" id="irv-Hm-nXR"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Nkd-hd-wf2">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3y8-hG-qIg">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="5oi-hb-74h">
+                                <rect key="frame" x="85" y="283" width="150" height="2"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </progressView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="3y8-hG-qIg" firstAttribute="leading" secondItem="Nkd-hd-wf2" secondAttribute="leading" id="1Kx-09-l4o"/>
+                            <constraint firstItem="3y8-hG-qIg" firstAttribute="top" secondItem="Nkd-hd-wf2" secondAttribute="top" id="Gso-5k-Jh6"/>
+                            <constraint firstAttribute="trailing" secondItem="3y8-hG-qIg" secondAttribute="trailing" id="qL6-ls-hPI"/>
+                            <constraint firstItem="5oi-hb-74h" firstAttribute="leading" secondItem="3y8-hG-qIg" secondAttribute="trailing" constant="-235" id="trz-OG-dgP"/>
+                            <constraint firstAttribute="bottom" secondItem="3y8-hG-qIg" secondAttribute="bottom" id="xYt-0U-NJ5"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Photo" id="CaZ-Q0-R0D"/>
+                    <connections>
+                        <outlet property="imageView" destination="3y8-hG-qIg" id="bkr-fl-TIy"/>
+                        <outlet property="progressView" destination="5oi-hb-74h" id="xag-aF-SY2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4zf-Xt-bpm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="942" y="1236"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

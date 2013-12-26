@@ -10,6 +10,7 @@
 #import <AFNetworking/AFNetworking.h>
 #import "ISCache.h"
 #import "ISCollectionViewCell.h"
+#import "ISItemViewController.h"
 
 @interface ISViewController ()
 
@@ -21,13 +22,36 @@
 @implementation ISViewController
 
 static NSString *kCollectionViewCellReuseIdentifier = @"ThumbnailCell";
+static NSString *kDetailSegueIdentifier = @"DetailSegue";
 static NSString *kServiceRoot = @"http://localhost:8051";
 
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  
-  // ; the items with an empty array.
+  [self loadData];
+}
+
+- (void)didReceiveMemoryWarning
+{
+  [super didReceiveMemoryWarning];
+}
+
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue
+                 sender:(id)sender
+{
+  if ([segue.identifier isEqualToString:kDetailSegueIdentifier]) {
+    ISCollectionViewCell *cell = sender;
+    ISItemViewController *viewController = segue.destinationViewController;
+    viewController.identifier = cell.identifier;
+  }
+}
+
+#pragma mark - Utilities
+
+- (void)loadData
+{
+  // Initialize the items with an empty array.
   self.items = @[];
   
   // Fetch the library data.
@@ -38,17 +62,21 @@ static NSString *kServiceRoot = @"http://localhost:8051";
     parameters:nil
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
          self.items = responseObject;
+         NSLog(@"Items: %@", responseObject);
          [self.collectionView reloadData];
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
          NSLog(@"Something went wrong: %@", error);
        }];
-  
 }
 
-- (void)didReceiveMemoryWarning
+#pragma mark - Actions
+
+- (IBAction)refreshClicked:(id)sender
 {
-  [super didReceiveMemoryWarning];
+  [self loadData];
 }
+
+
 
 
 #pragma mark - UITableViewDataSource
@@ -63,18 +91,22 @@ static NSString *kServiceRoot = @"http://localhost:8051";
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
   // Determine the item URL.
-  NSString *item = [kServiceRoot stringByAppendingFormat:@"/%@", self.items[indexPath.row][@"id"]];
+  NSString *identifier = self.items[indexPath.row][@"id"];
+  NSString *item = [kServiceRoot stringByAppendingFormat:
+                    @"/%@",
+                    identifier];
   
   // Configure the cell.
   ISCollectionViewCell *cell
   = [collectionView dequeueReusableCellWithReuseIdentifier:kCollectionViewCellReuseIdentifier
                                               forIndexPath:indexPath];
+  cell.identifier = identifier;
   cell.imageView.alpha = 0.0f;
   [cell.activityIndicatorView startAnimating];
   [cell.imageView setImageWithURL:item
                   completionBlock:^{
                     [cell.activityIndicatorView stopAnimating];
-                    [UIView animateWithDuration:1.0f
+                    [UIView animateWithDuration:0.3f
                                      animations:^{
                                        cell.imageView.alpha = 1.0f;
                                      }];
@@ -83,5 +115,7 @@ static NSString *kServiceRoot = @"http://localhost:8051";
   return cell;
 }
 
+
+#pragma mark - UICollectionViewDelegate
 
 @end

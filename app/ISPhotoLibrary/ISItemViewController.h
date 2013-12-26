@@ -10,6 +10,6 @@
 
 @interface ISItemViewController : UIViewController
 
-@property (strong, nonatomic) NSString *item;
+@property (strong, nonatomic) NSString *identifier;
 
 @end
