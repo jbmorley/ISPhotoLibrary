@@ -15,8 +15,6 @@
 {
   // Add the basic URL handler to the cache.
   ISCache *defaultCache = [ISCache defaultCache];
-  [defaultCache registerClass:[ISHTTPCacheHandler class]
-                   forContext:kCacheContextURL];
   
   return YES;
 }

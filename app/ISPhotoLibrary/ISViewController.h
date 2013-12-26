@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ISViewController : UIViewController <UITableViewDataSource>
+@interface ISViewController : UIViewController <UICollectionViewDataSource>
 
 @end

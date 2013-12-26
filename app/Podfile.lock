@@ -11,16 +11,13 @@ PODS:
     - AFNetworking/Security
     - AFNetworking/Serialization
   - AFNetworking/NSURLSession (2.0.1):
-    - AFNetworking/Reachability
-    - AFNetworking/Security
-    - AFNetworking/Serialization
+    - AFNetworking/NSURLConnection
   - AFNetworking/Reachability (2.0.1)
   - AFNetworking/Security (2.0.1)
   - AFNetworking/Serialization (2.0.1)
   - AFNetworking/UIKit (2.0.1):
     - AFNetworking/NSURLConnection
-  - ISCache (0.0.1):
-    - ISUtilities
+  - ISCache (0.0.1)
   - ISUtilities (0.0.1)
 
 DEPENDENCIES:
@@ -35,8 +32,8 @@ EXTERNAL SOURCES:
     :path: ../dependencies/ISUtilities
 
 SPEC CHECKSUMS:
-  AFNetworking: a6f11ac4ac087303e6ff87adc1ba57b0dac20ef8
-  ISCache: d8d89f93d9dfec164ad3bb3950fd7f88f0ee31d8
-  ISUtilities: b076b6f5c3e84af9fd94269f1bbda0d376b0c02f
+  AFNetworking: 867cd74266eeab923f249aa8b3d56899a67cc50e
+  ISCache: b5faf9a12b26d4693ac81fe2946d22f1d549c46a
+  ISUtilities: 548d8b942d5c1dcf1862c6a4c1c7eede589cfae7
 
-COCOAPODS: 0.26.2
+COCOAPODS: 0.28.0

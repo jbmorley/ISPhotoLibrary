@@ -12,43 +12,36 @@
 
 @interface ISViewController ()
 
-@property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) NSArray *items;
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 @end
 
 @implementation ISViewController
 
-static NSString *kTableViewCellReuseIdentifier = @"Cell";
+static NSString *kCollectionViewCellReuseIdentifier = @"ThumbnailCell";
+static NSString *kServiceRoot = @"http://localhost:8051";
 
 - (void)viewDidLoad
 {
   [super viewDidLoad];
   
-  // Add the table view.
-  self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds
-                                                style:UITableViewStylePlain];
-  [self.tableView registerClass:[UITableViewCell class]
-         forCellReuseIdentifier:kTableViewCellReuseIdentifier];
-  self.tableView.dataSource = self;
-  self.tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-  [self.view addSubview:self.tableView];
-  
-  // Initialize the items with an empty array.
+  // ; the items with an empty array.
   self.items = @[];
   
   // Fetch the library data.
   // Ultimately this fetch could be wired up using ISDB and an appropriate
   // adapter to manage all of the animations.
   AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-  [manager GET:@"http://projects.jbmorley.co.uk/photos/library.json"
-    parameters:@{@"version": @"1"}
+  [manager GET:kServiceRoot
+    parameters:nil
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
-         self.items = responseObject[@"photos"];
-         [self.tableView reloadData];
+         self.items = responseObject;
+         [self.collectionView reloadData];
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
          NSLog(@"Something went wrong: %@", error);
        }];
+  
 }
 
 - (void)didReceiveMemoryWarning
@@ -59,21 +52,33 @@ static NSString *kTableViewCellReuseIdentifier = @"Cell";
 
 #pragma mark - UITableViewDataSource
 
-- (NSInteger)tableView:(UITableView *)tableView
- numberOfRowsInSection:(NSInteger)section
+- (NSInteger)collectionView:(UICollectionView *)collectionView
+     numberOfItemsInSection:(NSInteger)section
 {
   return self.items.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView
-         cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
+                  cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-  UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:kTableViewCellReuseIdentifier];
-  cell.textLabel.text = self.items[indexPath.row][@"thumbnail"];
+  // NSString *thumbnail = self.items[indexPath.row][@"name"];
   
-  // Fetch the thumbnail from the cache and display it when ready.
-  
+  UICollectionViewCell *cell
+  = [collectionView dequeueReusableCellWithReuseIdentifier:kCollectionViewCellReuseIdentifier
+                                              forIndexPath:indexPath];
+  cell.backgroundColor = [UIColor redColor];
   return cell;
+}
+
+- (void)tableView:(UITableView *)tableView
+{
+//  NSString *thumbnail = self.items[indexPath.row][@"name"];
+//  cell.textLabel.text = thumbnail;
+//  NSString *item = [kServiceRoot stringByAppendingFormat:@"/%@", self.items[indexPath.row][@"id"]];
+//  NSLog(@"Path: %@", item);
+//  
+//  [cell.imageView setImageWithURL:item];
+//  return cell;
 }
 
 
