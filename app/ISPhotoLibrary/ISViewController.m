@@ -69,7 +69,6 @@ static NSString *kServiceRoot = @"http://localhost:8051";
   ISCollectionViewCell *cell
   = [collectionView dequeueReusableCellWithReuseIdentifier:kCollectionViewCellReuseIdentifier
                                               forIndexPath:indexPath];
-  cell.backgroundColor = [UIColor redColor];
   [cell.imageView setImageWithURL:item];
   
   return cell;
