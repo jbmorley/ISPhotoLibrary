@@ -9,6 +9,7 @@
 #import "ISViewController.h"
 #import <AFNetworking/AFNetworking.h>
 #import "ISCache.h"
+#import "ISCollectionViewCell.h"
 
 @interface ISViewController ()
 
@@ -61,27 +62,18 @@ static NSString *kServiceRoot = @"http://localhost:8051";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-  // NSString *thumbnail = self.items[indexPath.row][@"name"];
+  // Determine the item URL.
+  NSString *item = [kServiceRoot stringByAppendingFormat:@"/%@", self.items[indexPath.row][@"id"]];
   
-  UICollectionViewCell *cell
+  // Configure the cell.
+  ISCollectionViewCell *cell
   = [collectionView dequeueReusableCellWithReuseIdentifier:kCollectionViewCellReuseIdentifier
                                               forIndexPath:indexPath];
   cell.backgroundColor = [UIColor redColor];
+  [cell.imageView setImageWithURL:item];
+  
   return cell;
 }
-
-- (void)tableView:(UITableView *)tableView
-{
-//  NSString *thumbnail = self.items[indexPath.row][@"name"];
-//  cell.textLabel.text = thumbnail;
-//  NSString *item = [kServiceRoot stringByAppendingFormat:@"/%@", self.items[indexPath.row][@"id"]];
-//  NSLog(@"Path: %@", item);
-//  
-//  [cell.imageView setImageWithURL:item];
-//  return cell;
-}
-
-
 
 
 @end
