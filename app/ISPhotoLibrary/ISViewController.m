@@ -69,7 +69,11 @@ static NSString *kServiceRoot = @"http://localhost:8051";
   ISCollectionViewCell *cell
   = [collectionView dequeueReusableCellWithReuseIdentifier:kCollectionViewCellReuseIdentifier
                                               forIndexPath:indexPath];
-  [cell.imageView setImageWithURL:item];
+  [cell.activityIndicatorView startAnimating];
+  [cell.imageView setImageWithURL:item
+                  completionBlock:^{
+                    [cell.activityIndicatorView stopAnimating];
+                  }];
   
   return cell;
 }

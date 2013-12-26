@@ -37,6 +37,10 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="119" height="128"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 </imageView>
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="VKs-UE-Lxh">
+                                                    <rect key="frame" x="49" y="54" width="20" height="20"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </activityIndicatorView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
@@ -47,6 +51,7 @@
                                             <constraint firstItem="r8F-sp-joC" firstAttribute="top" secondItem="rNu-ME-5ta" secondAttribute="top" id="jev-yv-hXy"/>
                                         </constraints>
                                         <connections>
+                                            <outlet property="activityIndicatorView" destination="VKs-UE-Lxh" id="Aiy-3j-8qE"/>
                                             <outlet property="imageView" destination="r8F-sp-joC" id="1bs-cd-yYI"/>
                                         </connections>
                                     </collectionViewCell>
