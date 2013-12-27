@@ -207,6 +207,19 @@
                             <constraint firstAttribute="bottom" secondItem="3y8-hG-qIg" secondAttribute="bottom" id="xYt-0U-NJ5"/>
                         </constraints>
                     </view>
+                    <toolbarItems>
+                        <barButtonItem systemItem="trash" id="AYA-Mh-3MD">
+                            <connections>
+                                <action selector="trashClicked:" destination="9h7-g0-btc" id="EeC-e5-ABm"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Jo9-d3-68z"/>
+                        <barButtonItem systemItem="refresh" id="Kjm-ab-vuV">
+                            <connections>
+                                <action selector="refreshClicked:" destination="9h7-g0-btc" id="Llv-Cn-jio"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" title="Photo" id="CaZ-Q0-R0D"/>
                     <connections>
                         <outlet property="imageView" destination="3y8-hG-qIg" id="bkr-fl-TIy"/>

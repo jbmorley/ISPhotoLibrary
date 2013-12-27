@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <ISCache/ISCache.h>
 
 @interface ISItemViewController : UIViewController
+<ISCacheObserver>
 
 @property (strong, nonatomic) NSString *identifier;
 

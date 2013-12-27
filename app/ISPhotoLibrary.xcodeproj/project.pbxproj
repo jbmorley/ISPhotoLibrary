@@ -23,6 +23,7 @@
 		D80A578418111A7F003A82B1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D80A578218111A7F003A82B1 /* InfoPlist.strings */; };
 		D80A578618111A7F003A82B1 /* ISPhotoLibraryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D80A578518111A7F003A82B1 /* ISPhotoLibraryTests.m */; };
 		D812C66E186C183300416A1B /* ISCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D812C66D186C183300416A1B /* ISCollectionViewCell.m */; };
+		D812C671186D7E6900416A1B /* ISPhotoService.m in Sources */ = {isa = PBXBuildFile; fileRef = D812C670186D7E6900416A1B /* ISPhotoService.m */; };
 		D8F95D05185A0A0F0083A279 /* ISItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F95D04185A0A0F0083A279 /* ISItemViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -60,6 +61,8 @@
 		D80A578518111A7F003A82B1 /* ISPhotoLibraryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISPhotoLibraryTests.m; sourceTree = "<group>"; };
 		D812C66C186C183300416A1B /* ISCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISCollectionViewCell.h; sourceTree = "<group>"; };
 		D812C66D186C183300416A1B /* ISCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISCollectionViewCell.m; sourceTree = "<group>"; };
+		D812C66F186D7E6900416A1B /* ISPhotoService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISPhotoService.h; sourceTree = "<group>"; };
+		D812C670186D7E6900416A1B /* ISPhotoService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISPhotoService.m; sourceTree = "<group>"; };
 		D8F95D03185A0A0F0083A279 /* ISItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISItemViewController.h; sourceTree = "<group>"; };
 		D8F95D04185A0A0F0083A279 /* ISItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISItemViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -135,6 +138,8 @@
 				D8F95D04185A0A0F0083A279 /* ISItemViewController.m */,
 				D80A577218111A7F003A82B1 /* Images.xcassets */,
 				D80A576118111A7F003A82B1 /* Supporting Files */,
+				D812C66F186D7E6900416A1B /* ISPhotoService.h */,
+				D812C670186D7E6900416A1B /* ISPhotoService.m */,
 			);
 			path = ISPhotoLibrary;
 			sourceTree = "<group>";
@@ -301,6 +306,7 @@
 			files = (
 				D80A576B18111A7F003A82B1 /* ISAppDelegate.m in Sources */,
 				D80A576718111A7F003A82B1 /* main.m in Sources */,
+				D812C671186D7E6900416A1B /* ISPhotoService.m in Sources */,
 				D812C66E186C183300416A1B /* ISCollectionViewCell.m in Sources */,
 				D80A577118111A7F003A82B1 /* ISViewController.m in Sources */,
 				D8F95D05185A0A0F0083A279 /* ISItemViewController.m in Sources */,

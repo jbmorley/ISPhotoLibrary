@@ -6,11 +6,13 @@
 //  Copyright (c) 2013 InSeven Limited. All rights reserved.
 //
 
-#import "ISViewController.h"
 #import <AFNetworking/AFNetworking.h>
-#import "ISCache.h"
+#import <ISCache/ISCache.h>
+
+#import "ISViewController.h"
 #import "ISCollectionViewCell.h"
 #import "ISItemViewController.h"
+#import "ISPhotoService.h"
 
 @interface ISViewController ()
 
@@ -23,7 +25,6 @@
 
 static NSString *kCollectionViewCellReuseIdentifier = @"ThumbnailCell";
 static NSString *kDetailSegueIdentifier = @"DetailSegue";
-static NSString *kServiceRoot = @"http://localhost:8051";
 
 - (void)viewDidLoad
 {
@@ -58,7 +59,7 @@ static NSString *kServiceRoot = @"http://localhost:8051";
   // Ultimately this fetch could be wired up using ISDB and an appropriate
   // adapter to manage all of the animations.
   AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-  [manager GET:kServiceRoot
+  [manager GET:[ISPhotoService serviceURL]
     parameters:nil
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
          self.items = responseObject;
@@ -92,9 +93,7 @@ static NSString *kServiceRoot = @"http://localhost:8051";
 {
   // Determine the item URL.
   NSString *identifier = self.items[indexPath.row][@"id"];
-  NSString *item = [kServiceRoot stringByAppendingFormat:
-                    @"/%@",
-                    identifier];
+  NSString *item = [ISPhotoService itemURL:                    identifier];
   
   // Configure the cell.
   ISCollectionViewCell *cell
