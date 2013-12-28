@@ -63,7 +63,6 @@ static NSString *kDetailSegueIdentifier = @"DetailSegue";
     parameters:nil
        success:^(AFHTTPRequestOperation *operation, id responseObject) {
          self.items = responseObject;
-         NSLog(@"Items: %@", responseObject);
          [self.collectionView reloadData];
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
          NSLog(@"Something went wrong: %@", error);
@@ -105,10 +104,7 @@ static NSString *kDetailSegueIdentifier = @"DetailSegue";
   [cell.imageView setImageWithURL:item
                   completionBlock:^{
                     [cell.activityIndicatorView stopAnimating];
-                    [UIView animateWithDuration:0.3f
-                                     animations:^{
-                                       cell.imageView.alpha = 1.0f;
-                                     }];
+                    cell.imageView.alpha = 1.0f;
                   }];
   
   return cell;

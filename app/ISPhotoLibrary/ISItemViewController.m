@@ -29,7 +29,7 @@ typedef enum {
 @implementation ISItemViewController
 
 
-static CGFloat kAnimationDuration = 0.3f;
+static CGFloat kAnimationDuration = 0.0f;
 
 
 - (void)viewDidLoad
@@ -118,27 +118,39 @@ static CGFloat kAnimationDuration = 0.3f;
 
 - (void)fetchItem
 {
+  ISItemViewController *__weak weakSelf = self;
   [self.cache item:self.url
            context:kCacheContextURL
-             block:NULL];
+             block:^(ISCacheItemInfo *info) {
+               ISItemViewController *strongSelf = weakSelf;
+               if (strongSelf) {
+                 [self update:info];
+               }
+             }];
+}
+
+
+- (void)update:(ISCacheItemInfo *)info
+{
+  if (info.state == ISCacheItemStateFound) {
+    self.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:info.path]];
+    self.state = ISItemViewControllerStateViewing;
+  } else {
+    CGFloat progress = (CGFloat)info.totalBytesRead / (CGFloat)info.totalBytesExpectedToRead;
+    self.progressView.progress = progress;
+    self.state = ISItemViewControllerStateDownloading;
+  }
 }
 
 
 - (void)itemDidUpdate:(ISCacheItemInfo *)info
 {
-  // Ignore updates we're not interested in.
+  // Watch for the item being removed from the cache and re-request
+  // the item from the cache if neccessary.
   if ([info.item isEqualToString:self.url] &&
-      [info.context isEqualToString:kCacheContextURL]) {
-
-    if (info.state == ISCacheItemStateFound) {
-      self.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:info.path]];
-      self.state = ISItemViewControllerStateViewing;
-    } else {
-      CGFloat progress = (CGFloat)info.totalBytesRead / (CGFloat)info.totalBytesExpectedToRead;
-      self.progressView.progress = progress;
-      self.state = ISItemViewControllerStateDownloading;
-    }
-    
+      [info.context isEqualToString:kCacheContextURL] &&
+      info.state == ISCacheItemStateNotFound) {
+    [self fetchItem];
   }
 }
 
