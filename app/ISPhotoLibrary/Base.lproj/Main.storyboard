@@ -183,7 +183,7 @@
         <!--Item View Controller - Photo-->
         <scene sceneID="if8-vn-TsW">
             <objects>
-                <viewController id="9h7-g0-btc" customClass="ISItemViewController" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="9h7-g0-btc" customClass="ISItemViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Nwc-LS-dai"/>
                         <viewControllerLayoutGuide type="bottom" id="irv-Hm-nXR"/>
@@ -196,7 +196,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="5oi-hb-74h">
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="5oi-hb-74h">
                                 <rect key="frame" x="85" y="283" width="150" height="2"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </progressView>
@@ -204,29 +204,19 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="3y8-hG-qIg" firstAttribute="top" secondItem="Nkd-hd-wf2" secondAttribute="top" id="DBj-ax-QuB"/>
-                            <constraint firstItem="irv-Hm-nXR" firstAttribute="top" secondItem="5oi-hb-74h" secondAttribute="bottom" constant="239" id="Dl2-Js-a1j"/>
-                            <constraint firstAttribute="trailing" secondItem="5oi-hb-74h" secondAttribute="trailing" constant="85" id="ReG-Uz-fgN"/>
                             <constraint firstItem="3y8-hG-qIg" firstAttribute="leading" secondItem="Nkd-hd-wf2" secondAttribute="leading" id="XoD-PZ-ggU"/>
-                            <constraint firstItem="5oi-hb-74h" firstAttribute="top" secondItem="Nwc-LS-dai" secondAttribute="bottom" constant="219" id="kdr-uq-gTS"/>
-                            <constraint firstItem="5oi-hb-74h" firstAttribute="leading" secondItem="Nkd-hd-wf2" secondAttribute="leading" constant="85" id="rkc-4w-k9S"/>
                             <constraint firstAttribute="trailing" secondItem="3y8-hG-qIg" secondAttribute="trailing" id="ujQ-hs-lEr"/>
                             <constraint firstAttribute="bottom" secondItem="3y8-hG-qIg" secondAttribute="bottom" id="wAd-zj-7Jk"/>
                         </constraints>
                     </view>
-                    <toolbarItems>
-                        <barButtonItem title="Clear Item" id="AYA-Mh-3MD">
-                            <connections>
-                                <action selector="trashClicked:" destination="9h7-g0-btc" id="EeC-e5-ABm"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Jo9-d3-68z"/>
-                        <barButtonItem title="Refresh Item" id="Kjm-ab-vuV">
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Photo" id="CaZ-Q0-R0D">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="Kjm-ab-vuV">
                             <connections>
                                 <action selector="refreshClicked:" destination="9h7-g0-btc" id="Llv-Cn-jio"/>
                             </connections>
                         </barButtonItem>
-                    </toolbarItems>
-                    <navigationItem key="navigationItem" title="Photo" id="CaZ-Q0-R0D"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="imageView" destination="3y8-hG-qIg" id="bkr-fl-TIy"/>
                         <outlet property="progressView" destination="5oi-hb-74h" id="xag-aF-SY2"/>
