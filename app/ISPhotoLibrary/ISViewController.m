@@ -102,6 +102,9 @@ static NSString *kDetailSegueIdentifier = @"DetailSegue";
   cell.imageView.alpha = 0.0f;
   [cell.activityIndicatorView startAnimating];
   [cell.imageView setImageWithURL:item
+                         userInfo:@{@"width": @152.0,
+                                    @"height": @152.0,
+                                    @"scale": @(ISScalingCacheHandlerScaleAspectFill)}
                   completionBlock:^{
                     [cell.activityIndicatorView stopAnimating];
                     cell.imageView.alpha = 1.0f;

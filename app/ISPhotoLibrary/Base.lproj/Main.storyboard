@@ -196,18 +196,21 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="5oi-hb-74h">
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="5oi-hb-74h">
                                 <rect key="frame" x="85" y="283" width="150" height="2"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </progressView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="3y8-hG-qIg" firstAttribute="leading" secondItem="Nkd-hd-wf2" secondAttribute="leading" id="1Kx-09-l4o"/>
-                            <constraint firstItem="3y8-hG-qIg" firstAttribute="top" secondItem="Nkd-hd-wf2" secondAttribute="top" id="Gso-5k-Jh6"/>
-                            <constraint firstAttribute="trailing" secondItem="3y8-hG-qIg" secondAttribute="trailing" id="qL6-ls-hPI"/>
-                            <constraint firstItem="5oi-hb-74h" firstAttribute="leading" secondItem="3y8-hG-qIg" secondAttribute="trailing" constant="-235" id="trz-OG-dgP"/>
-                            <constraint firstAttribute="bottom" secondItem="3y8-hG-qIg" secondAttribute="bottom" id="xYt-0U-NJ5"/>
+                            <constraint firstItem="3y8-hG-qIg" firstAttribute="top" secondItem="Nkd-hd-wf2" secondAttribute="top" id="DBj-ax-QuB"/>
+                            <constraint firstItem="irv-Hm-nXR" firstAttribute="top" secondItem="5oi-hb-74h" secondAttribute="bottom" constant="239" id="Dl2-Js-a1j"/>
+                            <constraint firstAttribute="trailing" secondItem="5oi-hb-74h" secondAttribute="trailing" constant="85" id="ReG-Uz-fgN"/>
+                            <constraint firstItem="3y8-hG-qIg" firstAttribute="leading" secondItem="Nkd-hd-wf2" secondAttribute="leading" id="XoD-PZ-ggU"/>
+                            <constraint firstItem="5oi-hb-74h" firstAttribute="top" secondItem="Nwc-LS-dai" secondAttribute="bottom" constant="219" id="kdr-uq-gTS"/>
+                            <constraint firstItem="5oi-hb-74h" firstAttribute="leading" secondItem="Nkd-hd-wf2" secondAttribute="leading" constant="85" id="rkc-4w-k9S"/>
+                            <constraint firstAttribute="trailing" secondItem="3y8-hG-qIg" secondAttribute="trailing" id="ujQ-hs-lEr"/>
+                            <constraint firstAttribute="bottom" secondItem="3y8-hG-qIg" secondAttribute="bottom" id="wAd-zj-7Jk"/>
                         </constraints>
                     </view>
                     <toolbarItems>

@@ -18,11 +18,12 @@ typedef enum {
 
 @interface ISItemViewController ()
 
-@property (weak, nonatomic) IBOutlet UIImageView *imageView;
-@property (weak, nonatomic) IBOutlet UIProgressView *progressView;
-@property (strong, nonatomic) ISCache *cache;
+@property (nonatomic, weak) IBOutlet UIImageView *imageView;
+@property (nonatomic, weak) IBOutlet UIProgressView *progressView;
+@property (nonatomic, strong) ISCache *cache;
 @property (nonatomic) ISItemViewControllerState state;
 @property (nonatomic, readonly) NSString *url;
+@property (nonatomic, strong) NSString *cacheIdentifier;
 
 @end
 
@@ -100,16 +101,14 @@ static CGFloat kAnimationDuration = 0.0f;
 - (IBAction)trashClicked:(id)sender
 {
   [self.cache removeObserver:self];
-  [self.cache removeItem:self.url
-                 context:kCacheContextURL];
+  [self.cache removeItemForIdentifier:self.identifier];
   [self.navigationController popViewControllerAnimated:YES];
 }
 
 
 - (IBAction)refreshClicked:(id)sender
 {
-  [self.cache removeItem:self.url
-                 context:kCacheContextURL];
+  [self.cache removeItemForIdentifier:self.identifier];
 }
 
 
@@ -119,14 +118,18 @@ static CGFloat kAnimationDuration = 0.0f;
 - (void)fetchItem
 {
   ISItemViewController *__weak weakSelf = self;
-  [self.cache item:self.url
-           context:kCacheContextURL
-             block:^(ISCacheItemInfo *info) {
-               ISItemViewController *strongSelf = weakSelf;
-               if (strongSelf) {
-                 [self update:info];
-               }
-             }];
+  self.cacheIdentifier
+  = [self.cache item:self.url
+             context:kCacheContextScaleURL
+            userInfo:@{@"width": @320.0,
+                       @"height": @568.0,
+                       @"scale": @(ISScalingCacheHandlerScaleAspectFit)}
+               block:^(ISCacheItemInfo *info) {
+                 ISItemViewController *strongSelf = weakSelf;
+                 if (strongSelf) {
+                   [self update:info];
+                 }
+               }];
 }
 
 
@@ -147,9 +150,7 @@ static CGFloat kAnimationDuration = 0.0f;
 {
   // Watch for the item being removed from the cache and re-request
   // the item from the cache if neccessary.
-  if ([info.item isEqualToString:self.url] &&
-      [info.context isEqualToString:kCacheContextURL] &&
-      info.state == ISCacheItemStateNotFound) {
+  if ([info.identifier isEqualToString:self.cacheIdentifier]) {
     [self fetchItem];
   }
 }
