@@ -101,14 +101,14 @@ static CGFloat kAnimationDuration = 0.0f;
 - (IBAction)trashClicked:(id)sender
 {
   [self.cache removeObserver:self];
-  [self.cache removeItemForIdentifier:self.identifier];
+  [self.cache removeItemForIdentifier:self.cacheIdentifier];
   [self.navigationController popViewControllerAnimated:YES];
 }
 
 
 - (IBAction)refreshClicked:(id)sender
 {
-  [self.cache removeItemForIdentifier:self.identifier];
+  [self.cache removeItemForIdentifier:self.cacheIdentifier];
 }
 
 
