@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ISDownloadsViewController.h"
 
 @interface ISViewController : UIViewController
 <UICollectionViewDataSource
-,UICollectionViewDelegate>
+,UICollectionViewDelegate
+,ISDownloadsViewControllerDelegate>
 
 @end

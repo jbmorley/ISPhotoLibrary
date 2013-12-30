@@ -25,6 +25,7 @@
 
 static NSString *kCollectionViewCellReuseIdentifier = @"ThumbnailCell";
 static NSString *kDetailSegueIdentifier = @"DetailSegue";
+static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 
 - (void)viewDidLoad
 {
@@ -45,6 +46,11 @@ static NSString *kDetailSegueIdentifier = @"DetailSegue";
     ISCollectionViewCell *cell = sender;
     ISItemViewController *viewController = segue.destinationViewController;
     viewController.identifier = cell.identifier;
+  } else if ([segue.identifier isEqualToString:kDownloadsSegueIdentifier]) {
+    NSLog(@"GOing to: %@", segue.destinationViewController);
+    UINavigationController *navigationController = segue.destinationViewController;
+    ISDownloadsViewController *viewController = (ISDownloadsViewController *)navigationController.topViewController;
+    viewController.delegate = self;
   }
 }
 
@@ -77,6 +83,13 @@ static NSString *kDetailSegueIdentifier = @"DetailSegue";
 }
 
 
+- (IBAction)clearClicked:(id)sender
+{
+  ISCache *defaultCache = [ISCache defaultCache];
+  NSArray *items = [defaultCache cacheItems];
+  [defaultCache removeItems:items];
+  [self loadData];
+}
 
 
 #pragma mark - UITableViewDataSource
@@ -114,6 +127,11 @@ static NSString *kDetailSegueIdentifier = @"DetailSegue";
 }
 
 
-#pragma mark - UICollectionViewDelegate
+#pragma mark - ISDownloadsViewControllerDelegate
+
+- (void)downloadsViewControllerDidFinish:(ISDownloadsViewController *)downloadsViewController
+{
+  [self.navigationController dismissViewControllerAnimated:YES completion:NULL];
+}
 
 @end

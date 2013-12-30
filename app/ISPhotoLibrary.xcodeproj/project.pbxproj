@@ -24,6 +24,7 @@
 		D80A578618111A7F003A82B1 /* ISPhotoLibraryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D80A578518111A7F003A82B1 /* ISPhotoLibraryTests.m */; };
 		D812C66E186C183300416A1B /* ISCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D812C66D186C183300416A1B /* ISCollectionViewCell.m */; };
 		D812C671186D7E6900416A1B /* ISPhotoService.m in Sources */ = {isa = PBXBuildFile; fileRef = D812C670186D7E6900416A1B /* ISPhotoService.m */; };
+		D81798AD1870F469009AA0A2 /* ISDownloadsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D81798AC1870F469009AA0A2 /* ISDownloadsViewController.m */; };
 		D8F95D05185A0A0F0083A279 /* ISItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F95D04185A0A0F0083A279 /* ISItemViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -63,6 +64,8 @@
 		D812C66D186C183300416A1B /* ISCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISCollectionViewCell.m; sourceTree = "<group>"; };
 		D812C66F186D7E6900416A1B /* ISPhotoService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISPhotoService.h; sourceTree = "<group>"; };
 		D812C670186D7E6900416A1B /* ISPhotoService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISPhotoService.m; sourceTree = "<group>"; };
+		D81798AB1870F469009AA0A2 /* ISDownloadsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISDownloadsViewController.h; sourceTree = "<group>"; };
+		D81798AC1870F469009AA0A2 /* ISDownloadsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISDownloadsViewController.m; sourceTree = "<group>"; };
 		D8F95D03185A0A0F0083A279 /* ISItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISItemViewController.h; sourceTree = "<group>"; };
 		D8F95D04185A0A0F0083A279 /* ISItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISItemViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -127,6 +130,8 @@
 		D80A576018111A7F003A82B1 /* ISPhotoLibrary */ = {
 			isa = PBXGroup;
 			children = (
+				D81798AB1870F469009AA0A2 /* ISDownloadsViewController.h */,
+				D81798AC1870F469009AA0A2 /* ISDownloadsViewController.m */,
 				D80A576918111A7F003A82B1 /* ISAppDelegate.h */,
 				D80A576A18111A7F003A82B1 /* ISAppDelegate.m */,
 				D80A576C18111A7F003A82B1 /* Main.storyboard */,
@@ -306,6 +311,7 @@
 			files = (
 				D80A576B18111A7F003A82B1 /* ISAppDelegate.m in Sources */,
 				D80A576718111A7F003A82B1 /* main.m in Sources */,
+				D81798AD1870F469009AA0A2 /* ISDownloadsViewController.m in Sources */,
 				D812C671186D7E6900416A1B /* ISPhotoService.m in Sources */,
 				D812C66E186C183300416A1B /* ISCollectionViewCell.m in Sources */,
 				D80A577118111A7F003A82B1 /* ISViewController.m in Sources */,

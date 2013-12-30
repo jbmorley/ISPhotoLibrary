@@ -120,22 +120,20 @@ static CGFloat kAnimationDuration = 0.0f;
   if (_chromeState != chromeState) {
     _chromeState = chromeState;
     if (_chromeState == ISItemViewControllerChromeStateShown) {
-      [self.navigationController setNavigationBarHidden:NO
-                                               animated:YES];
       [[UIApplication sharedApplication] setStatusBarHidden:NO
                                               withAnimation:UIStatusBarAnimationSlide];
       [UIView animateWithDuration:0.3f
                        animations:^{
                          self.view.backgroundColor = [UIColor whiteColor];
+                         self.navigationController.navigationBar.alpha = 1.0f;
                        }];
     } else if (_chromeState == ISItemViewControllerChromeStateHidden) {
-      [self.navigationController setNavigationBarHidden:YES
-                                               animated:YES];
       [[UIApplication sharedApplication] setStatusBarHidden:YES
                                               withAnimation:UIStatusBarAnimationSlide];
       [UIView animateWithDuration:0.3f
                        animations:^{
                          self.view.backgroundColor = [UIColor blackColor];
+                         self.navigationController.navigationBar.alpha = 0.0f;
                        }];
     }
   }
@@ -145,14 +143,14 @@ static CGFloat kAnimationDuration = 0.0f;
 - (IBAction)trashClicked:(id)sender
 {
   [self.cache removeObserver:self];
-  [self.cache removeItemForIdentifier:self.cacheIdentifier];
+  [self.cache removeItems:@[self.cacheIdentifier]];
   [self.navigationController popViewControllerAnimated:YES];
 }
 
 
 - (IBAction)refreshClicked:(id)sender
 {
-  [self.cache removeItemForIdentifier:self.cacheIdentifier];
+  [self.cache removeItems:@[self.cacheIdentifier]];
 }
 
 
