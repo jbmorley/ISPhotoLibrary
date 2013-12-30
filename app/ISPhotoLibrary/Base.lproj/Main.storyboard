@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="mbs-4t-Hh0">
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="mbs-4t-Hh0">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -66,10 +66,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="mbs-4t-Hh0" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" id="L0e-cA-ysG"/>
-                            <constraint firstAttribute="trailing" secondItem="mbs-4t-Hh0" secondAttribute="trailing" id="Su1-wr-ayk"/>
-                            <constraint firstItem="mbs-4t-Hh0" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="Yhy-tf-tjD"/>
-                            <constraint firstItem="Y1d-eB-Ppw" firstAttribute="top" secondItem="mbs-4t-Hh0" secondAttribute="bottom" id="eU3-4Y-her"/>
+                            <constraint firstItem="mbs-4t-Hh0" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" id="Ubg-AV-cHI"/>
+                            <constraint firstAttribute="bottom" secondItem="mbs-4t-Hh0" secondAttribute="bottom" id="jsB-bL-Jro"/>
+                            <constraint firstAttribute="trailing" secondItem="mbs-4t-Hh0" secondAttribute="trailing" id="wM3-bH-Hnl"/>
+                            <constraint firstItem="mbs-4t-Hh0" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="xE6-es-2vf"/>
                         </constraints>
                     </view>
                     <toolbarItems>
