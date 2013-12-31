@@ -137,7 +137,7 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
                          userInfo:@{@"width": @152.0,
                                     @"height": @152.0,
                                     @"scale": @(ISScalingCacheHandlerScaleAspectFill)}
-                  completionBlock:^{
+                  completionBlock:^(NSError *error){
                     [cell.activityIndicatorView stopAnimating];
                     cell.imageView.alpha = 1.0f;
                   }];

@@ -161,15 +161,14 @@ static CGFloat kAnimationDuration = 0.0f;
             userInfo:@{@"width": @320.0,
                        @"height": @568.0,
                        @"scale": @(ISScalingCacheHandlerScaleAspectFit)}
-               block:^(ISCacheItemInfo *info) {
+               block:^(ISCacheItemInfo *info, NSError *error) {
                  ISItemViewController *strongSelf = weakSelf;
                  if (strongSelf) {
                    [self update:info];
                    return ISCacheBlockStateContinue;
                  }
                  return ISCacheBlockStateDone;
-               }
-               error:NULL];
+               }];
 }
 
 
