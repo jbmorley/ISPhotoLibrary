@@ -51,7 +51,6 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
     ISItemViewController *viewController = segue.destinationViewController;
     viewController.identifier = cell.identifier;
   } else if ([segue.identifier isEqualToString:kDownloadsSegueIdentifier]) {
-    NSLog(@"GOing to: %@", segue.destinationViewController);
     UINavigationController *navigationController = segue.destinationViewController;
     ISDownloadsViewController *viewController = (ISDownloadsViewController *)navigationController.topViewController;
     viewController.delegate = self;
@@ -84,7 +83,6 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 {
   if (_chromeState != chromeState) {
     _chromeState = chromeState;
-    NSLog(@"Chrome State: %d", _chromeState);
     if (_chromeState == ISViewControllerChromeStateHidden) {
       [self.navigationController setToolbarHidden:YES
                                          animated:YES];

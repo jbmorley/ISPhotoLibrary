@@ -165,8 +165,11 @@ static CGFloat kAnimationDuration = 0.0f;
                  ISItemViewController *strongSelf = weakSelf;
                  if (strongSelf) {
                    [self update:info];
+                   return ISCacheBlockStateContinue;
                  }
-               }];
+                 return ISCacheBlockStateDone;
+               }
+               error:NULL];
 }
 
 
