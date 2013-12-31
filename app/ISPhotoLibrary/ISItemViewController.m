@@ -178,6 +178,9 @@ static CGFloat kAnimationDuration = 0.0f;
   if (info.state == ISCacheItemStateFound) {
     self.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:info.path]];
     self.state = ISItemViewControllerStateViewing;
+  } else if (info.state == ISCacheItemStatePending) {
+    self.state = ISItemViewControllerStateDownloading;
+    self.progressView.progress = 0.0f;
   } else {
     CGFloat progress = (CGFloat)info.totalBytesRead / (CGFloat)info.totalBytesExpectedToRead;
     self.progressView.progress = progress;
