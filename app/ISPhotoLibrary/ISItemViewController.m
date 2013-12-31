@@ -192,7 +192,8 @@ static CGFloat kAnimationDuration = 0.0f;
 {
   // Watch for the item being removed from the cache and re-request
   // the item from the cache if neccessary.
-  if ([info.identifier isEqualToString:self.cacheIdentifier]) {
+  if ([info.identifier isEqualToString:self.cacheIdentifier] &&
+      info.state == ISCacheItemStateNotFound) {
     [self fetchItem];
   }
 }
