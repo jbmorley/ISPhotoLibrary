@@ -12,12 +12,16 @@
 #import "ISViewController.h"
 #import "ISCollectionViewCell.h"
 #import "ISItemViewController.h"
+#import "ISViewControllerChromeState.h"
 #import "ISPhotoService.h"
 
 @interface ISViewController ()
 
-@property (strong, nonatomic) NSArray *items;
-@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (nonatomic, strong) NSArray *items;
+@property (nonatomic, weak) IBOutlet UICollectionView *collectionView;
+@property (nonatomic) CGPoint lastContentScrollOffset;
+@property (nonatomic) ISViewControllerChromeState chromeState;
+@property (nonatomic) BOOL scrollViewIsDragging;
 
 @end
 
@@ -75,6 +79,23 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
        }];
 }
 
+
+- (void)setChromeState:(ISViewControllerChromeState)chromeState
+{
+  if (_chromeState != chromeState) {
+    _chromeState = chromeState;
+    NSLog(@"Chrome State: %d", _chromeState);
+    if (_chromeState == ISViewControllerChromeStateHidden) {
+      [self.navigationController setToolbarHidden:YES
+                                         animated:YES];
+    } else if (_chromeState == ISViewControllerChromeStateShown) {
+      [self.navigationController setToolbarHidden:NO
+                                         animated:YES];
+    }
+  }
+}
+
+
 #pragma mark - Actions
 
 - (IBAction)refreshClicked:(id)sender
@@ -125,6 +146,38 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
   
   return cell;
 }
+
+
+#pragma mark - UICollectionViewDelegate
+
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+  self.scrollViewIsDragging = YES;
+}
+
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+  if (self.scrollViewIsDragging) {
+    
+    if (self.lastContentScrollOffset.y < scrollView.contentOffset.y) {
+      self.chromeState = ISViewControllerChromeStateHidden;
+    } else if (self.lastContentScrollOffset.y > scrollView.contentOffset.y) {
+      self.chromeState = ISViewControllerChromeStateShown;
+    }
+    
+  }
+  
+  self.lastContentScrollOffset = scrollView.contentOffset;
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView
+                  willDecelerate:(BOOL)decelerate
+{
+  self.scrollViewIsDragging = NO;
+}
+
 
 
 #pragma mark - ISDownloadsViewControllerDelegate

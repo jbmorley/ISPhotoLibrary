@@ -8,18 +8,13 @@
 
 #import "ISItemViewController.h"
 #import "ISPhotoService.h"
+#import "ISViewControllerChromeState.h"
 
 typedef enum {
   ISItemViewControllerStateUnknown,
   ISItemViewControllerStateDownloading,
   ISItemViewControllerStateViewing,
 } ISItemViewControllerState;
-
-typedef enum {
-  ISItemViewControllerChromeStateUnknown,
-  ISItemViewControllerChromeStateShown,
-  ISItemViewControllerChromeStateHidden,
-} ISItemViewControllerChromeState;
 
 
 @interface ISItemViewController ()
@@ -28,7 +23,7 @@ typedef enum {
 @property (nonatomic, weak) IBOutlet UIProgressView *progressView;
 @property (nonatomic, strong) ISCache *cache;
 @property (nonatomic) ISItemViewControllerState state;
-@property (nonatomic) ISItemViewControllerChromeState chromeState;
+@property (nonatomic) ISViewControllerChromeState chromeState;
 @property (nonatomic, readonly) NSString *url;
 @property (nonatomic, strong) NSString *cacheIdentifier;
 
@@ -47,7 +42,7 @@ static CGFloat kAnimationDuration = 0.0f;
   self.progressView.alpha = 0.0f;
   self.cache = [ISCache defaultCache];
   self.state = ISItemViewControllerStateViewing;
-  self.chromeState = ISItemViewControllerChromeStateShown;
+  self.chromeState = ISViewControllerChromeStateShown;
   [self.cache addObserver:self];
   
   UITapGestureRecognizer *gestureRecognizer =
@@ -115,11 +110,11 @@ static CGFloat kAnimationDuration = 0.0f;
 }
 
 
-- (void)setChromeState:(ISItemViewControllerChromeState)chromeState
+- (void)setChromeState:(ISViewControllerChromeState)chromeState
 {
   if (_chromeState != chromeState) {
     _chromeState = chromeState;
-    if (_chromeState == ISItemViewControllerChromeStateShown) {
+    if (_chromeState == ISViewControllerChromeStateShown) {
       [[UIApplication sharedApplication] setStatusBarHidden:NO
                                               withAnimation:UIStatusBarAnimationSlide];
       [UIView animateWithDuration:0.3f
@@ -127,7 +122,7 @@ static CGFloat kAnimationDuration = 0.0f;
                          self.view.backgroundColor = [UIColor whiteColor];
                          self.navigationController.navigationBar.alpha = 1.0f;
                        }];
-    } else if (_chromeState == ISItemViewControllerChromeStateHidden) {
+    } else if (_chromeState == ISViewControllerChromeStateHidden) {
       [[UIApplication sharedApplication] setStatusBarHidden:YES
                                               withAnimation:UIStatusBarAnimationSlide];
       [UIView animateWithDuration:0.3f
@@ -202,10 +197,10 @@ static CGFloat kAnimationDuration = 0.0f;
 - (void)handleTap:(UITapGestureRecognizer *)sender
 {
   if (sender.state == UIGestureRecognizerStateEnded) {
-    if (self.chromeState == ISItemViewControllerChromeStateShown) {
-      self.chromeState = ISItemViewControllerChromeStateHidden;
+    if (self.chromeState == ISViewControllerChromeStateShown) {
+      self.chromeState = ISViewControllerChromeStateHidden;
     } else {
-      self.chromeState = ISItemViewControllerChromeStateShown;
+      self.chromeState = ISViewControllerChromeStateShown;
     }
   }
 }

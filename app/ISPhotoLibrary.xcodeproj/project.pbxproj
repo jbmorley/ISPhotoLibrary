@@ -67,6 +67,7 @@
 		D81798AB1870F469009AA0A2 /* ISDownloadsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISDownloadsViewController.h; sourceTree = "<group>"; };
 		D81798AC1870F469009AA0A2 /* ISDownloadsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISDownloadsViewController.m; sourceTree = "<group>"; };
 		D81798B118715F48009AA0A2 /* ISCacheCompletionBlock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ISCacheCompletionBlock.h; path = ../../dependencies/ISCache/Classes/ISCacheCompletionBlock.h; sourceTree = "<group>"; };
+		D81798B21872893A009AA0A2 /* ISViewControllerChromeState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISViewControllerChromeState.h; sourceTree = "<group>"; };
 		D8F95D03185A0A0F0083A279 /* ISItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISItemViewController.h; sourceTree = "<group>"; };
 		D8F95D04185A0A0F0083A279 /* ISItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISItemViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -147,6 +148,7 @@
 				D80A576118111A7F003A82B1 /* Supporting Files */,
 				D812C66F186D7E6900416A1B /* ISPhotoService.h */,
 				D812C670186D7E6900416A1B /* ISPhotoService.m */,
+				D81798B21872893A009AA0A2 /* ISViewControllerChromeState.h */,
 			);
 			path = ISPhotoLibrary;
 			sourceTree = "<group>";
