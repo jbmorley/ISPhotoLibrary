@@ -450,7 +450,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ISPhotoLibrary/ISPhotoLibrary-Prefix.pch";
 				INFOPLIST_FILE = "ISPhotoLibrary/ISPhotoLibrary-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Photo Library";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -464,7 +464,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ISPhotoLibrary/ISPhotoLibrary-Prefix.pch";
 				INFOPLIST_FILE = "ISPhotoLibrary/ISPhotoLibrary-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Photo Library";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
