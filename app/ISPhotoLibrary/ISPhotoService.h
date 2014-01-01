@@ -8,9 +8,24 @@
 
 #import <Foundation/Foundation.h>
 
+@class ISPhotoService;
+
+@protocol ISPhotoServiceDelegate <NSObject>
+
+- (void)photoServiceDidUpdate:(ISPhotoService *)photoService;
+
+@end
+
 @interface ISPhotoService : NSObject
 
-+ (NSString *)serviceURL;
-+ (NSString *)itemURL:(NSString *)identifier;
+@property (nonatomic, weak) id<ISPhotoServiceDelegate> delegate;
+
+- (id)init;
+- (void)update;
+
+- (NSArray *)items;
+
+- (NSString *)itemURL:(NSString *)identifier;
+- (NSString *)itemName:(NSString *)identifier;
 
 @end

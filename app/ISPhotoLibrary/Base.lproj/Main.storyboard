@@ -91,7 +91,7 @@
                             </connections>
                         </barButtonItem>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" title="Photos" id="3V4-wj-oel"/>
+                    <navigationItem key="navigationItem" title="Photo Library" id="3V4-wj-oel"/>
                     <connections>
                         <outlet property="collectionView" destination="mbs-4t-Hh0" id="S43-5T-Khh"/>
                     </connections>

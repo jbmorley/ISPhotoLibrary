@@ -7,7 +7,6 @@
 //
 
 #import "ISItemViewController.h"
-#import "ISPhotoService.h"
 #import "ISViewControllerChromeState.h"
 
 typedef enum {
@@ -60,6 +59,11 @@ static CGFloat kAnimationDuration = 0.0f;
 {
   [super viewWillAppear:animated];
   
+  // Set the title.
+  self.navigationController.title = [self.photoService itemName:self.identifier];
+  self.title = [self.photoService itemName:self.identifier];
+
+  
   // Begin observing the cache and kick-off
   // the item download.
   [self.cache addObserver:self];
@@ -83,7 +87,7 @@ static CGFloat kAnimationDuration = 0.0f;
 
 - (NSString *)url
 {
-  return [ISPhotoService itemURL:self.identifier];
+  return [self.photoService itemURL:self.identifier];
 }
 
 

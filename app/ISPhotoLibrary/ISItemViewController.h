@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <ISCache/ISCache.h>
+#import "ISPhotoService.h"
 
 @interface ISItemViewController : UIViewController
 <ISCacheObserver>
 
 @property (strong, nonatomic) NSString *identifier;
+@property (strong, nonatomic) ISPhotoService *photoService;
 
 @end

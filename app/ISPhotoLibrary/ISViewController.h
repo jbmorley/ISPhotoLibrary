@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "ISDownloadsViewController.h"
+#import "ISPhotoService.h"
 
 @interface ISViewController : UIViewController
 <UICollectionViewDataSource
 ,UICollectionViewDelegate
-,ISDownloadsViewControllerDelegate>
+,ISDownloadsViewControllerDelegate
+,ISPhotoServiceDelegate>
 
 @end

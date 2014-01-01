@@ -6,19 +6,17 @@
 //  Copyright (c) 2013 InSeven Limited. All rights reserved.
 //
 
-#import <AFNetworking/AFNetworking.h>
 #import <ISCache/ISCache.h>
 
 #import "ISViewController.h"
 #import "ISCollectionViewCell.h"
 #import "ISItemViewController.h"
 #import "ISViewControllerChromeState.h"
-#import "ISPhotoService.h"
 
 @interface ISViewController ()
 
-@property (nonatomic, strong) NSArray *items;
 @property (nonatomic, weak) IBOutlet UICollectionView *collectionView;
+@property (nonatomic, strong) ISPhotoService *photoService;
 @property (nonatomic) CGPoint lastContentScrollOffset;
 @property (nonatomic) ISViewControllerChromeState chromeState;
 @property (nonatomic) BOOL scrollViewIsDragging;
@@ -34,7 +32,8 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  [self loadData];
+  self.photoService = [ISPhotoService new];
+  self.photoService.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning
@@ -50,6 +49,7 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
     ISCollectionViewCell *cell = sender;
     ISItemViewController *viewController = segue.destinationViewController;
     viewController.identifier = cell.identifier;
+    viewController.photoService = self.photoService;
   } else if ([segue.identifier isEqualToString:kDownloadsSegueIdentifier]) {
     UINavigationController *navigationController = segue.destinationViewController;
     ISDownloadsViewController *viewController = (ISDownloadsViewController *)navigationController.topViewController;
@@ -58,25 +58,6 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 }
 
 #pragma mark - Utilities
-
-- (void)loadData
-{
-  // Initialize the items with an empty array.
-  self.items = @[];
-  
-  // Fetch the library data.
-  // Ultimately this fetch could be wired up using ISDB and an appropriate
-  // adapter to manage all of the animations.
-  AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-  [manager GET:[ISPhotoService serviceURL]
-    parameters:nil
-       success:^(AFHTTPRequestOperation *operation, id responseObject) {
-         self.items = responseObject;
-         [self.collectionView reloadData];
-       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-         NSLog(@"Something went wrong: %@", error);
-       }];
-}
 
 
 - (void)setChromeState:(ISViewControllerChromeState)chromeState
@@ -98,7 +79,7 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 
 - (IBAction)refreshClicked:(id)sender
 {
-  [self loadData];
+  [self.photoService update];
 }
 
 
@@ -107,7 +88,7 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
   ISCache *defaultCache = [ISCache defaultCache];
   NSArray *items = [defaultCache cacheItems];
   [defaultCache removeItems:items];
-  [self loadData];
+  [self.photoService update];
 }
 
 
@@ -116,15 +97,15 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 - (NSInteger)collectionView:(UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section
 {
-  return self.items.count;
+  return self.photoService.items.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
   // Determine the item URL.
-  NSString *identifier = self.items[indexPath.row][@"id"];
-  NSString *item = [ISPhotoService itemURL:                    identifier];
+  NSString *identifier = self.photoService.items[indexPath.row];
+  NSString *item = [self.photoService itemURL:                    identifier];
   
   // Configure the cell.
   ISCollectionViewCell *cell
@@ -140,7 +121,8 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
                   completionBlock:^(NSError *error){
                     [cell.activityIndicatorView stopAnimating];
                     cell.imageView.alpha = 1.0f;
-                  }];
+                  }
+                          retries:1];
   
   return cell;
 }
@@ -177,12 +159,22 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 }
 
 
-
 #pragma mark - ISDownloadsViewControllerDelegate
+
 
 - (void)downloadsViewControllerDidFinish:(ISDownloadsViewController *)downloadsViewController
 {
   [self.navigationController dismissViewControllerAnimated:YES completion:NULL];
 }
+
+
+#pragma mark - ISPhotoServiceDelegate
+
+
+- (void)photoServiceDidUpdate:(ISPhotoService *)photoService
+{
+  [self.collectionView reloadData];
+}
+
 
 @end
