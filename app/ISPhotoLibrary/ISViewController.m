@@ -112,17 +112,12 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
   = [collectionView dequeueReusableCellWithReuseIdentifier:kCollectionViewCellReuseIdentifier
                                               forIndexPath:indexPath];
   cell.identifier = identifier;
-  cell.imageView.alpha = 0.0f;
-  [cell.activityIndicatorView startAnimating];
   [cell.imageView setImageWithURL:item
+                 placeholderImage:[UIImage imageNamed:@"Thumbnail.imageset"]
                          userInfo:@{@"width": @152.0,
                                     @"height": @152.0,
                                     @"scale": @(ISScalingCacheHandlerScaleAspectFill)}
-                  completionBlock:^(NSError *error){
-                    [cell.activityIndicatorView stopAnimating];
-                    cell.imageView.alpha = 1.0f;
-                  }
-                          retries:1];
+                  completionBlock:NULL];
   
   return cell;
 }
