@@ -84,6 +84,12 @@
                                 <action selector="clearClicked:" destination="vXZ-lx-hvc" id="NP7-Gl-vso"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="uHp-0E-uko"/>
+                        <barButtonItem systemItem="stop" id="RKJ-82-2Ue">
+                            <connections>
+                                <action selector="cancelClicked:" destination="vXZ-lx-hvc" id="Yy4-w5-IQN"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="tpR-O1-cs6"/>
                         <barButtonItem style="plain" systemItem="organize" id="nVA-0v-V51">
                             <connections>

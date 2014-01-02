@@ -17,6 +17,7 @@
 
 @property (nonatomic, weak) IBOutlet UICollectionView *collectionView;
 @property (nonatomic, strong) ISPhotoService *photoService;
+@property (nonatomic, strong) UIImage *thumbnail;
 @property (nonatomic) CGPoint lastContentScrollOffset;
 @property (nonatomic) ISViewControllerChromeState chromeState;
 @property (nonatomic) BOOL scrollViewIsDragging;
@@ -34,6 +35,7 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
   [super viewDidLoad];
   self.photoService = [ISPhotoService new];
   self.photoService.delegate = self;
+  self.thumbnail = [UIImage imageNamed:@"Thumbnail.imageasset"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -86,9 +88,22 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 - (IBAction)clearClicked:(id)sender
 {
   ISCache *defaultCache = [ISCache defaultCache];
-  NSArray *items = [defaultCache cacheItems];
+  NSArray *items = [defaultCache identifiers:
+                    ISCacheItemStateFound |
+                    ISCacheItemStateInProgress |
+                    ISCacheItemStateNotFound |
+                    ISCacheItemStatePending];
   [defaultCache removeItems:items];
   [self.photoService update];
+}
+
+
+- (IBAction)cancelClicked:(id)sender
+{
+  ISCache *defaultCache = [ISCache defaultCache];
+  NSArray *items = [defaultCache identifiers:ISCacheItemStateInProgress | ISCacheItemStatePending];
+  [defaultCache cancelItems:items];
+  
 }
 
 
@@ -113,7 +128,7 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
                                               forIndexPath:indexPath];
   cell.identifier = identifier;
   [cell.imageView setImageWithURL:item
-                 placeholderImage:[UIImage imageNamed:@"Thumbnail.imageset"]
+                 placeholderImage:self.thumbnail
                          userInfo:@{@"width": @152.0,
                                     @"height": @152.0,
                                     @"scale": @(ISScalingCacheHandlerScaleAspectFill)}

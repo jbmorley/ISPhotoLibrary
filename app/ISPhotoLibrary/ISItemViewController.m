@@ -63,7 +63,6 @@ static CGFloat kAnimationDuration = 0.0f;
   self.navigationController.title = [self.photoService itemName:self.identifier];
   self.title = [self.photoService itemName:self.identifier];
 
-  
   // Begin observing the cache and kick-off
   // the item download.
   [self.cache addObserver:self];
@@ -74,6 +73,7 @@ static CGFloat kAnimationDuration = 0.0f;
 
 - (void)viewDidDisappear:(BOOL)animated
 {
+  [self.cache cancelItems:@[self.cacheIdentifier]];
   [self.cache removeObserver:self];
   [super viewDidDisappear:animated];
 }
@@ -161,7 +161,7 @@ static CGFloat kAnimationDuration = 0.0f;
   ISItemViewController *__weak weakSelf = self;
   self.cacheIdentifier
   = [self.cache item:self.url
-             context:kCacheContextScaleURL
+             context:ISCacheContextScaleURL
             userInfo:@{@"width": @320.0,
                        @"height": @568.0,
                        @"scale": @(ISScalingCacheHandlerScaleAspectFit)}

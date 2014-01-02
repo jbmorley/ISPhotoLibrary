@@ -85,7 +85,7 @@ static NSString *kServiceRoot = @"http://192.168.1.124:8051";
 
 - (NSArray *)items
 {
-  return [[self.itemDict keyEnumerator] allObjects];
+  return [[[self.itemDict keyEnumerator] allObjects] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
 }
 
 
