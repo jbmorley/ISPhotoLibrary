@@ -73,7 +73,6 @@ static CGFloat kAnimationDuration = 0.0f;
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-  [self.cache cancelItems:@[self.cacheIdentifier]];
   [self.cache removeObserver:self];
   [super viewDidDisappear:animated];
 }
@@ -158,38 +157,15 @@ static CGFloat kAnimationDuration = 0.0f;
 
 - (void)fetchItem
 {
-  ISItemViewController *__weak weakSelf = self;
-  self.cacheIdentifier
-  = [self.cache item:self.url
-             context:ISCacheContextScaleURL
-            userInfo:@{@"width": @320.0,
-                       @"height": @568.0,
-                       @"scale": @(ISScalingCacheHandlerScaleAspectFit)}
-               block:^(ISCacheItemInfo *info, NSError *error) {
-                 ISItemViewController *strongSelf = weakSelf;
-                 if (strongSelf) {
-                   [self update:info];
-                   return ISCacheBlockStateContinue;
-                 }
-                 return ISCacheBlockStateDone;
-               }];
-}
-
-
-- (void)update:(ISCacheItemInfo *)info
-{
-  if (info.state == ISCacheItemStateFound) {
-    self.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:info.path]];
-    self.state = ISItemViewControllerStateViewing;
-  } else {
-    if (info.totalBytesExpectedToRead == ISCacheItemTotalBytesUnknown) {
-      self.progressView.progress = 0.0f;
-    } else {
-      CGFloat progress = (CGFloat)info.totalBytesRead / (CGFloat)info.totalBytesExpectedToRead;
-      self.progressView.progress = progress;
-    }
-    self.state = ISItemViewControllerStateDownloading;
-  }
+  self.cacheIdentifier =
+  [self.imageView setImageWithURL:self.url
+                 placeholderImage:nil
+                         userInfo:@{@"width": @320.0,
+                                    @"height": @568.0,
+                                    @"scale": @(ISScalingCacheHandlerScaleAspectFit)}
+                  completionBlock:^(NSError *error) {
+                    self.state = ISItemViewControllerStateViewing;
+                  }];
 }
 
 
@@ -197,9 +173,32 @@ static CGFloat kAnimationDuration = 0.0f;
 {
   // Watch for the item being removed from the cache and re-request
   // the item from the cache if neccessary.
-  if ([info.identifier isEqualToString:self.cacheIdentifier] &&
-      info.state == ISCacheItemStateNotFound) {
-    [self fetchItem];
+  if ([info.identifier isEqualToString:self.cacheIdentifier]) {
+    
+    if (info.state == ISCacheItemStateNotFound) {
+      
+      // Refetch the item.
+      [self fetchItem];
+      
+    } else if (info.state == ISCacheItemStateFound) {
+      
+      // The image loading is done by the UIImageView extension
+      // and the appropriate UI changes are done in the completion
+      // block for this so we do nothing here.
+      
+    } else if (info.state == ISCacheItemStateInProgress) {
+      
+      // Display the progress.
+      if (info.totalBytesExpectedToRead == ISCacheItemTotalBytesUnknown) {
+        self.progressView.progress = 0.0f;
+      } else {
+        CGFloat progress = (CGFloat)info.totalBytesRead / (CGFloat)info.totalBytesExpectedToRead;
+        self.progressView.progress = progress;
+      }
+      self.state = ISItemViewControllerStateDownloading;
+      
+    }
+  
   }
 }
 
