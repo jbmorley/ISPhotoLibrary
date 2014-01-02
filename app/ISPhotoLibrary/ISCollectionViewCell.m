@@ -10,13 +10,4 @@
 
 @implementation ISCollectionViewCell
 
-
-- (void)prepareForReuse
-{
-  NSLog(@"prepareForReuse");
-  [super prepareForReuse];
-  [self.imageView cancelSetImageWithURL];
-}
-
-
 @end
