@@ -7,12 +7,15 @@
 //
 
 #import "ISAppDelegate.h"
-#import "ISCache.h"
+#import <ISCache/ISCache.h>
 
 @implementation ISAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  ISCache *defaultCache = [ISCache defaultCache];
+  defaultCache.debug = NO;
+  
   return YES;
 }
 

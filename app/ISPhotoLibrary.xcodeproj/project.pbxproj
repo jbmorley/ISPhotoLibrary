@@ -41,7 +41,7 @@
 /* Begin PBXFileReference section */
 		A1B3E9B6DE4043D2813FF532 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3A51A10D9084F24B21CEE33 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
-		D80A575718111A7F003A82B1 /* ISPhotoLibrary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ISPhotoLibrary.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D80A575718111A7F003A82B1 /* Photo Library.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Photo Library.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D80A575A18111A7F003A82B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D80A575C18111A7F003A82B1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		D80A575E18111A7F003A82B1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -111,7 +111,7 @@
 		D80A575818111A7F003A82B1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D80A575718111A7F003A82B1 /* ISPhotoLibrary.app */,
+				D80A575718111A7F003A82B1 /* Photo Library.app */,
 				D80A577818111A7F003A82B1 /* ISPhotoLibraryTests.xctest */,
 			);
 			name = Products;
@@ -201,7 +201,7 @@
 			);
 			name = ISPhotoLibrary;
 			productName = ISPhotoLibrary;
-			productReference = D80A575718111A7F003A82B1 /* ISPhotoLibrary.app */;
+			productReference = D80A575718111A7F003A82B1 /* Photo Library.app */;
 			productType = "com.apple.product-type.application";
 		};
 		D80A577718111A7F003A82B1 /* ISPhotoLibraryTests */ = {
