@@ -169,7 +169,7 @@ static CGFloat kAnimationDuration = 0.3f;
 }
 
 
-- (void)itemDidUpdate:(ISCacheItemInfo *)info
+- (void)itemDidUpdate:(ISCacheItem *)info
 {
   // Watch for the item being removed from the cache and re-request
   // the item from the cache if neccessary.
