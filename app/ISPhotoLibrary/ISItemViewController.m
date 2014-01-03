@@ -31,7 +31,7 @@ typedef enum {
 @implementation ISItemViewController
 
 
-static CGFloat kAnimationDuration = 0.0f;
+static CGFloat kAnimationDuration = 0.3f;
 
 
 - (void)viewDidLoad
@@ -195,6 +195,7 @@ static CGFloat kAnimationDuration = 0.0f;
         CGFloat progress = (CGFloat)info.totalBytesRead / (CGFloat)info.totalBytesExpectedToRead;
         self.progressView.progress = progress;
       }
+      
       self.state = ISItemViewControllerStateDownloading;
       
     }
