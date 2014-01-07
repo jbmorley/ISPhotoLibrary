@@ -24,7 +24,7 @@ typedef enum {
 @property (nonatomic) ISItemViewControllerState state;
 @property (nonatomic) ISViewControllerChromeState chromeState;
 @property (nonatomic, readonly) NSString *url;
-@property (nonatomic, strong) NSString *cacheIdentifier;
+@property (nonatomic, strong) ISCacheItem *cacheItem;
 
 @end
 
@@ -141,14 +141,14 @@ static CGFloat kAnimationDuration = 0.3f;
 - (IBAction)trashClicked:(id)sender
 {
   [self.cache removeObserver:self];
-  [self.cache removeItems:@[self.cacheIdentifier]];
+  [self.cache removeItems:@[self.cacheItem]];
   [self.navigationController popViewControllerAnimated:YES];
 }
 
 
 - (IBAction)refreshClicked:(id)sender
 {
-  [self.cache removeItems:@[self.cacheIdentifier]];
+  [self.cache removeItems:@[self.cacheItem]];
 }
 
 
@@ -157,7 +157,7 @@ static CGFloat kAnimationDuration = 0.3f;
 
 - (void)fetchItem
 {
-  ISCacheItem *cacheItem =
+  self.cacheItem =
   [self.imageView setImageWithURL:self.url
                  placeholderImage:nil
                          userInfo:@{@"width": @320.0,
@@ -166,34 +166,33 @@ static CGFloat kAnimationDuration = 0.3f;
                   completionBlock:^(NSError *error) {
                     self.state = ISItemViewControllerStateViewing;
                   }];
-  self.cacheIdentifier = cacheItem.identifier;
 }
 
 
-- (void)itemDidUpdate:(ISCacheItem *)info
+- (void)itemDidUpdate:(ISCacheItem *)item
 {
   // Watch for the item being removed from the cache and re-request
   // the item from the cache if neccessary.
-  if ([info.identifier isEqualToString:self.cacheIdentifier]) {
+  if ([self.cacheItem isEqual:item]) {
     
-    if (info.state == ISCacheItemStateNotFound) {
+    if (item.state == ISCacheItemStateNotFound) {
       
       // Refetch the item.
       [self fetchItem];
       
-    } else if (info.state == ISCacheItemStateFound) {
+    } else if (item.state == ISCacheItemStateFound) {
       
       // The image loading is done by the UIImageView extension
       // and the appropriate UI changes are done in the completion
       // block for this so we do nothing here.
       
-    } else if (info.state == ISCacheItemStateInProgress) {
+    } else if (item.state == ISCacheItemStateInProgress) {
       
       // Display the progress.
-      if (info.totalBytesExpectedToRead == ISCacheItemTotalBytesUnknown) {
+      if (item.totalBytesExpectedToRead == ISCacheItemTotalBytesUnknown) {
         self.progressView.progress = 0.0f;
       } else {
-        CGFloat progress = (CGFloat)info.totalBytesRead / (CGFloat)info.totalBytesExpectedToRead;
+        CGFloat progress = (CGFloat)item.totalBytesRead / (CGFloat)item.totalBytesExpectedToRead;
         self.progressView.progress = progress;
       }
       

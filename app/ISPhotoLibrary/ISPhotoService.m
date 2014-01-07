@@ -17,7 +17,7 @@
 
 @end
 
-static NSString *kServiceRoot = @"http://169.254.45.248:8051";
+static NSString *kServiceRoot = @"http://127.0.0.1:8051";
 static NSString *kKeyIdentifier = @"id";
 static NSString *kKeyName = @"name";
 
