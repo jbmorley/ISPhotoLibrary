@@ -13,10 +13,13 @@
 
 @property (nonatomic, strong) NSString *path;
 @property (nonatomic, strong) NSMutableDictionary *itemDict;
+@property (nonatomic, strong) NSMutableArray *sortedKeys;
 
 @end
 
 static NSString *kServiceRoot = @"http://169.254.45.248:8051";
+static NSString *kKeyIdentifier = @"id";
+static NSString *kKeyName = @"name";
 
 @implementation ISPhotoService
 
@@ -33,7 +36,7 @@ static NSString *kServiceRoot = @"http://169.254.45.248:8051";
                                            YES) objectAtIndex:0];
     self.path = [documentsPath stringByAppendingPathComponent:@"ISPhotoService.plist"];
     
-    // Load the items or initialize an empty dictionary.
+    // Load the items or initialise an empty dictionary.
     if ([[NSFileManager defaultManager] fileExistsAtPath:self.path
                                              isDirectory:NO]) {
       self.itemDict = [NSMutableDictionary dictionaryWithContentsOfFile:self.path];
@@ -41,6 +44,9 @@ static NSString *kServiceRoot = @"http://169.254.45.248:8051";
     if (self.itemDict == nil) {
       self.itemDict = [NSMutableDictionary dictionaryWithCapacity:3];
     }
+    
+    // Generate the sorted keys.
+    [self sortKeys];
 
     // Update the service.
     [self update];
@@ -67,12 +73,15 @@ static NSString *kServiceRoot = @"http://169.254.45.248:8051";
          // Read in the new values.
          for (NSDictionary *item in responseObject) {
            [self.itemDict setObject:item
-                          forKey:item[@"id"]];
+                          forKey:item[kKeyIdentifier]];
          }
          
          // Cache the items.
          [self.itemDict writeToFile:self.path
                          atomically:YES];
+         
+         // Sort the keys.
+         [self sortedKeys];
          
          // Notify the delegate.
          [self.delegate photoServiceDidUpdate:self];
@@ -83,9 +92,26 @@ static NSString *kServiceRoot = @"http://169.254.45.248:8051";
 }
 
 
+- (void)sortKeys
+{
+  // Clear the sorted keys array.
+  self.sortedKeys = [NSMutableArray arrayWithCapacity:self.itemDict.count];
+  
+  // Generate a sorted list of items.
+  NSArray *sortedItems = [[self.itemDict allValues] sortedArrayUsingComparator:^NSComparisonResult(NSDictionary *obj1, NSDictionary *obj2) {
+    return [obj1[kKeyName] localizedCaseInsensitiveCompare:obj2[kKeyName]];
+  }];
+
+  // Extract the keys.
+  for (NSDictionary *item in sortedItems) {
+    [self.sortedKeys addObject:item[kKeyIdentifier]];
+  }
+}
+
+
 - (NSArray *)items
 {
-  return [[[self.itemDict keyEnumerator] allObjects] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+  return self.sortedKeys;
 }
 
 
@@ -100,7 +126,7 @@ static NSString *kServiceRoot = @"http://169.254.45.248:8051";
 
 - (NSString *)itemName:(NSString *)identifier
 {
-  return [self.itemDict objectForKey:identifier][@"name"];
+  return [self.itemDict objectForKey:identifier][kKeyName];
 }
 
 
