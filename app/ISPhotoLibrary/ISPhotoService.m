@@ -16,7 +16,7 @@
 
 @end
 
-static NSString *kServiceRoot = @"http://192.168.1.69:8051";
+static NSString *kServiceRoot = @"http://169.254.45.248:8051";
 
 @implementation ISPhotoService
 
