@@ -14,7 +14,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   ISCache *defaultCache = [ISCache defaultCache];
-  defaultCache.debug = YES;
+  defaultCache.debug = NO;
   
   return YES;
 }

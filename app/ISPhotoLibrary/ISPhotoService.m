@@ -115,12 +115,30 @@ static NSString *kKeyName = @"name";
 }
 
 
+- (NSUInteger)count
+{
+  return self.sortedKeys.count;
+}
+
+
+- (NSString *)itemAtIndex:(NSInteger)index
+{
+  return self.sortedKeys[index];
+}
+
+
 - (NSString *)itemURL:(NSString *)identifier
 {
   return [kServiceRoot
           stringByAppendingFormat:
           @"/%@",
           identifier];
+}
+
+
+- (NSString *)itemURLAtIndex:(NSInteger)index
+{
+  return [self itemURL:[self itemAtIndex:index]];
 }
 
 

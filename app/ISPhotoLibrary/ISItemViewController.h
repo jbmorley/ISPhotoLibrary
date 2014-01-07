@@ -10,10 +10,10 @@
 #import <ISCache/ISCache.h>
 #import "ISPhotoService.h"
 
-@interface ISItemViewController : UIViewController
-<ISCacheObserver>
+@interface ISItemViewController : UIViewController <UIScrollViewDelegate>
 
 @property (strong, nonatomic) NSString *identifier;
 @property (strong, nonatomic) ISPhotoService *photoService;
+@property (nonatomic) NSInteger index;
 
 @end

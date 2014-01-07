@@ -197,7 +197,7 @@
         <!--Item View Controller - Photo-->
         <scene sceneID="if8-vn-TsW">
             <objects>
-                <viewController hidesBottomBarWhenPushed="YES" id="9h7-g0-btc" customClass="ISItemViewController" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" hidesBottomBarWhenPushed="YES" id="9h7-g0-btc" customClass="ISItemViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Nwc-LS-dai"/>
                         <viewControllerLayoutGuide type="bottom" id="irv-Hm-nXR"/>
@@ -206,21 +206,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3y8-hG-qIg">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" alwaysBounceHorizontal="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wzT-PM-Lql">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            </imageView>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="5oi-hb-74h">
-                                <rect key="frame" x="85" y="283" width="150" height="2"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </progressView>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="9h7-g0-btc" id="6aT-go-efv"/>
+                                </connections>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="3y8-hG-qIg" firstAttribute="top" secondItem="Nkd-hd-wf2" secondAttribute="top" id="DBj-ax-QuB"/>
-                            <constraint firstItem="3y8-hG-qIg" firstAttribute="leading" secondItem="Nkd-hd-wf2" secondAttribute="leading" id="XoD-PZ-ggU"/>
-                            <constraint firstAttribute="trailing" secondItem="3y8-hG-qIg" secondAttribute="trailing" id="ujQ-hs-lEr"/>
-                            <constraint firstAttribute="bottom" secondItem="3y8-hG-qIg" secondAttribute="bottom" id="wAd-zj-7Jk"/>
+                            <constraint firstItem="wzT-PM-Lql" firstAttribute="leading" secondItem="Nkd-hd-wf2" secondAttribute="leading" id="ECk-Ay-XBd"/>
+                            <constraint firstAttribute="trailing" secondItem="wzT-PM-Lql" secondAttribute="trailing" id="SoG-Je-M7C"/>
+                            <constraint firstAttribute="bottom" secondItem="wzT-PM-Lql" secondAttribute="bottom" id="gnB-3Q-oWi"/>
+                            <constraint firstItem="wzT-PM-Lql" firstAttribute="top" secondItem="Nkd-hd-wf2" secondAttribute="top" id="rJd-bV-3Zf"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
@@ -232,8 +231,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="imageView" destination="3y8-hG-qIg" id="bkr-fl-TIy"/>
-                        <outlet property="progressView" destination="5oi-hb-74h" id="xag-aF-SY2"/>
+                        <outlet property="scrollView" destination="wzT-PM-Lql" id="YJ5-En-EHe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4zf-Xt-bpm" userLabel="First Responder" sceneMemberID="firstResponder"/>

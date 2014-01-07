@@ -52,6 +52,7 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
     ISItemViewController *viewController = segue.destinationViewController;
     viewController.identifier = cell.identifier;
     viewController.photoService = self.photoService;
+    viewController.index = cell.index;
   } else if ([segue.identifier isEqualToString:kDownloadsSegueIdentifier]) {
     UINavigationController *navigationController = segue.destinationViewController;
     ISDownloadsViewController *viewController = (ISDownloadsViewController *)navigationController.topViewController;
@@ -122,6 +123,7 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
   ISCollectionViewCell *cell
   = [collectionView dequeueReusableCellWithReuseIdentifier:kCollectionViewCellReuseIdentifier
                                               forIndexPath:indexPath];
+  cell.index = indexPath.row;
   cell.identifier = identifier;
   [cell.imageView setImageWithURL:item
                  placeholderImage:self.thumbnail

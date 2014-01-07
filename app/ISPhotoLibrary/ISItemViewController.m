@@ -9,19 +9,11 @@
 #import "ISItemViewController.h"
 #import "ISViewControllerChromeState.h"
 
-typedef enum {
-  ISItemViewControllerStateUnknown,
-  ISItemViewControllerStateDownloading,
-  ISItemViewControllerStateViewing,
-} ISItemViewControllerState;
-
 
 @interface ISItemViewController ()
 
-@property (nonatomic, weak) IBOutlet UIImageView *imageView;
-@property (nonatomic, weak) IBOutlet UIProgressView *progressView;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, strong) ISCache *cache;
-@property (nonatomic) ISItemViewControllerState state;
 @property (nonatomic) ISViewControllerChromeState chromeState;
 @property (nonatomic, readonly) NSString *url;
 @property (nonatomic, strong) ISCacheItem *cacheItem;
@@ -37,10 +29,7 @@ static CGFloat kAnimationDuration = 0.3f;
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  self.imageView.alpha = 0.0f;
-  self.progressView.alpha = 0.0f;
   self.cache = [ISCache defaultCache];
-  self.state = ISItemViewControllerStateViewing;
   self.chromeState = ISViewControllerChromeStateShown;
   [self.cache addObserver:self];
   
@@ -62,18 +51,62 @@ static CGFloat kAnimationDuration = 0.3f;
   // Set the title.
   self.navigationController.title = [self.photoService itemName:self.identifier];
   self.title = [self.photoService itemName:self.identifier];
-
-  // Begin observing the cache and kick-off
-  // the item download.
-  [self.cache addObserver:self];
-  [self fetchItem];
+  
+  // Configure the scroll view.
+  NSInteger pages = self.photoService.count;
+  self.scrollView.contentSize =
+  CGSizeMake(CGRectGetWidth(self.view.bounds) * pages,
+             CGRectGetHeight(self.view.bounds));
+  
+  // Add the UIImageViews
+  for (NSInteger count = 0; count < pages; count++) {
+    CGRect frame =
+    CGRectMake(CGRectGetWidth(self.view.bounds) * count,
+               0.0f,
+               CGRectGetWidth(self.view.bounds),
+               CGRectGetHeight(self.view.bounds));
+    UIImageView *imageView =
+    [[UIImageView alloc] initWithFrame:frame];
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
+    imageView.alpha = 0.0f;
+    [self.scrollView addSubview:imageView];
+    UIImageView *__weak weakImageView = imageView;
+    [imageView setImageWithURL:[self.photoService itemURLAtIndex:count]
+              placeholderImage:nil
+                      userInfo:@{@"width": @320.0,
+                                 @"height": @568.0,
+                                 @"scale": @(ISScalingCacheHandlerScaleAspectFit)}
+               completionBlock:^(NSError *error) {
+                 
+                 // Don't bother doing anything on errors.
+                 if (error) {
+                   return;
+                 }
+                 
+                 // Fade in the image view on success.
+                 UIImageView *strongImageView = weakImageView;
+                 if (strongImageView) {
+                   [UIView animateWithDuration:kAnimationDuration
+                                    animations:^{
+                                      strongImageView.alpha = 1.0f;
+                                    }];
+                 }
+                 
+               }];
+  }
+  
+  // Position the scroll view for the correct view.
+  CGPoint offset =
+  CGPointMake(self.index * CGRectGetWidth(self.scrollView.frame),
+              0.0f);
+  [self.scrollView setContentOffset:offset
+                           animated:YES];
   
 }
 
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-  [self.cache removeObserver:self];
   [super viewDidDisappear:animated];
 }
 
@@ -87,29 +120,6 @@ static CGFloat kAnimationDuration = 0.3f;
 - (NSString *)url
 {
   return [self.photoService itemURL:self.identifier];
-}
-
-
-- (void)setState:(ISItemViewControllerState)state
-{
-  if (_state != state) {
-    _state = state;
-    if (_state == ISItemViewControllerStateDownloading) {
-      [UIView animateWithDuration:kAnimationDuration
-                       animations:^{
-                         self.progressView.alpha = 1.0f;
-                         self.imageView.alpha = 0.0f;
-                       }
-                       completion:^(BOOL finished) {}];
-    } else if (_state == ISItemViewControllerStateViewing) {
-      [UIView animateWithDuration:kAnimationDuration
-                       animations:^{
-                         self.progressView.alpha = 0.0f;
-                         self.imageView.alpha = 1.0f;
-                       }
-                       completion:^(BOOL finished) {}];
-    }
-  }
 }
 
 
@@ -140,7 +150,6 @@ static CGFloat kAnimationDuration = 0.3f;
 
 - (IBAction)trashClicked:(id)sender
 {
-  [self.cache removeObserver:self];
   [self.cache removeItems:@[self.cacheItem]];
   [self.navigationController popViewControllerAnimated:YES];
 }
@@ -149,58 +158,6 @@ static CGFloat kAnimationDuration = 0.3f;
 - (IBAction)refreshClicked:(id)sender
 {
   [self.cache removeItems:@[self.cacheItem]];
-}
-
-
-#pragma mark - ISCacheObserver
-
-
-- (void)fetchItem
-{
-  self.cacheItem =
-  [self.imageView setImageWithURL:self.url
-                 placeholderImage:nil
-                         userInfo:@{@"width": @320.0,
-                                    @"height": @568.0,
-                                    @"scale": @(ISScalingCacheHandlerScaleAspectFit)}
-                  completionBlock:^(NSError *error) {
-                    self.state = ISItemViewControllerStateViewing;
-                  }];
-}
-
-
-- (void)itemDidUpdate:(ISCacheItem *)item
-{
-  // Watch for the item being removed from the cache and re-request
-  // the item from the cache if neccessary.
-  if ([self.cacheItem isEqual:item]) {
-    
-    if (item.state == ISCacheItemStateNotFound) {
-      
-      // Refetch the item.
-      [self fetchItem];
-      
-    } else if (item.state == ISCacheItemStateFound) {
-      
-      // The image loading is done by the UIImageView extension
-      // and the appropriate UI changes are done in the completion
-      // block for this so we do nothing here.
-      
-    } else if (item.state == ISCacheItemStateInProgress) {
-      
-      // Display the progress.
-      if (item.totalBytesExpectedToRead == ISCacheItemTotalBytesUnknown) {
-        self.progressView.progress = 0.0f;
-      } else {
-        CGFloat progress = (CGFloat)item.totalBytesRead / (CGFloat)item.totalBytesExpectedToRead;
-        self.progressView.progress = progress;
-      }
-      
-      self.state = ISItemViewControllerStateDownloading;
-      
-    }
-  
-  }
 }
 
 
@@ -213,6 +170,14 @@ static CGFloat kAnimationDuration = 0.3f;
       self.chromeState = ISViewControllerChromeStateShown;
     }
   }
+}
+
+
+#pragma mark - UIScrollViewDelegate
+
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
 }
 
 
