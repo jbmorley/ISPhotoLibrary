@@ -89,7 +89,7 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 {
   ISCache *defaultCache = [ISCache defaultCache];
   NSArray *items = [defaultCache items:
-                    ISCacheItemStateAll];
+                    [ISCacheStateFilter filterWithStates:ISCacheItemStateAll]];
   [defaultCache removeItems:items];
   [self.photoService update];
 }
@@ -98,9 +98,8 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 - (IBAction)cancelClicked:(id)sender
 {
   ISCache *defaultCache = [ISCache defaultCache];
-  NSArray *items = [defaultCache items:ISCacheItemStateInProgress];
+  NSArray *items = [defaultCache items:[ISCacheStateFilter filterWithStates:ISCacheItemStateInProgress]];
   [defaultCache cancelItems:items];
-  
 }
 
 
