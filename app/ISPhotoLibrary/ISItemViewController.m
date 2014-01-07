@@ -157,7 +157,7 @@ static CGFloat kAnimationDuration = 0.3f;
 
 - (void)fetchItem
 {
-  self.cacheIdentifier =
+  ISCacheItem *cacheItem =
   [self.imageView setImageWithURL:self.url
                  placeholderImage:nil
                          userInfo:@{@"width": @320.0,
@@ -166,6 +166,7 @@ static CGFloat kAnimationDuration = 0.3f;
                   completionBlock:^(NSError *error) {
                     self.state = ISItemViewControllerStateViewing;
                   }];
+  self.cacheIdentifier = cacheItem.identifier;
 }
 
 
