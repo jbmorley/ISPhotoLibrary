@@ -140,12 +140,7 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
   NSInteger index = (scrollView.contentOffset.x + CGRectGetWidth(self.view.frame)/2) / CGRectGetWidth(self.view.frame);
-  NSLog(@"Page: %d", index);
-  // TODO Unset the preivous ones.
-  // Set the next ones.
-  // Guard against multiple sets.
   self.currentIndex = index;
-  
 }
 
 
