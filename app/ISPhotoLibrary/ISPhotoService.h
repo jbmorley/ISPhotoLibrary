@@ -23,14 +23,8 @@
 - (id)init;
 - (void)update;
 
-- (NSArray *)items;
 - (NSUInteger)count;
-
-- (NSString *)itemURL:(NSString *)identifier;
-- (NSString *)itemName:(NSString *)identifier;
-
-- (NSString *)itemAtIndex:(NSUInteger)index;
-- (NSString *)itemURLAtIndex:(NSUInteger)index;
-- (NSString *)itemNameAtIndex:(NSUInteger)index;
+- (NSString *)itemURL:(NSUInteger)index;
+- (NSString *)itemName:(NSUInteger)index;
 
 @end

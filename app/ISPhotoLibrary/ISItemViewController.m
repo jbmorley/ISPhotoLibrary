@@ -16,7 +16,6 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, strong) ISCache *cache;
 @property (nonatomic) ISViewControllerChromeState chromeState;
-@property (nonatomic, readonly) NSString *url;
 @property (nonatomic, strong) ISCacheItem *cacheItem;
 @property (nonatomic, strong) NSMutableArray *photoViews;
 @property (nonatomic) NSInteger currentIndex;
@@ -46,10 +45,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
   [super viewWillAppear:animated];
-  
-  // Set the title.
-  self.navigationController.title = [self.photoService itemName:self.identifier];
-  self.title = [self.photoService itemName:self.identifier];
   
   // Configure the scroll view.
   NSInteger count = self.photoService.count;
@@ -94,12 +89,6 @@
 - (void)didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
-}
-
-
-- (NSString *)url
-{
-  return [self.photoService itemURL:self.identifier];
 }
 
 
@@ -176,7 +165,7 @@
     [self configurePhotoView:_currentIndex];
     [self configurePhotoView:_currentIndex + 1];
     
-    self.title = [self.photoService itemNameAtIndex:_currentIndex];
+    self.title = [self.photoService itemName:_currentIndex];
     
   }
 }
@@ -199,7 +188,7 @@
       index < self.photoViews.count) {
     NSLog(@"configurePhotoView:%d", index);
     ISPhotoView *photoView = self.photoViews[index];
-    photoView.url = [self.photoService itemURLAtIndex:index];
+    photoView.url = [self.photoService itemURL:index];
   }
 }
 

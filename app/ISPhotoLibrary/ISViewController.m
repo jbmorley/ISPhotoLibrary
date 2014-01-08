@@ -50,7 +50,6 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
   if ([segue.identifier isEqualToString:kDetailSegueIdentifier]) {
     ISCollectionViewCell *cell = sender;
     ISItemViewController *viewController = segue.destinationViewController;
-    viewController.identifier = cell.identifier;
     viewController.photoService = self.photoService;
     viewController.index = cell.index;
   } else if ([segue.identifier isEqualToString:kDownloadsSegueIdentifier]) {
@@ -109,23 +108,18 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 - (NSInteger)collectionView:(UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section
 {
-  return self.photoService.items.count;
+  return self.photoService.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-  // Determine the item URL.
-  NSString *identifier = self.photoService.items[indexPath.row];
-  NSString *item = [self.photoService itemURL:                    identifier];
-  
   // Configure the cell.
   ISCollectionViewCell *cell
   = [collectionView dequeueReusableCellWithReuseIdentifier:kCollectionViewCellReuseIdentifier
                                               forIndexPath:indexPath];
   cell.index = indexPath.row;
-  cell.identifier = identifier;
-  [cell.imageView setImageWithURL:item
+  [cell.imageView setImageWithURL:[self.photoService itemURL:indexPath.row]
                  placeholderImage:self.thumbnail
                          userInfo:@{@"width": @152.0,
                                     @"height": @152.0,

@@ -81,7 +81,7 @@ static NSString *kKeyName = @"name";
                          atomically:YES];
          
          // Sort the keys.
-         [self sortedKeys];
+         [self sortKeys];
          
          // Notify the delegate.
          [self.delegate photoServiceDidUpdate:self];
@@ -109,12 +109,6 @@ static NSString *kKeyName = @"name";
 }
 
 
-- (NSArray *)items
-{
-  return self.sortedKeys;
-}
-
-
 - (NSUInteger)count
 {
   return self.sortedKeys.count;
@@ -127,30 +121,18 @@ static NSString *kKeyName = @"name";
 }
 
 
-- (NSString *)itemURL:(NSString *)identifier
+- (NSString *)itemURL:(NSUInteger)index
 {
   return [kServiceRoot
           stringByAppendingFormat:
           @"/%@",
-          identifier];
+          [self itemAtIndex:index]];
 }
 
 
-- (NSString *)itemURLAtIndex:(NSUInteger)index
+- (NSString *)itemName:(NSUInteger)index
 {
-  return [self itemURL:[self itemAtIndex:index]];
-}
-
-
-- (NSString *)itemName:(NSString *)identifier
-{
-  return [self.itemDict objectForKey:identifier][kKeyName];
-}
-
-
-- (NSString *)itemNameAtIndex:(NSUInteger)index
-{
-  return [self itemName:[self itemAtIndex:index]];
+  return [self.itemDict objectForKey:[self itemAtIndex:index]][kKeyName];
 }
 
 

@@ -12,7 +12,6 @@
 
 @interface ISItemViewController : UIViewController <UIScrollViewDelegate>
 
-@property (strong, nonatomic) NSString *identifier;
 @property (strong, nonatomic) ISPhotoService *photoService;
 @property (nonatomic) NSInteger index;
 
