@@ -29,7 +29,8 @@
 - (NSString *)itemURL:(NSString *)identifier;
 - (NSString *)itemName:(NSString *)identifier;
 
-- (NSString *)itemAtIndex:(NSInteger)index;
-- (NSString *)itemURLAtIndex:(NSInteger)index;
+- (NSString *)itemAtIndex:(NSUInteger)index;
+- (NSString *)itemURLAtIndex:(NSUInteger)index;
+- (NSString *)itemNameAtIndex:(NSUInteger)index;
 
 @end

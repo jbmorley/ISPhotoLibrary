@@ -10,11 +10,18 @@
 #import "ISOwnerProxy.h"
 #import <ISCache/ISCache.h>
 
+typedef enum {
+  ISPhotoViewStateUnknown,
+  ISPhotoViewStateDownloading,
+  ISPhotoViewStateReady,
+} ISPhotoViewState;
+
 @interface ISPhotoView ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (strong, nonatomic) ISCacheItem *cacheItem;
+@property (nonatomic) ISPhotoViewState state;
 
 @end
 
@@ -57,29 +64,20 @@
     // Stop observing any previous cache item.
     [self stopObservingCacheItem];
     
-    UIImageView *__weak weakImageView = self.imageView;
+    // If the requested URL is nil, clear the image and then
+    // simply return.
+    if (_url == nil) {
+      [self.imageView cancelSetImageWithURL];
+      self.imageView.image = nil;
+    }
+    
     self.cacheItem =
     [self.imageView setImageWithURL:_url
                    placeholderImage:nil
                            userInfo:@{@"width": @320.0,
                                       @"height": @568.0,
                                       @"scale": @(ISScalingCacheHandlerScaleAspectFit)}
-                    completionBlock:^(NSError *error) {
-                      
-                      // Don't bother doing anything on errors.
-                      if (error) {
-                        return;
-                      }
-                 
-                      // Fade in the image view on success.
-                      UIImageView *strongImageView = weakImageView;
-                      if (strongImageView) {
-                        [UIView animateWithDuration:0.3f
-                                         animations:^{
-                                           strongImageView.alpha = 1.0f;
-                                         }];
-                      }
-                    }];
+                    completionBlock:^(NSError *error) {}];
     
     // Observe the cache item for progress changes.
     [self.cacheItem addObserver:self
@@ -116,9 +114,9 @@
       }
     } else if ([keyPath isEqualToString:NSStringFromSelector(@selector(state))]) {
       if (self.cacheItem.state == ISCacheItemStateFound) {
-        self.progressView.alpha = 0.0f;
+        self.state = ISPhotoViewStateReady;
       } else {
-        self.progressView.alpha = 1.0f;
+        self.state = ISPhotoViewStateDownloading;
       }
       // TODO Handle errors here?
     }
@@ -137,6 +135,27 @@
                         forKeyPath:NSStringFromSelector(@selector(state))];
   }
   @catch (NSException *exception) {}
+}
+
+
+- (void)setState:(ISPhotoViewState)state
+{
+  if (_state != state) {
+    _state = state;
+    if (_state == ISPhotoViewStateDownloading) {
+      [UIView animateWithDuration:0.3f
+                       animations:^{
+                         self.progressView.alpha = 1.0f;
+                         self.imageView.alpha = 0.0f;
+                       }];
+    } else if (_state == ISPhotoViewStateReady) {
+      [UIView animateWithDuration:0.3f
+                       animations:^{
+                         self.progressView.alpha = 0.0f;
+                         self.imageView.alpha = 1.0f;
+                       }];
+    }
+  }
 }
 
 @end

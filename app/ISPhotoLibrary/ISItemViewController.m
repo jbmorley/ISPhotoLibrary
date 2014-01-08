@@ -19,6 +19,7 @@
 @property (nonatomic, readonly) NSString *url;
 @property (nonatomic, strong) ISCacheItem *cacheItem;
 @property (nonatomic, strong) NSMutableArray *photoViews;
+@property (nonatomic) NSInteger currentIndex;
 
 @end
 
@@ -154,9 +155,52 @@
   // TODO Unset the preivous ones.
   // Set the next ones.
   // Guard against multiple sets.
-  ISPhotoView *photoView = self.photoViews[index];
-  photoView.url = [self.photoService itemURLAtIndex:index];
+  self.currentIndex = index;
   
+}
+
+
+- (void)setCurrentIndex:(NSInteger)currentIndex
+{
+  if (_currentIndex != currentIndex) {
+
+    // Clean up the previous downloads.
+//    [self clearPhotoView:currentIndex + 2];
+//    [self clearPhotoView:currentIndex - 2];
+    
+    // Update the index.
+    _currentIndex = currentIndex;
+    
+    // Schedule the next downloads.
+    [self configurePhotoView:_currentIndex - 1];
+    [self configurePhotoView:_currentIndex];
+    [self configurePhotoView:_currentIndex + 1];
+    
+    self.title = [self.photoService itemNameAtIndex:_currentIndex];
+    
+  }
+}
+
+
+- (void)clearPhotoView:(NSInteger)index
+{
+  if (index >= 0 &&
+      index < self.photoViews.count) {
+    NSLog(@"clearPhotoView:%d", index);
+    ISPhotoView *photoView = self.photoViews[index];
+    photoView.url = nil;
+  }
+}
+
+
+- (void)configurePhotoView:(NSInteger)index
+{
+  if (index >= 0 &&
+      index < self.photoViews.count) {
+    NSLog(@"configurePhotoView:%d", index);
+    ISPhotoView *photoView = self.photoViews[index];
+    photoView.url = [self.photoService itemURLAtIndex:index];
+  }
 }
 
 

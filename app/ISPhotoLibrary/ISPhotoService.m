@@ -121,7 +121,7 @@ static NSString *kKeyName = @"name";
 }
 
 
-- (NSString *)itemAtIndex:(NSInteger)index
+- (NSString *)itemAtIndex:(NSUInteger)index
 {
   return self.sortedKeys[index];
 }
@@ -136,7 +136,7 @@ static NSString *kKeyName = @"name";
 }
 
 
-- (NSString *)itemURLAtIndex:(NSInteger)index
+- (NSString *)itemURLAtIndex:(NSUInteger)index
 {
   return [self itemURL:[self itemAtIndex:index]];
 }
@@ -145,6 +145,12 @@ static NSString *kKeyName = @"name";
 - (NSString *)itemName:(NSString *)identifier
 {
   return [self.itemDict objectForKey:identifier][kKeyName];
+}
+
+
+- (NSString *)itemNameAtIndex:(NSUInteger)index
+{
+  return [self itemName:[self itemAtIndex:index]];
 }
 
 
