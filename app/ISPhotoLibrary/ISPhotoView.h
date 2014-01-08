@@ -13,5 +13,6 @@
 @property (strong, nonatomic) NSString *url;
 
 + (id)photoView;
+- (void)cancel;
 
 @end

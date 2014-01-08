@@ -139,7 +139,7 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-  NSInteger index = scrollView.contentOffset.x / CGRectGetWidth(self.view.frame);
+  NSInteger index = (scrollView.contentOffset.x + CGRectGetWidth(self.view.frame)/2) / CGRectGetWidth(self.view.frame);
   NSLog(@"Page: %d", index);
   // TODO Unset the preivous ones.
   // Set the next ones.
@@ -154,8 +154,8 @@
   if (_currentIndex != currentIndex) {
 
     // Clean up the previous downloads.
-//    [self clearPhotoView:currentIndex + 2];
-//    [self clearPhotoView:currentIndex - 2];
+    [self clearPhotoView:currentIndex + 2];
+    [self clearPhotoView:currentIndex - 2];
     
     // Update the index.
     _currentIndex = currentIndex;
@@ -177,7 +177,7 @@
       index < self.photoViews.count) {
     NSLog(@"clearPhotoView:%d", index);
     ISPhotoView *photoView = self.photoViews[index];
-    photoView.url = nil;
+    [photoView cancel];
   }
 }
 

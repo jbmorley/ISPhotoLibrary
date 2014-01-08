@@ -50,6 +50,13 @@ typedef enum {
 }
 
 
+- (void)cancel
+{
+  [self.imageView cancelSetImageWithURL];
+  _url = nil;
+}
+
+
 - (void)setUrl:(NSString *)url
 {
   if (![_url isEqualToString:url]) {
@@ -63,13 +70,6 @@ typedef enum {
     
     // Stop observing any previous cache item.
     [self stopObservingCacheItem];
-    
-    // If the requested URL is nil, clear the image and then
-    // simply return.
-    if (_url == nil) {
-      [self.imageView cancelSetImageWithURL];
-      self.imageView.image = nil;
-    }
     
     self.cacheItem =
     [self.imageView setImageWithURL:_url
