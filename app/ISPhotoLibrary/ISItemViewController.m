@@ -8,6 +8,7 @@
 
 #import "ISItemViewController.h"
 #import "ISViewControllerChromeState.h"
+#import "ISPhotoView.h"
 
 
 @interface ISItemViewController ()
@@ -23,15 +24,11 @@
 @implementation ISItemViewController
 
 
-static CGFloat kAnimationDuration = 0.3f;
-
-
 - (void)viewDidLoad
 {
   [super viewDidLoad];
   self.cache = [ISCache defaultCache];
   self.chromeState = ISViewControllerChromeStateShown;
-  [self.cache addObserver:self];
   
   UITapGestureRecognizer *gestureRecognizer =
   [[UITapGestureRecognizer alloc] initWithTarget:self
@@ -59,40 +56,16 @@ static CGFloat kAnimationDuration = 0.3f;
              CGRectGetHeight(self.view.bounds));
   
   // Add the UIImageViews
+  pages = 3;
   for (NSInteger count = 0; count < pages; count++) {
-    CGRect frame =
+    ISPhotoView *photoView = [ISPhotoView photoView];
+    photoView.frame =
     CGRectMake(CGRectGetWidth(self.view.bounds) * count,
                0.0f,
                CGRectGetWidth(self.view.bounds),
                CGRectGetHeight(self.view.bounds));
-    UIImageView *imageView =
-    [[UIImageView alloc] initWithFrame:frame];
-    imageView.contentMode = UIViewContentModeScaleAspectFit;
-    imageView.alpha = 0.0f;
-    [self.scrollView addSubview:imageView];
-    UIImageView *__weak weakImageView = imageView;
-    [imageView setImageWithURL:[self.photoService itemURLAtIndex:count]
-              placeholderImage:nil
-                      userInfo:@{@"width": @320.0,
-                                 @"height": @568.0,
-                                 @"scale": @(ISScalingCacheHandlerScaleAspectFit)}
-               completionBlock:^(NSError *error) {
-                 
-                 // Don't bother doing anything on errors.
-                 if (error) {
-                   return;
-                 }
-                 
-                 // Fade in the image view on success.
-                 UIImageView *strongImageView = weakImageView;
-                 if (strongImageView) {
-                   [UIView animateWithDuration:kAnimationDuration
-                                    animations:^{
-                                      strongImageView.alpha = 1.0f;
-                                    }];
-                 }
-                 
-               }];
+    photoView.url = [self.photoService itemURLAtIndex:count];
+    [self.scrollView addSubview:photoView];
   }
   
   // Position the scroll view for the correct view.
@@ -148,16 +121,8 @@ static CGFloat kAnimationDuration = 0.3f;
 }
 
 
-- (IBAction)trashClicked:(id)sender
-{
-  [self.cache removeItems:@[self.cacheItem]];
-  [self.navigationController popViewControllerAnimated:YES];
-}
-
-
 - (IBAction)refreshClicked:(id)sender
 {
-  [self.cache removeItems:@[self.cacheItem]];
 }
 
 
