@@ -18,6 +18,7 @@
 @property (nonatomic) ISViewControllerChromeState chromeState;
 @property (nonatomic, readonly) NSString *url;
 @property (nonatomic, strong) ISCacheItem *cacheItem;
+@property (nonatomic, strong) NSMutableArray *photoViews;
 
 @end
 
@@ -50,22 +51,27 @@
   self.title = [self.photoService itemName:self.identifier];
   
   // Configure the scroll view.
-  NSInteger pages = self.photoService.count;
+  NSInteger count = self.photoService.count;
   self.scrollView.contentSize =
-  CGSizeMake(CGRectGetWidth(self.view.bounds) * pages,
+  CGSizeMake(CGRectGetWidth(self.view.bounds) * count,
              CGRectGetHeight(self.view.bounds));
   
-  // Add the UIImageViews
-  pages = 3;
-  for (NSInteger count = 0; count < pages; count++) {
+  // Create an array to track the photo view instances.
+  self.photoViews = [NSMutableArray arrayWithCapacity:count];
+  
+  // Add the photo views.
+  // We do not set the URL for the photo views here as this
+  // causes them to display the image.
+  // Instead we do this lazily in the on scroll event.
+  for (NSInteger i = 0; i < count; i++) {
     ISPhotoView *photoView = [ISPhotoView photoView];
     photoView.frame =
-    CGRectMake(CGRectGetWidth(self.view.bounds) * count,
+    CGRectMake(CGRectGetWidth(self.view.bounds) * i,
                0.0f,
                CGRectGetWidth(self.view.bounds),
                CGRectGetHeight(self.view.bounds));
-    photoView.url = [self.photoService itemURLAtIndex:count];
     [self.scrollView addSubview:photoView];
+    [self.photoViews addObject:photoView];
   }
   
   // Position the scroll view for the correct view.
@@ -143,6 +149,14 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+  NSInteger index = scrollView.contentOffset.x / CGRectGetWidth(self.view.frame);
+  NSLog(@"Page: %d", index);
+  // TODO Unset the preivous ones.
+  // Set the next ones.
+  // Guard against multiple sets.
+  ISPhotoView *photoView = self.photoViews[index];
+  photoView.url = [self.photoService itemURLAtIndex:index];
+  
 }
 
 

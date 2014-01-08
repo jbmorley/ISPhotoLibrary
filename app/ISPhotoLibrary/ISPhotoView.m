@@ -48,6 +48,12 @@
   if (![_url isEqualToString:url]) {
     _url = url;
     
+    // Cancel a previous fetch if one was in progress.
+    if (self.cacheItem) {
+      ISCache *cache = [ISCache defaultCache];
+      [cache cancelItems:@[self.cacheItem]];
+    }
+    
     // Stop observing any previous cache item.
     [self stopObservingCacheItem];
     
@@ -114,6 +120,7 @@
       } else {
         self.progressView.alpha = 1.0f;
       }
+      // TODO Handle errors here?
     }
   }
 }
