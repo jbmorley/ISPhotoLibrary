@@ -137,7 +137,7 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
   
   _currentIndex = currentIndex;
   [self.scrubberView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:_currentIndex inSection:0]
-                            atScrollPosition:UICollectionViewScrollPositionLeft
+                            atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
                                     animated:YES];
 }
 
@@ -212,10 +212,16 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
   if (scrollView == self.collectionView) {
-    int index =
-    (self.collectionView.contentOffset.x + (self.collectionView.frame.size.width / 2)) / self.collectionView.frame.size.width;
-    self.currentIndex = index;
+    
+    CGFloat scrubberCellWidth = 52.0f;
+    CGFloat offset = self.collectionView.contentOffset.x / self.collectionView.frame.size.width;
+    NSLog(@"Offset: %f", offset);
+    self.scrubberView.contentOffset = CGPointMake(offset * scrubberCellWidth, 0.0f);
+
+    
   }
+  
+  
 }
 
 

@@ -258,13 +258,13 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="2" minimumInteritemSpacing="2" id="4dO-Bl-kpa">
                                     <size key="itemSize" width="50" height="50"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="headerReferenceSize" width="133" height="0.0"/>
+                                    <size key="footerReferenceSize" width="133" height="0.0"/>
                                     <inset key="sectionInset" minX="2" minY="2" maxX="2" maxY="2"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ScrubberCell" id="wyD-lY-l3M" customClass="ISScrubberCell">
-                                        <rect key="frame" x="2" y="2" width="50" height="50"/>
+                                        <rect key="frame" x="135" y="2" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -288,6 +288,14 @@
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
+                                <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="lxe-lJ-8h3">
+                                    <rect key="frame" x="0.0" y="0.0" width="133" height="54"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </collectionReusableView>
+                                <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="nxZ-PV-pa6">
+                                    <rect key="frame" x="187" y="0.0" width="133" height="54"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </collectionReusableView>
                                 <connections>
                                     <outlet property="dataSource" destination="9h7-g0-btc" id="C2Z-59-qBl"/>
                                     <outlet property="delegate" destination="9h7-g0-btc" id="m3B-vy-lZI"/>
@@ -297,13 +305,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Photo" id="CaZ-Q0-R0D">
-                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="Kjm-ab-vuV">
-                            <connections>
-                                <action selector="refreshClicked:" destination="9h7-g0-btc" id="Llv-Cn-jio"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Photo" id="CaZ-Q0-R0D"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="collectionView" destination="alx-23-3D9" id="lyG-Ub-xxB"/>
