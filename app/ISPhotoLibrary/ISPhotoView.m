@@ -91,11 +91,7 @@ typedef enum {
     
     // Observe the cache item for progress changes.
     [self.cacheItem addObserver:self
-                     forKeyPath:NSStringFromSelector(@selector(totalBytesRead))
-                        options:NSKeyValueObservingOptionInitial
-                        context:NULL];
-    [self.cacheItem addObserver:self
-                     forKeyPath:NSStringFromSelector(@selector(totalBytesExpectedToRead))
+                     forKeyPath:NSStringFromSelector(@selector(progress))
                         options:NSKeyValueObservingOptionInitial
                         context:NULL];
     [self.cacheItem addObserver:self
@@ -112,23 +108,21 @@ typedef enum {
                        context:(void *)context
 {
   if (object == self.cacheItem) {
-    if ([keyPath isEqualToString:NSStringFromSelector(@selector(totalBytesRead))] ||
-        [keyPath isEqualToString:NSStringFromSelector(@selector(totalBytesExpectedToRead))]) {
-      CGFloat totalBytesRead = self.cacheItem.totalBytesRead;
-      CGFloat totalBytesExpectedToRead = self.cacheItem.totalBytesExpectedToRead;
-      if (totalBytesExpectedToRead ==
-          ISCacheItemTotalBytesUnknown) {
-        self.progressView.progress = 0.0f;
-      } else {
-        self.progressView.progress = totalBytesRead/totalBytesExpectedToRead;
-      }
+    if ([keyPath isEqualToString:NSStringFromSelector(@selector(progress))]) {
+      self.progressView.progress = self.cacheItem.progress;
     } else if ([keyPath isEqualToString:NSStringFromSelector(@selector(state))]) {
-      if (self.cacheItem.state == ISCacheItemStateFound) {
+      if (self.cacheItem.state ==
+          ISCacheItemStateFound) {
         self.state = ISPhotoViewStateReady;
-      } else {
+      } else if (self.cacheItem.state ==
+                 ISCacheItemStateInProgress) {
         self.state = ISPhotoViewStateDownloading;
+      } else if (self.cacheItem.state ==
+                 ISCacheItemStateNotFound) {
+        if (self.cacheItem.lastError) {
+          // TODO Show that we encountered an error.
+        }
       }
-      // TODO Handle errors here?
     }
   }
 }
@@ -138,9 +132,7 @@ typedef enum {
 {
   @try {
     [self.cacheItem removeObserver:self
-                        forKeyPath:NSStringFromSelector(@selector(totalBytesRead))];
-    [self.cacheItem removeObserver:self
-                        forKeyPath:NSStringFromSelector(@selector(totalBytesExpectedToRead))];
+                        forKeyPath:NSStringFromSelector(@selector(progress))];
     [self.cacheItem removeObserver:self
                         forKeyPath:NSStringFromSelector(@selector(state))];
   }

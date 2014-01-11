@@ -69,8 +69,6 @@ static NSString *kKeyName = @"name";
 - (void)update
 {
   // Fetch the library data.
-  // TODO Ultimately this fetch could be wired up using ISDB and
-  // an appropriate adapter to manage all of the animations.
   AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
   [manager GET:kServiceRoot
     parameters:nil
