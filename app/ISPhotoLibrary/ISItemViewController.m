@@ -10,6 +10,8 @@
 #import "ISViewControllerChromeState.h"
 #import "ISPhotoView.h"
 
+typedef void (^CleanupBlock)(void);
+
 
 @interface ISItemViewController ()
 
@@ -19,6 +21,7 @@
 @property (nonatomic, strong) ISCacheItem *cacheItem;
 @property (nonatomic, strong) NSMutableArray *photoViews;
 @property (nonatomic) NSInteger currentIndex;
+@property (nonatomic, copy) CleanupBlock disappearCleanup;
 
 @end
 
@@ -66,7 +69,7 @@
                0.0f,
                CGRectGetWidth(self.view.bounds),
                CGRectGetHeight(self.view.bounds));
-    [self.scrollView addSubview:photoView];
+//    [self.scrollView addSubview:photoView];
     [self.photoViews addObject:photoView];
   }
   
@@ -80,9 +83,42 @@
 }
 
 
+- (void)viewDidAppear:(BOOL)animated
+{
+  [super viewDidAppear:animated];
+  if (self.disappearCleanup) {
+    self.disappearCleanup();
+    self.disappearCleanup = NULL;
+  }
+}
+
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+  [super viewWillDisappear:animated];
+  // I seem to remember hearing about an official way of doing
+  // this in a WWDC session, but I cannot find a reference to it
+  // anywhere. In the meantime, we will have to put up with this
+  // solution to handle cancelled view disappearance.
+  ISViewControllerChromeState state = self.chromeState;
+  self.chromeState = ISViewControllerChromeStateShown;
+  ISItemViewController *__weak weakSelf = self;
+  self.disappearCleanup = ^{
+    NSLog(@"CANCEL");
+    // Called if the disappearance isn't completed.
+    ISItemViewController *strongSelf = weakSelf;
+    if (strongSelf) {
+      strongSelf.chromeState = state;
+    }
+  };
+
+}
+
+
 - (void)viewDidDisappear:(BOOL)animated
 {
   [super viewDidDisappear:animated];
+  self.disappearCleanup = NULL;
 }
 
 
@@ -170,8 +206,10 @@
 {
   if (index >= 0 &&
       index < self.photoViews.count) {
-    NSLog(@"clearPhotoView:%d", index);
     ISPhotoView *photoView = self.photoViews[index];
+    if (photoView.superview) {
+      [photoView removeFromSuperview];
+    }
     [photoView cancel];
   }
 }
@@ -181,8 +219,10 @@
 {
   if (index >= 0 &&
       index < self.photoViews.count) {
-    NSLog(@"configurePhotoView:%d", index);
     ISPhotoView *photoView = self.photoViews[index];
+    if (!photoView.superview) {
+      [self.scrollView addSubview:photoView];
+    }
     photoView.url = [self.photoService itemURL:index];
   }
 }
