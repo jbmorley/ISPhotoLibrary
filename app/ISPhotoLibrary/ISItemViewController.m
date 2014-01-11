@@ -31,6 +31,7 @@ typedef void (^CleanupBlock)(void);
 @property (nonatomic, strong) ISCache *cache;
 @property (nonatomic) ISViewControllerChromeState chromeState;
 @property (nonatomic, copy) CleanupBlock disappearCleanup;
+@property (nonatomic) NSInteger currentIndex;
 
 @end
 
@@ -52,8 +53,7 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
   gestureRecognizer.numberOfTapsRequired = 1;
   gestureRecognizer.numberOfTouchesRequired = 1;
   gestureRecognizer.enabled = YES;
-  [self.view addGestureRecognizer:gestureRecognizer];
-  
+  [self.collectionView addGestureRecognizer:gestureRecognizer];
 }
 
 
@@ -129,8 +129,16 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
 }
 
 
-- (IBAction)refreshClicked:(id)sender
+- (void)setCurrentIndex:(NSInteger)currentIndex
 {
+  if (_currentIndex == currentIndex) {
+    return;
+  }
+  
+  _currentIndex = currentIndex;
+  [self.scrubberView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:_currentIndex inSection:0]
+                            atScrollPosition:UICollectionViewScrollPositionLeft
+                                    animated:YES];
 }
 
 
@@ -172,7 +180,6 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
     ISScrubberCell *cell
     = [collectionView dequeueReusableCellWithReuseIdentifier:kScrubberCellReuseIdentifier
                                                 forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor redColor];
     [cell.imageView setImageWithURL:[self.photoService itemURL:indexPath.row]
                    placeholderImage:nil
                            userInfo:@{@"width": @50.0,
@@ -183,6 +190,32 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
     
   }
   return nil;
+}
+
+
+#pragma mark - UICollectionViewDelegate
+
+
+- (void)collectionView:(UICollectionView *)collectionView
+didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+  if (collectionView == self.scrubberView) {
+    [self.collectionView scrollToItemAtIndexPath:indexPath
+                                atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+  }
+}
+
+
+#pragma mark - UIScrollViewDelegate
+
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+  if (scrollView == self.collectionView) {
+    int index =
+    (self.collectionView.contentOffset.x + (self.collectionView.frame.size.width / 2)) / self.collectionView.frame.size.width;
+    self.currentIndex = index;
+  }
 }
 
 
