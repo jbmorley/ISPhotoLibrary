@@ -135,10 +135,10 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
     return;
   }
   
+
+  // Update the title.
   _currentIndex = currentIndex;
-  [self.scrubberView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:_currentIndex inSection:0]
-                            atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
-                                    animated:YES];
+  self.title = [self.photoService itemName:_currentIndex];
 }
 
 
@@ -211,13 +211,25 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+  const static CGFloat scrubberCellWidth = 52.0f;
+  
+  // TODO Guard against whichever view is driving.
+  
   if (scrollView == self.collectionView) {
     
-    CGFloat scrubberCellWidth = 52.0f;
     CGFloat offset = self.collectionView.contentOffset.x / self.collectionView.frame.size.width;
     NSLog(@"Offset: %f", offset);
-    self.scrubberView.contentOffset = CGPointMake(offset * scrubberCellWidth, 0.0f);
+    self.scrubberView.contentOffset = CGPointMake(offset * scrubberCellWidth,
+                                                  0.0f);
+    self.currentIndex = offset + 0.5;
 
+    
+  } else if (scrollView == self.scrubberView) {
+    
+    CGFloat offset = self.scrubberView.contentOffset.x / scrubberCellWidth;
+    self.collectionView.contentOffset = CGPointMake(offset * self.collectionView.frame.size.width,
+                                                    0.0f);
+    self.currentIndex = offset + 0.5;
     
   }
   
