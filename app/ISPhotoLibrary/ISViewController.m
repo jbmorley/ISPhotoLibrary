@@ -134,7 +134,7 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
                          userInfo:@{@"width": @152.0,
                                     @"height": @152.0,
                                     @"scale": @(ISScalingCacheHandlerScaleAspectFill)}
-                  completionBlock:NULL];
+                            block:NULL];
   
   return cell;
 }

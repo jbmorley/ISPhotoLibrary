@@ -87,7 +87,7 @@ typedef enum {
                            userInfo:@{@"width": @320.0,
                                       @"height": @568.0,
                                       @"scale": @(ISScalingCacheHandlerScaleAspectFit)}
-                    completionBlock:^(NSError *error) {}];
+                              block:NULL];
     
     // Observe the cache item for progress changes.
     [self.cacheItem addObserver:self

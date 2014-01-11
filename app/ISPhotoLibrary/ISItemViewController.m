@@ -202,9 +202,9 @@ typedef void (^CleanupBlock)(void);
     _currentIndex = currentIndex;
     
     // Schedule the next downloads.
-    [self configurePhotoView:_currentIndex - 1];
     [self configurePhotoView:_currentIndex];
     [self configurePhotoView:_currentIndex + 1];
+    [self configurePhotoView:_currentIndex - 1];
     
     self.title = [self.photoService itemName:_currentIndex];
     
