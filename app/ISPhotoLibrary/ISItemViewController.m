@@ -25,17 +25,16 @@ typedef void (^CleanupBlock)(void);
 
 @interface ISItemViewController ()
 
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (nonatomic, strong) ISCache *cache;
 @property (nonatomic) ISViewControllerChromeState chromeState;
-@property (nonatomic, strong) ISCacheItem *cacheItem;
-@property (nonatomic, strong) NSMutableArray *photoViews;
-@property (nonatomic) NSInteger currentIndex;
 @property (nonatomic, copy) CleanupBlock disappearCleanup;
 
 @end
 
 @implementation ISItemViewController
+
+static NSString *kPhotoCellReuseIdentifier = @"PhotoCell";
 
 
 - (void)viewDidLoad
@@ -51,44 +50,6 @@ typedef void (^CleanupBlock)(void);
   gestureRecognizer.numberOfTouchesRequired = 1;
   gestureRecognizer.enabled = YES;
   [self.view addGestureRecognizer:gestureRecognizer];
-  
-}
-
-
-- (void)viewWillAppear:(BOOL)animated
-{
-  [super viewWillAppear:animated];
-  
-  // Configure the scroll view.
-  NSInteger count = self.photoService.count;
-  self.scrollView.contentSize =
-  CGSizeMake(CGRectGetWidth(self.view.bounds) * count,
-             CGRectGetHeight(self.view.bounds));
-  
-  // Create an array to track the photo view instances.
-  self.photoViews = [NSMutableArray arrayWithCapacity:count];
-  
-  // Add the photo views.
-  // We do not set the URL for the photo views here as this
-  // causes them to display the image.
-  // Instead we do this lazily in the on scroll event.
-  for (NSInteger i = 0; i < count; i++) {
-    ISPhotoView *photoView = [ISPhotoView photoView];
-    photoView.frame =
-    CGRectMake(CGRectGetWidth(self.view.bounds) * i,
-               0.0f,
-               CGRectGetWidth(self.view.bounds),
-               CGRectGetHeight(self.view.bounds));
-//    [self.scrollView addSubview:photoView];
-    [self.photoViews addObject:photoView];
-  }
-  
-  // Position the scroll view for the correct view.
-  CGPoint offset =
-  CGPointMake(self.index * CGRectGetWidth(self.scrollView.frame),
-              0.0f);
-  [self.scrollView setContentOffset:offset
-                           animated:YES];
   
 }
 
@@ -180,61 +141,25 @@ typedef void (^CleanupBlock)(void);
 }
 
 
-#pragma mark - UIScrollViewDelegate
+#pragma mark - UICollectionViewDataSource
 
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+- (NSInteger)collectionView:(UICollectionView *)collectionView
+     numberOfItemsInSection:(NSInteger)section
 {
-  NSInteger index = (scrollView.contentOffset.x + CGRectGetWidth(self.view.frame)/2) / CGRectGetWidth(self.view.frame);
-  self.currentIndex = index;
+  return self.photoService.count;
 }
 
 
-- (void)setCurrentIndex:(NSInteger)currentIndex
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
+                  cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-  if (_currentIndex != currentIndex) {
-
-    // Clean up the previous downloads.
-    [self clearPhotoView:currentIndex + 2];
-    [self clearPhotoView:currentIndex - 2];
-    
-    // Update the index.
-    _currentIndex = currentIndex;
-    
-    // Schedule the next downloads.
-    [self configurePhotoView:_currentIndex];
-    [self configurePhotoView:_currentIndex + 1];
-    [self configurePhotoView:_currentIndex - 1];
-    
-    self.title = [self.photoService itemName:_currentIndex];
-    
-  }
-}
-
-
-- (void)clearPhotoView:(NSInteger)index
-{
-  if (index >= 0 &&
-      index < self.photoViews.count) {
-    ISPhotoView *photoView = self.photoViews[index];
-    if (photoView.superview) {
-      [photoView removeFromSuperview];
-    }
-    [photoView cancel];
-  }
-}
-
-
-- (void)configurePhotoView:(NSInteger)index
-{
-  if (index >= 0 &&
-      index < self.photoViews.count) {
-    ISPhotoView *photoView = self.photoViews[index];
-    if (!photoView.superview) {
-      [self.scrollView addSubview:photoView];
-    }
-    photoView.url = [self.photoService itemURL:index];
-  }
+  // Configure the cell.
+  ISPhotoView *cell
+  = [collectionView dequeueReusableCellWithReuseIdentifier:kPhotoCellReuseIdentifier
+                                              forIndexPath:indexPath];
+  cell.url = [self.photoService itemURL:indexPath.row];
+  return cell;
 }
 
 

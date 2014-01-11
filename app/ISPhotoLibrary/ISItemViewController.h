@@ -20,7 +20,9 @@
 #import <ISCache/ISCache.h>
 #import "ISPhotoService.h"
 
-@interface ISItemViewController : UIViewController <UIScrollViewDelegate>
+@interface ISItemViewController : UIViewController
+<UICollectionViewDataSource
+,UICollectionViewDelegate>
 
 @property (strong, nonatomic) ISPhotoService *photoService;
 @property (nonatomic) NSInteger index;

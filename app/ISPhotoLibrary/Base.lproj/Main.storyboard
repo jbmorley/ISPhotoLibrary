@@ -206,21 +206,54 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" alwaysBounceHorizontal="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wzT-PM-Lql">
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="alx-23-3D9">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="B6o-xz-UB2">
+                                    <size key="itemSize" width="320" height="568"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoCell" id="Qpx-bN-0Cb" customClass="ISPhotoView">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="z2Q-3a-Cls">
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                </imageView>
+                                                <progressView opaque="NO" alpha="0.0" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="W4w-EE-pdn">
+                                                    <rect key="frame" x="85" y="283" width="150" height="2"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </progressView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="z2Q-3a-Cls" secondAttribute="bottom" id="EqS-Ez-sxR"/>
+                                            <constraint firstItem="z2Q-3a-Cls" firstAttribute="top" secondItem="Qpx-bN-0Cb" secondAttribute="top" id="J3p-0a-dbf"/>
+                                            <constraint firstItem="z2Q-3a-Cls" firstAttribute="leading" secondItem="Qpx-bN-0Cb" secondAttribute="leading" id="ffh-Vd-1jf"/>
+                                            <constraint firstAttribute="trailing" secondItem="z2Q-3a-Cls" secondAttribute="trailing" id="w5r-Tm-NbB"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="imageView" destination="z2Q-3a-Cls" id="UPC-Tr-joc"/>
+                                            <outlet property="progressView" destination="W4w-EE-pdn" id="Y4k-72-F6M"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
                                 <connections>
-                                    <outlet property="delegate" destination="9h7-g0-btc" id="6aT-go-efv"/>
+                                    <outlet property="dataSource" destination="9h7-g0-btc" id="Sbu-Hu-MWm"/>
+                                    <outlet property="delegate" destination="9h7-g0-btc" id="OLw-F6-eX6"/>
                                 </connections>
-                            </scrollView>
+                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="wzT-PM-Lql" firstAttribute="leading" secondItem="Nkd-hd-wf2" secondAttribute="leading" id="ECk-Ay-XBd"/>
-                            <constraint firstAttribute="trailing" secondItem="wzT-PM-Lql" secondAttribute="trailing" id="SoG-Je-M7C"/>
-                            <constraint firstAttribute="bottom" secondItem="wzT-PM-Lql" secondAttribute="bottom" id="gnB-3Q-oWi"/>
-                            <constraint firstItem="wzT-PM-Lql" firstAttribute="top" secondItem="Nkd-hd-wf2" secondAttribute="top" id="rJd-bV-3Zf"/>
-                        </constraints>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Photo" id="CaZ-Q0-R0D">
@@ -231,7 +264,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="scrollView" destination="wzT-PM-Lql" id="YJ5-En-EHe"/>
+                        <outlet property="collectionView" destination="alx-23-3D9" id="lyG-Ub-xxB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4zf-Xt-bpm" userLabel="First Responder" sceneMemberID="firstResponder"/>

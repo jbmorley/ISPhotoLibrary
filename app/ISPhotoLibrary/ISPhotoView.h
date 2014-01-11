@@ -18,11 +18,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ISPhotoView : UIView
+@interface ISPhotoView : UICollectionViewCell
 
 @property (strong, nonatomic) NSString *url;
-
-+ (id)photoView;
-- (void)cancel;
 
 @end

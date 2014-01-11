@@ -38,32 +38,10 @@ typedef enum {
 @implementation ISPhotoView
 
 
-+ (id)photoView
-{
-  return [ISOwnerProxy viewFromNib:@"ISPhotoView"];
-}
-
-
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-  self = [super initWithCoder:aDecoder];
-  if (self) {
-  }
-  return self;
-}
-
-
 - (void)dealloc
 {
   // Remove any lingering cache item observers.
   [self stopObservingCacheItem];
-}
-
-
-- (void)cancel
-{
-  [self.imageView cancelSetImageWithURL];
-  _url = nil;
 }
 
 
