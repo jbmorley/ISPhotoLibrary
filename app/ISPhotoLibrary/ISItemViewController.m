@@ -19,6 +19,7 @@
 #import "ISItemViewController.h"
 #import "ISViewControllerChromeState.h"
 #import "ISPhotoViewCell.h"
+#import "ISScrubberCell.h"
 
 typedef void (^CleanupBlock)(void);
 
@@ -26,6 +27,7 @@ typedef void (^CleanupBlock)(void);
 @interface ISItemViewController ()
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet UICollectionView *scrubberView;
 @property (nonatomic, strong) ISCache *cache;
 @property (nonatomic) ISViewControllerChromeState chromeState;
 @property (nonatomic, copy) CleanupBlock disappearCleanup;
@@ -35,6 +37,7 @@ typedef void (^CleanupBlock)(void);
 @implementation ISItemViewController
 
 static NSString *kPhotoCellReuseIdentifier = @"PhotoCell";
+static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
 
 
 - (void)viewDidLoad
@@ -110,6 +113,7 @@ static NSString *kPhotoCellReuseIdentifier = @"PhotoCell";
                        animations:^{
                          self.view.backgroundColor = [UIColor whiteColor];
                          self.navigationController.navigationBar.alpha = 1.0f;
+                         self.scrubberView.alpha = 1.0f;
                        }];
     } else if (_chromeState == ISViewControllerChromeStateHidden) {
       [[UIApplication sharedApplication] setStatusBarHidden:YES
@@ -118,6 +122,7 @@ static NSString *kPhotoCellReuseIdentifier = @"PhotoCell";
                        animations:^{
                          self.view.backgroundColor = [UIColor blackColor];
                          self.navigationController.navigationBar.alpha = 0.0f;
+                         self.scrubberView.alpha = 0.0f;
                        }];
     }
   }
@@ -154,12 +159,30 @@ static NSString *kPhotoCellReuseIdentifier = @"PhotoCell";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-  // Configure the cell.
-  ISPhotoViewCell *cell
-  = [collectionView dequeueReusableCellWithReuseIdentifier:kPhotoCellReuseIdentifier
-                                              forIndexPath:indexPath];
-  cell.url = [self.photoService itemURL:indexPath.row];
-  return cell;
+  if (collectionView == self.collectionView) {
+    
+    ISPhotoViewCell *cell
+    = [collectionView dequeueReusableCellWithReuseIdentifier:kPhotoCellReuseIdentifier
+                                                forIndexPath:indexPath];
+    cell.url = [self.photoService itemURL:indexPath.row];
+    return cell;
+    
+  } else if (collectionView == self.scrubberView) {
+    
+    ISScrubberCell *cell
+    = [collectionView dequeueReusableCellWithReuseIdentifier:kScrubberCellReuseIdentifier
+                                                forIndexPath:indexPath];
+    cell.backgroundColor = [UIColor redColor];
+    [cell.imageView setImageWithURL:[self.photoService itemURL:indexPath.row]
+                   placeholderImage:nil
+                           userInfo:@{@"width": @50.0,
+                                      @"height": @50.0,
+                                      @"scale": @(ISScalingCacheHandlerScaleAspectFill)}
+                              block:nil];
+    return cell;
+    
+  }
+  return nil;
 }
 
 
