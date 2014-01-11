@@ -25,7 +25,7 @@
 		D812C66E186C183300416A1B /* ISCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D812C66D186C183300416A1B /* ISCollectionViewCell.m */; };
 		D812C671186D7E6900416A1B /* ISPhotoService.m in Sources */ = {isa = PBXBuildFile; fileRef = D812C670186D7E6900416A1B /* ISPhotoService.m */; };
 		D81798AD1870F469009AA0A2 /* ISDownloadsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D81798AC1870F469009AA0A2 /* ISDownloadsViewController.m */; };
-		D881B397187D548C00C3EC10 /* ISPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = D881B396187D548C00C3EC10 /* ISPhotoView.m */; };
+		D881B397187D548C00C3EC10 /* ISPhotoViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D881B396187D548C00C3EC10 /* ISPhotoViewCell.m */; };
 		D8F95D05185A0A0F0083A279 /* ISItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F95D04185A0A0F0083A279 /* ISItemViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -68,8 +68,8 @@
 		D81798AB1870F469009AA0A2 /* ISDownloadsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISDownloadsViewController.h; sourceTree = "<group>"; };
 		D81798AC1870F469009AA0A2 /* ISDownloadsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISDownloadsViewController.m; sourceTree = "<group>"; };
 		D81798B21872893A009AA0A2 /* ISViewControllerChromeState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISViewControllerChromeState.h; sourceTree = "<group>"; };
-		D881B395187D548C00C3EC10 /* ISPhotoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISPhotoView.h; sourceTree = "<group>"; };
-		D881B396187D548C00C3EC10 /* ISPhotoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISPhotoView.m; sourceTree = "<group>"; };
+		D881B395187D548C00C3EC10 /* ISPhotoViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISPhotoViewCell.h; sourceTree = "<group>"; };
+		D881B396187D548C00C3EC10 /* ISPhotoViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISPhotoViewCell.m; sourceTree = "<group>"; };
 		D8F95D03185A0A0F0083A279 /* ISItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISItemViewController.h; sourceTree = "<group>"; };
 		D8F95D04185A0A0F0083A279 /* ISItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISItemViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -150,8 +150,8 @@
 				D812C66F186D7E6900416A1B /* ISPhotoService.h */,
 				D812C670186D7E6900416A1B /* ISPhotoService.m */,
 				D81798B21872893A009AA0A2 /* ISViewControllerChromeState.h */,
-				D881B395187D548C00C3EC10 /* ISPhotoView.h */,
-				D881B396187D548C00C3EC10 /* ISPhotoView.m */,
+				D881B395187D548C00C3EC10 /* ISPhotoViewCell.h */,
+				D881B396187D548C00C3EC10 /* ISPhotoViewCell.m */,
 			);
 			path = ISPhotoLibrary;
 			sourceTree = "<group>";
@@ -317,7 +317,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D80A576B18111A7F003A82B1 /* ISAppDelegate.m in Sources */,
-				D881B397187D548C00C3EC10 /* ISPhotoView.m in Sources */,
+				D881B397187D548C00C3EC10 /* ISPhotoViewCell.m in Sources */,
 				D80A576718111A7F003A82B1 /* main.m in Sources */,
 				D81798AD1870F469009AA0A2 /* ISDownloadsViewController.m in Sources */,
 				D812C671186D7E6900416A1B /* ISPhotoService.m in Sources */,

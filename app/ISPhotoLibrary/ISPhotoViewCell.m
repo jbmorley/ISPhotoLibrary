@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "ISPhotoView.h"
+#import "ISPhotoViewCell.h"
 #import "ISOwnerProxy.h"
 #import <ISCache/ISCache.h>
 
@@ -26,7 +26,7 @@ typedef enum {
   ISPhotoViewStateReady,
 } ISPhotoViewState;
 
-@interface ISPhotoView ()
+@interface ISPhotoViewCell ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
@@ -35,7 +35,7 @@ typedef enum {
 
 @end
 
-@implementation ISPhotoView
+@implementation ISPhotoViewCell
 
 
 - (void)dealloc

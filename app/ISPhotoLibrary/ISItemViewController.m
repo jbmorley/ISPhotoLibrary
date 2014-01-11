@@ -18,7 +18,7 @@
 
 #import "ISItemViewController.h"
 #import "ISViewControllerChromeState.h"
-#import "ISPhotoView.h"
+#import "ISPhotoViewCell.h"
 
 typedef void (^CleanupBlock)(void);
 
@@ -155,7 +155,7 @@ static NSString *kPhotoCellReuseIdentifier = @"PhotoCell";
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
   // Configure the cell.
-  ISPhotoView *cell
+  ISPhotoViewCell *cell
   = [collectionView dequeueReusableCellWithReuseIdentifier:kPhotoCellReuseIdentifier
                                               forIndexPath:indexPath];
   cell.url = [self.photoService itemURL:indexPath.row];
