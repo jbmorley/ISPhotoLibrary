@@ -241,7 +241,8 @@ static CGFloat kScrubberCellWidth = 42.0f;
     ISScrubberCell *cell
     = [collectionView dequeueReusableCellWithReuseIdentifier:kScrubberCellReuseIdentifier
                                                 forIndexPath:indexPath];
-    [cell.imageView setImageWithURL:[self.photoService itemURL:indexPath.row]
+    [cell.imageView setImageWithIdentifier:[self.photoService itemURL:indexPath.row]
+                            context:ISCacheImageContext
                    placeholderImage:nil
                            userInfo:@{@"width": @50.0,
                                       @"height": @50.0,

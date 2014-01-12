@@ -60,7 +60,8 @@ typedef enum {
     [self stopObservingCacheItem];
     
     self.cacheItem =
-    [self.imageView setImageWithURL:_url
+    [self.imageView setImageWithIdentifier:_url
+                            context:ISCacheImageContext
                    placeholderImage:nil
                            userInfo:@{@"width": @320.0,
                                       @"height": @568.0,

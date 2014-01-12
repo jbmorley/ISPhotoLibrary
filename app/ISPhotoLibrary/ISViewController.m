@@ -62,6 +62,7 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
     ISItemViewController *viewController = segue.destinationViewController;
     viewController.photoService = self.photoService;
     viewController.index = cell.index;
+    self.chromeState = ISViewControllerChromeStateShown;
   } else if ([segue.identifier isEqualToString:kDownloadsSegueIdentifier]) {
     UINavigationController *navigationController = segue.destinationViewController;
     ISDownloadsViewController *viewController = (ISDownloadsViewController *)navigationController.topViewController;
@@ -129,7 +130,8 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
   = [collectionView dequeueReusableCellWithReuseIdentifier:kCollectionViewCellReuseIdentifier
                                               forIndexPath:indexPath];
   cell.index = indexPath.row;
-  [cell.imageView setImageWithURL:[self.photoService itemURL:indexPath.row]
+  [cell.imageView setImageWithIdentifier:[self.photoService itemURL:indexPath.row]
+                          context:ISCacheImageContext
                  placeholderImage:self.thumbnail
                          userInfo:@{@"width": @152.0,
                                     @"height": @152.0,
