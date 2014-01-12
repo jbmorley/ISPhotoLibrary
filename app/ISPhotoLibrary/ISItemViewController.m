@@ -42,6 +42,7 @@ typedef void (^CleanupBlock)(void);
 
 static NSString *kPhotoCellReuseIdentifier = @"PhotoCell";
 static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
+static CGFloat kScrubberCellWidth = 42.0f;
 
 
 - (void)viewDidLoad
@@ -272,30 +273,43 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 #pragma mark - UIScrollViewDelegate
 
 
-// Track which scroll view / collection view the user is interacting with.
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
+  // Track which scroll view / collection view the user is interacting with.
   self.activeScrollView = scrollView;
+}
+
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView
+                     withVelocity:(CGPoint)velocity
+              targetContentOffset:(inout CGPoint *)targetContentOffset
+{
+  // If the user has finished dragging the scrubber then we adjust the
+  // offset to ensure it falls on a page boundary.
+  CGFloat offset = (*targetContentOffset).x / kScrubberCellWidth;
+  NSInteger currentIndex = offset + 0.5;
+  (*targetContentOffset).x = currentIndex * kScrubberCellWidth;
+  
+//  self.currentIndex = offset + 0.5;
+
 }
 
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-  const static CGFloat scrubberCellWidth = 42.0f;
-  
   if (scrollView == self.activeScrollView) {
   
     if (scrollView == self.collectionView) {
       
       CGFloat offset = self.collectionView.contentOffset.x / self.collectionView.frame.size.width;
-      self.scrubberView.contentOffset = CGPointMake(offset * scrubberCellWidth,
+      self.scrubberView.contentOffset = CGPointMake(offset * kScrubberCellWidth,
                                                     0.0f);
       self.currentIndex = offset + 0.5;
 
       
     } else if (scrollView == self.scrubberView) {
       
-      CGFloat offset = self.scrubberView.contentOffset.x / scrubberCellWidth;
+      CGFloat offset = self.scrubberView.contentOffset.x / kScrubberCellWidth;
       self.collectionView.contentOffset = CGPointMake(offset * self.collectionView.frame.size.width,
                                                       0.0f);
       self.currentIndex = offset + 0.5;
