@@ -87,6 +87,8 @@ static CGFloat kScrubberCellWidth = 42.0f;
   [self.scrubberView scrollToItemAtIndexPath:indexPath
                             atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
                                     animated:NO];
+  
+  self.currentIndex = self.index;
 }
 
 
