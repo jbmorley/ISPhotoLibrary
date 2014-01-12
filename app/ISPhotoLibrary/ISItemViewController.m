@@ -172,7 +172,6 @@ static CGFloat kScrubberCellWidth = 42.0f;
                                          animated:YES];
       [self.navigationController setNavigationBarHidden:YES
                                                animated:YES];
-      
       [UIView animateWithDuration:0.2f
                        animations:^{
                          self.view.backgroundColor = [UIColor blackColor];
@@ -180,26 +179,6 @@ static CGFloat kScrubberCellWidth = 42.0f;
                          [self setNeedsStatusBarAppearanceUpdate];
                        }];
       
-//      double delayInSeconds = 0.01;
-//      dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-//      dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-//        [UIView animateWithDuration:0.2f
-//                         animations:^{
-//                           _prefersStatusBarHidden = YES;
-//                           [self setNeedsStatusBarAppearanceUpdate];
-//                         }];
-//      });
-//      [self setNeedsStatusBarAppearanceUpdate];
-//      [UIView animateWithDuration:0.3f
-//                       animations:^{
-//                         
-//                         self.view.backgroundColor = [UIColor blackColor];
-//                         
-//                       } completion:^(BOOL finished) {
-//
-//                         _prefersStatusBarHidden = YES;
-//                         
-//                       }];
     }
   }
 }
@@ -267,7 +246,7 @@ static CGFloat kScrubberCellWidth = 42.0f;
                    placeholderImage:nil
                            userInfo:@{@"width": @50.0,
                                       @"height": @50.0,
-                                      @"scale": @(ISScalingCacheHandlerScaleAspectFill)}
+                                      @"scale": @(ISScalingCacheHandlerScaleAspectFit)}
                               block:nil];
     return cell;
     
