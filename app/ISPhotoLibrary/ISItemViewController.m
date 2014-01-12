@@ -57,6 +57,19 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
 }
 
 
+- (void)viewWillAppear:(BOOL)animated
+{
+  [super viewWillAppear:animated];
+  
+  // Show the correct item when presenting the view controller.
+  NSIndexPath *indexPath = [NSIndexPath indexPathForItem:self.index
+                                               inSection:0];
+  [self.collectionView scrollToItemAtIndexPath:indexPath
+                              atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
+                                      animated:NO];
+}
+
+
 - (void)viewDidAppear:(BOOL)animated
 {
   [super viewDidAppear:animated];
