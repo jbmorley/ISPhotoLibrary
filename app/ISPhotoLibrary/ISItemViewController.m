@@ -142,7 +142,7 @@ static CGFloat kScrubberCellWidth = 42.0f;
 
 - (UIStatusBarAnimation)preferredStatusBarUpdateAnimation
 {
-  return UIStatusBarAnimationNone;
+  return UIStatusBarAnimationSlide;
 }
 
 
@@ -151,34 +151,55 @@ static CGFloat kScrubberCellWidth = 42.0f;
   if (_chromeState != chromeState) {
     _chromeState = chromeState;
     if (_chromeState == ISViewControllerChromeStateShown) {
-      _prefersStatusBarHidden = NO;
-      self.navigationController.navigationBarHidden = NO;
-      self.navigationController.toolbarHidden = NO;
-      self.navigationController.navigationBar.alpha = 0.0f;
-      self.navigationController.toolbar.alpha = 0.0f;
-      [UIView animateWithDuration:0.3f
+
+      [UIView animateWithDuration:0.2f
                        animations:^{
                          
                          self.view.backgroundColor = [UIColor whiteColor];
-                         self.navigationController.navigationBar.alpha = 1.0f;
-                         self.navigationController.toolbar.alpha = 1.0f;
+                           _prefersStatusBarHidden = NO;
+                         [self setNeedsStatusBarAppearanceUpdate];
                          
                        }];
-    } else if (_chromeState == ISViewControllerChromeStateHidden) {
-      [UIView animateWithDuration:0.3f
-                       animations:^{
-                         
-                         self.view.backgroundColor = [UIColor blackColor];
-                         self.navigationController.navigationBar.alpha = 0.0f;
-                         self.navigationController.toolbar.alpha = 0.0f;
-                         
-                       } completion:^(BOOL finished) {
+      [self.navigationController setToolbarHidden:NO
+                                         animated:YES];
+      [self.navigationController setNavigationBarHidden:NO
+                                               animated:YES];
 
+      
+    } else if (_chromeState == ISViewControllerChromeStateHidden) {
+
+      [self.navigationController setToolbarHidden:YES
+                                         animated:YES];
+      [self.navigationController setNavigationBarHidden:YES
+                                               animated:YES];
+      
+      [UIView animateWithDuration:0.2f
+                       animations:^{
+                         self.view.backgroundColor = [UIColor blackColor];
                          _prefersStatusBarHidden = YES;
-                         self.navigationController.navigationBarHidden = YES;
-                         self.navigationController.toolbarHidden = YES;
-                         
+                         [self setNeedsStatusBarAppearanceUpdate];
                        }];
+      
+//      double delayInSeconds = 0.01;
+//      dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+//      dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+//        [UIView animateWithDuration:0.2f
+//                         animations:^{
+//                           _prefersStatusBarHidden = YES;
+//                           [self setNeedsStatusBarAppearanceUpdate];
+//                         }];
+//      });
+//      [self setNeedsStatusBarAppearanceUpdate];
+//      [UIView animateWithDuration:0.3f
+//                       animations:^{
+//                         
+//                         self.view.backgroundColor = [UIColor blackColor];
+//                         
+//                       } completion:^(BOOL finished) {
+//
+//                         _prefersStatusBarHidden = YES;
+//                         
+//                       }];
     }
   }
 }
