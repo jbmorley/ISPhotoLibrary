@@ -21,10 +21,13 @@
 
 @implementation ISAppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+- (BOOL)application:(UIApplication *)application
+didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   ISCache *defaultCache = [ISCache defaultCache];
   defaultCache.debug = YES;
+  
+  [[UIView appearance] setTintColor:[UIColor magentaColor]];
   
   return YES;
 }
