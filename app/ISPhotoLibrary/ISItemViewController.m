@@ -30,6 +30,7 @@ typedef void (^CleanupBlock)(void);
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UICollectionView *scrubberView;
+@property (nonatomic, weak) UIScrollView *activeScrollView;
 @property (nonatomic, strong) ISCache *cache;
 @property (nonatomic) ISViewControllerChromeState chromeState;
 @property (nonatomic, copy) CleanupBlock disappearCleanup;
@@ -262,30 +263,37 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 #pragma mark - UIScrollViewDelegate
 
 
+// Track which scroll view / collection view the user is interacting with.
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+  self.activeScrollView = scrollView;
+}
+
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
   const static CGFloat scrubberCellWidth = 42.0f;
   
-  // TODO Guard against whichever view is driving.
+  if (scrollView == self.activeScrollView) {
   
-  if (scrollView == self.collectionView) {
-    
-    CGFloat offset = self.collectionView.contentOffset.x / self.collectionView.frame.size.width;
-    NSLog(@"Offset: %f", offset);
-    self.scrubberView.contentOffset = CGPointMake(offset * scrubberCellWidth,
-                                                  0.0f);
-    self.currentIndex = offset + 0.5;
-
-    
-  } else if (scrollView == self.scrubberView) {
-    
-    CGFloat offset = self.scrubberView.contentOffset.x / scrubberCellWidth;
-    self.collectionView.contentOffset = CGPointMake(offset * self.collectionView.frame.size.width,
+    if (scrollView == self.collectionView) {
+      
+      CGFloat offset = self.collectionView.contentOffset.x / self.collectionView.frame.size.width;
+      self.scrubberView.contentOffset = CGPointMake(offset * scrubberCellWidth,
                                                     0.0f);
-    self.currentIndex = offset + 0.5;
+      self.currentIndex = offset + 0.5;
+
+      
+    } else if (scrollView == self.scrubberView) {
+      
+      CGFloat offset = self.scrubberView.contentOffset.x / scrubberCellWidth;
+      self.collectionView.contentOffset = CGPointMake(offset * self.collectionView.frame.size.width,
+                                                      0.0f);
+      self.currentIndex = offset + 0.5;
+      
+    }
     
   }
-  
   
 }
 
