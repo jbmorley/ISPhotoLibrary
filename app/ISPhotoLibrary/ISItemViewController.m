@@ -58,6 +58,9 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
   gestureRecognizer.enabled = YES;
   [self.collectionView addGestureRecognizer:gestureRecognizer];
   
+  // Configure the scrubber.
+  // This is done in code as it doesn't appear to be possible to add a UICollectionView
+  // to a UIToolbar in Interfae Builder :(.
   UIBarButtonItem *negativeSpace =
   [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
                                                 target:nil
@@ -80,6 +83,9 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
   [self.collectionView scrollToItemAtIndexPath:indexPath
                               atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
                                       animated:NO];
+  [self.scrubberView scrollToItemAtIndexPath:indexPath
+                            atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
+                                    animated:NO];
 }
 
 
@@ -256,6 +262,9 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
   if (collectionView == self.scrubberView) {
     [self.collectionView scrollToItemAtIndexPath:indexPath
                                 atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+    [self.scrubberView scrollToItemAtIndexPath:indexPath
+                              atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
+                                      animated:YES];
   }
 }
 
