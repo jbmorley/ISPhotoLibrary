@@ -22,12 +22,15 @@
 #import "ISCollectionViewCell.h"
 #import "ISItemViewController.h"
 #import "ISViewControllerChromeState.h"
+#import "ISDBView.h"
+#import "ISDBEntry.h"
 
 @interface ISViewController ()
 
 @property (nonatomic, weak) IBOutlet UICollectionView *collectionView;
 @property (nonatomic, strong) ISPhotoService *photoService;
 @property (nonatomic, strong) UIImage *thumbnail;
+@property (nonatomic, strong) ISDBView *adapter;
 @property (nonatomic) CGPoint lastContentScrollOffset;
 @property (nonatomic) ISViewControllerChromeState chromeState;
 @property (nonatomic) BOOL scrollViewIsDragging;
@@ -46,6 +49,11 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
   self.photoService = [ISPhotoService new];
   self.photoService.delegate = self;
   self.thumbnail = [UIImage imageNamed:@"Thumbnail.imageasset"];
+  
+  // Create an ISDBView.
+  self.adapter = [[ISDBView alloc] initWithDataSource:self.photoService];
+  [self.adapter addObserver:self];
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -119,7 +127,7 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 - (NSInteger)collectionView:(UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section
 {
-  return self.photoService.count;
+  return self.adapter.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
@@ -130,13 +138,27 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
   = [collectionView dequeueReusableCellWithReuseIdentifier:kCollectionViewCellReuseIdentifier
                                               forIndexPath:indexPath];
   cell.index = indexPath.row;
-  [cell.imageView setImageWithIdentifier:[self.photoService itemURL:indexPath.row]
-                          context:ISCacheImageContext
-                 placeholderImage:self.thumbnail
-                         userInfo:@{@"width": @152.0,
-                                    @"height": @152.0,
-                                    @"scale": @(ISScalingCacheHandlerScaleAspectFill)}
-                            block:NULL];
+  // cell.imageView.image = self.thumbnail;
+  
+  ISDBEntry *item = [self.adapter entryForIndex:indexPath.item];
+  [item fetch:^(NSDictionary *dict) {
+    NSLog(@"Item: %@", dict);
+    
+    // TODO We need to use a weak reference for the cell?
+    // How do we prevent reuse...
+    // Is it necessary for this to be done on a different worker?
+    // Surely it's perfectly safe to make this single threaded
+    // as it only fetches an individual item not the whole batch.
+    [cell.imageView setImageWithIdentifier:dict[@"url"]
+                                   context:ISCacheImageContext
+                          placeholderImage:self.thumbnail
+                                  userInfo:@{@"width": @152.0,
+                                             @"height": @152.0,
+                                             @"scale": @(ISScalingCacheHandlerScaleAspectFill)}
+                                     block:NULL];
+    
+    
+  }];
   
   return cell;
 }
@@ -188,6 +210,46 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 - (void)photoServiceDidUpdate:(ISPhotoService *)photoService
 {
   [self.collectionView reloadData];
+}
+
+
+#pragma mark - ISDBViewDelegate
+
+
+- (void)beginUpdates:(ISDBView *)view
+{
+}
+
+
+- (void)endUpdates:(ISDBView *)view
+{
+  [self.collectionView reloadData];
+}
+
+
+- (void)view:(ISDBView *)view
+entryUpdated:(NSNumber *)index
+{
+}
+
+
+- (void)view:(ISDBView *)view
+  entryMoved:(NSArray *)indexes
+{
+  
+}
+
+
+- (void)view:(ISDBView *)view
+entryInserted:(NSNumber *)index
+{
+}
+
+
+- (void)view:(ISDBView *)view
+entryDeleted:(NSNumber *)index
+{
+  
 }
 
 

@@ -17,6 +17,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <ISDBDataSource.h>
 
 @class ISPhotoService;
 
@@ -26,7 +27,7 @@
 
 @end
 
-@interface ISPhotoService : NSObject
+@interface ISPhotoService : NSObject <ISDBDataSource>
 
 @property (nonatomic, weak) id<ISPhotoServiceDelegate> delegate;
 

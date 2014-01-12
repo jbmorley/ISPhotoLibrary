@@ -24,6 +24,7 @@
 @property (nonatomic, strong) NSString *path;
 @property (nonatomic, strong) NSMutableDictionary *itemDict;
 @property (nonatomic, strong) NSMutableArray *sortedKeys;
+@property (nonatomic, strong) ISDBViewReloader *reloader;
 
 @end
 
@@ -92,7 +93,7 @@ static NSString *kKeyName = @"name";
          [self sortKeys];
          
          // Notify the delegate.
-         [self.delegate photoServiceDidUpdate:self];
+         [self.reloader reload];
          
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
          NSLog(@"Something went wrong: %@", error);
@@ -141,6 +142,39 @@ static NSString *kKeyName = @"name";
 - (NSString *)itemName:(NSUInteger)index
 {
   return [self.itemDict objectForKey:[self itemAtIndex:index]][kKeyName];
+}
+
+
+#pragma mark - ISDBDataSource
+
+
+- (void)initialize:(ISDBViewReloader *)reloader
+{
+  self.reloader = reloader;
+}
+
+
+- (NSArray *)entriesForOffset:(NSUInteger)offset
+                        limit:(NSInteger)limit
+{
+  NSMutableArray *items = [NSMutableArray arrayWithCapacity:self.sortedKeys.count];
+  for (NSString *identifier in self.sortedKeys) {
+    ISDBEntryDescription *description =
+    [ISDBEntryDescription descriptionWithIdentifier:identifier
+                                            summary:@""];
+    [items addObject:description];
+  }
+  return items;
+}
+
+
+- (NSDictionary *)entryForIdentifier:(id)identifier
+{
+  return @{@"url": [kServiceRoot
+                    stringByAppendingFormat:
+                    @"/%@",
+                    identifier],
+           @"name": [self.itemDict objectForKey:identifier][kKeyName]};
 }
 
 
