@@ -27,7 +27,10 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
   ISCache *defaultCache = [ISCache defaultCache];
   defaultCache.debug = YES;
   
-  [[UIView appearance] setTintColor:[UIColor magentaColor]];
+  [[UIView appearance] setTintColor:[UIColor colorWithRed:0.967
+                                                    green:0.100
+                                                     blue:0.607
+                                                    alpha:1.000]];
   
   return YES;
 }
