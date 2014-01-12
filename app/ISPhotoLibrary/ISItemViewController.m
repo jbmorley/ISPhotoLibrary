@@ -47,7 +47,7 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
 {
   [super viewDidLoad];
   self.cache = [ISCache defaultCache];
-  self.chromeState = ISViewControllerChromeStateShown;
+  _chromeState = ISViewControllerChromeStateShown;
   
   UITapGestureRecognizer *gestureRecognizer =
   [[UITapGestureRecognizer alloc] initWithTarget:self
@@ -56,6 +56,14 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
   gestureRecognizer.numberOfTouchesRequired = 1;
   gestureRecognizer.enabled = YES;
   [self.collectionView addGestureRecognizer:gestureRecognizer];
+  
+  UIBarButtonItem *negativeSpace =
+  [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                target:nil
+                                                action:nil];
+  negativeSpace.width = -16;
+  UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.scrubberView];
+  [self setToolbarItems:@[negativeSpace, barButtonItem]];
   
   _prefersStatusBarHidden = NO;
 }
@@ -136,15 +144,16 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
     _chromeState = chromeState;
     if (_chromeState == ISViewControllerChromeStateShown) {
       _prefersStatusBarHidden = NO;
-      [self.navigationController setNavigationBarHidden:NO
-                                               animated:NO];
+      self.navigationController.navigationBarHidden = NO;
+      self.navigationController.toolbarHidden = NO;
       self.navigationController.navigationBar.alpha = 0.0f;
+      self.navigationController.toolbar.alpha = 0.0f;
       [UIView animateWithDuration:0.3f
                        animations:^{
                          
                          self.view.backgroundColor = [UIColor whiteColor];
                          self.navigationController.navigationBar.alpha = 1.0f;
-                         self.scrubberView.alpha = 1.0f;
+                         self.navigationController.toolbar.alpha = 1.0f;
                          
                        }];
     } else if (_chromeState == ISViewControllerChromeStateHidden) {
@@ -153,13 +162,13 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
                          
                          self.view.backgroundColor = [UIColor blackColor];
                          self.navigationController.navigationBar.alpha = 0.0f;
-                         self.scrubberView.alpha = 0.0f;
+                         self.navigationController.toolbar.alpha = 0.0f;
                          
                        } completion:^(BOOL finished) {
 
                          _prefersStatusBarHidden = YES;
-                         [self.navigationController setNavigationBarHidden:YES
-                                                                  animated:YES];
+                         self.navigationController.navigationBarHidden = YES;
+                         self.navigationController.toolbarHidden = YES;
                          
                        }];
     }
@@ -169,10 +178,16 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
 
 - (void)setCurrentIndex:(NSInteger)currentIndex
 {
+  // Ignore repeated sets.
   if (_currentIndex == currentIndex) {
     return;
   }
   
+  // Disallow indexes outside of the size of the content.
+  if (currentIndex < 0 ||
+      currentIndex >= self.photoService.count) {
+    return;
+  }
 
   // Update the title.
   _currentIndex = currentIndex;
@@ -249,7 +264,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-  const static CGFloat scrubberCellWidth = 52.0f;
+  const static CGFloat scrubberCellWidth = 42.0f;
   
   // TODO Guard against whichever view is driving.
   
