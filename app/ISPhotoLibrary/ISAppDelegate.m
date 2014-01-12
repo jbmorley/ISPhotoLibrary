@@ -30,7 +30,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
   [[UIView appearance] setTintColor:[UIColor colorWithRed:0.967
                                                     green:0.100
                                                      blue:0.607
-                                                    alpha:1.000]];
+alpha:1.000]];
   
   return YES;
 }
