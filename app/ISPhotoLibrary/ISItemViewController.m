@@ -24,7 +24,9 @@
 typedef void (^CleanupBlock)(void);
 
 
-@interface ISItemViewController ()
+@interface ISItemViewController () {
+  BOOL _prefersStatusBarHidden;
+}
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UICollectionView *scrubberView;
@@ -54,6 +56,8 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
   gestureRecognizer.numberOfTouchesRequired = 1;
   gestureRecognizer.enabled = YES;
   [self.collectionView addGestureRecognizer:gestureRecognizer];
+  
+  _prefersStatusBarHidden = NO;
 }
 
 
@@ -91,7 +95,6 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
   self.chromeState = ISViewControllerChromeStateShown;
   ISItemViewController *__weak weakSelf = self;
   self.disappearCleanup = ^{
-    NSLog(@"CANCEL");
     // Called if the disappearance isn't completed.
     ISItemViewController *strongSelf = weakSelf;
     if (strongSelf) {
@@ -115,27 +118,49 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
 }
 
 
+- (BOOL)prefersStatusBarHidden
+{
+  return _prefersStatusBarHidden;
+}
+
+
+- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation
+{
+  return UIStatusBarAnimationNone;
+}
+
+
 - (void)setChromeState:(ISViewControllerChromeState)chromeState
 {
   if (_chromeState != chromeState) {
     _chromeState = chromeState;
     if (_chromeState == ISViewControllerChromeStateShown) {
-      [[UIApplication sharedApplication] setStatusBarHidden:NO
-                                              withAnimation:UIStatusBarAnimationSlide];
+      _prefersStatusBarHidden = NO;
+      [self.navigationController setNavigationBarHidden:NO
+                                               animated:NO];
+      self.navigationController.navigationBar.alpha = 0.0f;
       [UIView animateWithDuration:0.3f
                        animations:^{
+                         
                          self.view.backgroundColor = [UIColor whiteColor];
                          self.navigationController.navigationBar.alpha = 1.0f;
                          self.scrubberView.alpha = 1.0f;
+                         
                        }];
     } else if (_chromeState == ISViewControllerChromeStateHidden) {
-      [[UIApplication sharedApplication] setStatusBarHidden:YES
-                                              withAnimation:UIStatusBarAnimationSlide];
       [UIView animateWithDuration:0.3f
                        animations:^{
+                         
                          self.view.backgroundColor = [UIColor blackColor];
                          self.navigationController.navigationBar.alpha = 0.0f;
                          self.scrubberView.alpha = 0.0f;
+                         
+                       } completion:^(BOOL finished) {
+
+                         _prefersStatusBarHidden = YES;
+                         [self.navigationController setNavigationBarHidden:YES
+                                                                  animated:YES];
+                         
                        }];
     }
   }
