@@ -24,11 +24,11 @@
 @property (nonatomic, strong) NSString *path;
 @property (nonatomic, strong) NSMutableDictionary *itemDict;
 @property (nonatomic, strong) NSMutableArray *sortedKeys;
-@property (nonatomic, strong) ISDBViewReloader *reloader;
+@property (nonatomic, weak) ISListViewAdapter *adapter;
 
 @end
 
-static NSString *kServiceRoot = @"http://127.0.0.1:8051";
+static NSString *kServiceRoot = @"http://photos.jbmorley.co.uk";
 static NSString *kKeyIdentifier = @"id";
 static NSString *kKeyName = @"name";
 
@@ -98,11 +98,27 @@ static NSString *kKeyName = @"name";
          [self sortKeys];
          
          // Notify the delegate.
-         [self.reloader reload];
+         [self.adapter invalidate];
+         
+         [self startReversing];
          
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
          NSLog(@"Something went wrong: %@", error);
        }];
+}
+
+
+- (void)startReversing
+{
+  double delayInSeconds = 10.0;
+  dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+  dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+
+    NSLog(@"Reverse!");
+    self.sortedKeys = [[[self.sortedKeys reverseObjectEnumerator] allObjects] mutableCopy];
+    [self.adapter invalidate];
+    
+  });
 }
 
 
@@ -153,33 +169,37 @@ static NSString *kKeyName = @"name";
 #pragma mark - ISDBDataSource
 
 
-- (void)initialize:(ISDBViewReloader *)reloader
+- (void)initialize:(ISListViewAdapter *)adapter
 {
-  self.reloader = reloader;
+  self.adapter = adapter;
 }
 
 
-- (NSArray *)entriesForOffset:(NSUInteger)offset
-                        limit:(NSInteger)limit
+- (void)adapter:(ISListViewAdapter *)adapter
+entriesForOffset:(NSUInteger)offset
+          limit:(NSInteger)limit
+complectionBlock:(ISListViewAdapterBlock)completionBlock
 {
   NSMutableArray *items = [NSMutableArray arrayWithCapacity:self.sortedKeys.count];
   for (NSString *identifier in self.sortedKeys) {
-    ISDBEntryDescription *description =
-    [ISDBEntryDescription descriptionWithIdentifier:identifier
+    ISListViewAdapterItemDescription *description =
+    [ISListViewAdapterItemDescription descriptionWithIdentifier:identifier
                                             summary:@""];
     [items addObject:description];
   }
-  return items;
+  completionBlock(items);
 }
 
 
-- (NSDictionary *)entryForIdentifier:(id)identifier
+- (void)adapter:(ISListViewAdapter *)adapter
+entryForIdentifier:(id)identifier
+   completionBlock:(ISListViewAdapterBlock)completionBlock
 {
-  return @{@"url": [kServiceRoot
-                    stringByAppendingFormat:
-                    @"/%@",
-                    identifier],
-           @"name": [self.itemDict objectForKey:identifier][kKeyName]};
+  completionBlock(@{@"url": [kServiceRoot
+                             stringByAppendingFormat:
+                             @"/%@",
+                             identifier],
+                    @"name": [self.itemDict objectForKey:identifier][kKeyName]});
 }
 
 

@@ -21,9 +21,6 @@
 #import "ISPhotoViewCell.h"
 #import "ISScrubberCell.h"
 
-typedef void (^CleanupBlock)(void);
-
-
 @interface ISItemViewController () {
   BOOL _prefersStatusBarHidden;
 }
@@ -33,7 +30,6 @@ typedef void (^CleanupBlock)(void);
 @property (nonatomic, weak) UIScrollView *activeScrollView;
 @property (nonatomic, strong) ISCache *cache;
 @property (nonatomic) ISViewControllerChromeState chromeState;
-@property (nonatomic, copy) CleanupBlock disappearCleanup;
 @property (nonatomic) NSInteger currentIndex;
 
 @end
@@ -89,44 +85,6 @@ static CGFloat kScrubberCellWidth = 42.0f;
                                     animated:NO];
   
   self.currentIndex = self.index;
-}
-
-
-- (void)viewDidAppear:(BOOL)animated
-{
-  [super viewDidAppear:animated];
-  if (self.disappearCleanup) {
-    self.disappearCleanup();
-    self.disappearCleanup = NULL;
-  }
-}
-
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-  [super viewWillDisappear:animated];
-  // I seem to remember hearing about an official way of doing
-  // this in a WWDC session, but I cannot find a reference to it
-  // anywhere. In the meantime, we will have to put up with this
-  // solution to handle cancelled view disappearance.
-  ISViewControllerChromeState state = self.chromeState;
-  self.chromeState = ISViewControllerChromeStateShown;
-  ISItemViewController *__weak weakSelf = self;
-  self.disappearCleanup = ^{
-    // Called if the disappearance isn't completed.
-    ISItemViewController *strongSelf = weakSelf;
-    if (strongSelf) {
-      strongSelf.chromeState = state;
-    }
-  };
-
-}
-
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-  [super viewDidDisappear:animated];
-  self.disappearCleanup = NULL;
 }
 
 

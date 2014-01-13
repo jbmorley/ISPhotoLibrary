@@ -17,20 +17,19 @@
  */
 
 #import <ISCache/ISCache.h>
+#import <ISUtilities/ISListViewAdapter.h>
 
 #import "ISViewController.h"
 #import "ISCollectionViewCell.h"
 #import "ISItemViewController.h"
 #import "ISViewControllerChromeState.h"
-#import "ISDBView.h"
-#import "ISDBEntry.h"
 
 @interface ISViewController ()
 
 @property (nonatomic, weak) IBOutlet UICollectionView *collectionView;
 @property (nonatomic, strong) ISPhotoService *photoService;
 @property (nonatomic, strong) UIImage *thumbnail;
-@property (nonatomic, strong) ISDBView *adapter;
+@property (nonatomic, strong) ISListViewAdapter *adapter;
 @property (nonatomic) CGPoint lastContentScrollOffset;
 @property (nonatomic) ISViewControllerChromeState chromeState;
 @property (nonatomic) BOOL scrollViewIsDragging;
@@ -51,7 +50,7 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
   self.thumbnail = [UIImage imageNamed:@"Thumbnail.imageasset"];
   
   // Create an ISDBView.
-  self.adapter = [[ISDBView alloc] initWithDataSource:self.photoService];
+  self.adapter = [[ISListViewAdapter alloc] initWithDataSource:self.photoService];
   [self.adapter addObserver:self];
 
 }
@@ -138,11 +137,10 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
   = [collectionView dequeueReusableCellWithReuseIdentifier:kCollectionViewCellReuseIdentifier
                                               forIndexPath:indexPath];
   cell.index = indexPath.row;
-  // cell.imageView.image = self.thumbnail;
+  cell.imageView.image = self.thumbnail;
   
-  ISDBEntry *item = [self.adapter entryForIndex:indexPath.item];
+  ISListViewAdapterItem *item = [self.adapter entryForIndex:indexPath.item];
   [item fetch:^(NSDictionary *dict) {
-    NSLog(@"Item: %@", dict);
     
     // TODO We need to use a weak reference for the cell?
     // How do we prevent reuse...
@@ -200,7 +198,8 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 
 - (void)downloadsViewControllerDidFinish:(ISDownloadsViewController *)downloadsViewController
 {
-  [self.navigationController dismissViewControllerAnimated:YES completion:NULL];
+  [self.navigationController dismissViewControllerAnimated:YES
+                                                completion:NULL];
 }
 
 
@@ -216,28 +215,21 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 #pragma mark - ISDBViewDelegate
 
 
-- (void)endUpdates:(ISDBView *)view
-{
-//  [self.collectionView reloadData];
-}
-
-
 - (void)performBatchUpdates:(NSArray *)updates
 {
-  NSLog(@"performBatchUpdates: %@", updates);
   [self.collectionView performBatchUpdates:^{
-    for (ISDBViewOperation *operation in updates) {
+    for (ISListViewAdapterOperation *operation in updates) {
       NSMutableArray *inserts = [NSMutableArray arrayWithCapacity:3];
-      if (operation.type == ISDBOperationInsert) {
+      if (operation.type == ISListViewAdapterOperationTypeInsert) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForItem:[operation.payload integerValue]
                                                      inSection:0];
         [inserts addObject:indexPath];
+      } else {
+        NSLog(@"%@", operation);
       }
       [self.collectionView insertItemsAtIndexPaths:inserts];
     }
-  } completion:^(BOOL finished) {
-    NSLog(@"Done!");
-  }];
+  } completion:NULL];
   
 }
 

@@ -17,7 +17,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <ISDBDataSource.h>
+#import <ISUtilities/ISListViewAdapter.h>
 
 @class ISPhotoService;
 
@@ -27,7 +27,7 @@
 
 @end
 
-@interface ISPhotoService : NSObject <ISDBDataSource>
+@interface ISPhotoService : NSObject <ISListViewAdapterDataSource>
 
 @property (nonatomic, weak) id<ISPhotoServiceDelegate> delegate;
 

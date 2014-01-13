@@ -19,13 +19,13 @@
 #import <UIKit/UIKit.h>
 #import "ISDownloadsViewController.h"
 #import "ISPhotoService.h"
-#import "ISDBViewObserver.h"
+#import "ISListViewAdapterObserver.h"
 
 @interface ISViewController : UIViewController
 <UICollectionViewDataSource
 ,UICollectionViewDelegate
 ,ISDownloadsViewControllerDelegate
 ,ISPhotoServiceDelegate
-,ISDBViewObserver>
+,ISListViewAdapterObserver>
 
 @end
