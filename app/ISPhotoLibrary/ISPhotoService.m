@@ -56,6 +56,11 @@ static NSString *kKeyName = @"name";
       self.itemDict = [NSMutableDictionary dictionaryWithCapacity:3];
     }
     
+    // TODO Remove this.
+    // It is necessary, for the initial work, to have no entries
+    // when the view is created.
+    self.itemDict = [NSMutableDictionary dictionaryWithCapacity:3];
+    
     // Generate the sorted keys.
     [self sortKeys];
 

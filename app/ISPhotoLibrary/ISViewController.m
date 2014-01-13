@@ -216,41 +216,29 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 #pragma mark - ISDBViewDelegate
 
 
-- (void)beginUpdates:(ISDBView *)view
-{
-}
-
-
 - (void)endUpdates:(ISDBView *)view
 {
-  [self.collectionView reloadData];
+//  [self.collectionView reloadData];
 }
 
 
-- (void)view:(ISDBView *)view
-entryUpdated:(NSNumber *)index
+- (void)performBatchUpdates:(NSArray *)updates
 {
-}
-
-
-- (void)view:(ISDBView *)view
-  entryMoved:(NSArray *)indexes
-{
+  NSLog(@"performBatchUpdates: %@", updates);
+  [self.collectionView performBatchUpdates:^{
+    for (ISDBViewOperation *operation in updates) {
+      NSMutableArray *inserts = [NSMutableArray arrayWithCapacity:3];
+      if (operation.type == ISDBOperationInsert) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:[operation.payload integerValue]
+                                                     inSection:0];
+        [inserts addObject:indexPath];
+      }
+      [self.collectionView insertItemsAtIndexPaths:inserts];
+    }
+  } completion:^(BOOL finished) {
+    NSLog(@"Done!");
+  }];
   
 }
-
-
-- (void)view:(ISDBView *)view
-entryInserted:(NSNumber *)index
-{
-}
-
-
-- (void)view:(ISDBView *)view
-entryDeleted:(NSNumber *)index
-{
-  
-}
-
 
 @end
