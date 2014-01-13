@@ -118,6 +118,8 @@ static NSString *kKeyName = @"name";
     self.sortedKeys = [[[self.sortedKeys reverseObjectEnumerator] allObjects] mutableCopy];
     [self.adapter invalidate];
     
+    [self startReversing];
+    
   });
 }
 
@@ -195,11 +197,11 @@ complectionBlock:(ISListViewAdapterBlock)completionBlock
 entryForIdentifier:(id)identifier
    completionBlock:(ISListViewAdapterBlock)completionBlock
 {
-  completionBlock(@{@"url": [kServiceRoot
-                             stringByAppendingFormat:
-                             @"/%@",
-                             identifier],
-                    @"name": [self.itemDict objectForKey:identifier][kKeyName]});
+  completionBlock(@{@"url":[kServiceRoot
+                            stringByAppendingFormat:
+                            @"/%@",
+                            identifier],
+                    @"name":[self.itemDict objectForKey:identifier][kKeyName]});
 }
 
 

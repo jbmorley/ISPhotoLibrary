@@ -219,15 +219,22 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 {
   [self.collectionView performBatchUpdates:^{
     for (ISListViewAdapterOperation *operation in updates) {
-      NSMutableArray *inserts = [NSMutableArray arrayWithCapacity:3];
-      if (operation.type == ISListViewAdapterOperationTypeInsert) {
-        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:[operation.payload integerValue]
-                                                     inSection:0];
-        [inserts addObject:indexPath];
+      if (operation.type ==
+          ISListViewAdapterOperationTypeInsert) {
+        [self.collectionView insertItemsAtIndexPaths:@[operation.currentIndex]];
+      } else if (operation.type ==
+                 ISListViewAdapterOperationTypeMove) {
+        [self.collectionView moveItemAtIndexPath:operation.previousIndex
+                                     toIndexPath:operation.currentIndex];
+      } else if (operation.type ==
+                 ISListViewAdapterOperationTypeDelete) {
+        [self.collectionView deleteItemsAtIndexPaths:@[operation.previousIndex]];
+      } else if (operation.type ==
+                 ISListViewAdapterOperationTypeUpdate) {
+        [self.collectionView reloadItemsAtIndexPaths:@[operation.currentIndex]];
       } else {
-        NSLog(@"%@", operation);
+        NSLog(@"Unsupported operation: %@", operation);
       }
-      [self.collectionView insertItemsAtIndexPaths:inserts];
     }
   } completion:NULL];
   
