@@ -30,6 +30,7 @@
 @property (nonatomic, strong) ISPhotoService *photoService;
 @property (nonatomic, strong) UIImage *thumbnail;
 @property (nonatomic, strong) ISListViewAdapter *adapter;
+@property (nonatomic, strong) ISListViewAdapterConnector *connector;
 @property (nonatomic) CGPoint lastContentScrollOffset;
 @property (nonatomic) ISViewControllerChromeState chromeState;
 @property (nonatomic) BOOL scrollViewIsDragging;
@@ -49,9 +50,10 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
   self.photoService.delegate = self;
   self.thumbnail = [UIImage imageNamed:@"Thumbnail.imageasset"];
   
-  // Create an ISDBView.
+  // Create an adapter and connect it to the collection view.
   self.adapter = [[ISListViewAdapter alloc] initWithDataSource:self.photoService];
-  [self.adapter addObserver:self];
+  self.connector = [ISListViewAdapterConnector connectorWithCollectionView:self.collectionView];
+  [self.adapter addObserver:self.connector];
 
 }
 
@@ -211,33 +213,5 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
   [self.collectionView reloadData];
 }
 
-
-#pragma mark - ISDBViewDelegate
-
-
-- (void)performBatchUpdates:(NSArray *)updates
-{
-  [self.collectionView performBatchUpdates:^{
-    for (ISListViewAdapterOperation *operation in updates) {
-      if (operation.type ==
-          ISListViewAdapterOperationTypeInsert) {
-        [self.collectionView insertItemsAtIndexPaths:@[operation.currentIndex]];
-      } else if (operation.type ==
-                 ISListViewAdapterOperationTypeMove) {
-        [self.collectionView moveItemAtIndexPath:operation.previousIndex
-                                     toIndexPath:operation.currentIndex];
-      } else if (operation.type ==
-                 ISListViewAdapterOperationTypeDelete) {
-        [self.collectionView deleteItemsAtIndexPaths:@[operation.previousIndex]];
-      } else if (operation.type ==
-                 ISListViewAdapterOperationTypeUpdate) {
-        [self.collectionView reloadItemsAtIndexPaths:@[operation.currentIndex]];
-      } else {
-        NSLog(@"Unsupported operation: %@", operation);
-      }
-    }
-  } completion:NULL];
-  
-}
 
 @end

@@ -113,13 +113,9 @@ static NSString *kKeyName = @"name";
   double delayInSeconds = 10.0;
   dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
   dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-
-    NSLog(@"Reverse!");
     self.sortedKeys = [[[self.sortedKeys reverseObjectEnumerator] allObjects] mutableCopy];
     [self.adapter invalidate];
-    
     [self startReversing];
-    
   });
 }
 
