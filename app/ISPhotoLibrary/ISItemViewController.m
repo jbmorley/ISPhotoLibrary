@@ -20,15 +20,18 @@
 #import "ISViewControllerChromeState.h"
 #import "ISPhotoViewCell.h"
 #import "ISScrubberCell.h"
+#import <ISUtilities/ISListViewAdapter.h>
 
 @interface ISItemViewController () {
   BOOL _prefersStatusBarHidden;
 }
 
-@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-@property (weak, nonatomic) IBOutlet UICollectionView *scrubberView;
+@property (nonatomic, weak) IBOutlet UICollectionView *collectionView;
+@property (nonatomic, weak) IBOutlet UICollectionView *scrubberView;
 @property (nonatomic, weak) UIScrollView *activeScrollView;
 @property (nonatomic, strong) ISCache *cache;
+@property (nonatomic, strong) ISListViewAdapterConnector *photoConnector;
+@property (nonatomic, strong) ISListViewAdapterConnector *scrubberConnector;
 @property (nonatomic) ISViewControllerChromeState chromeState;
 @property (nonatomic) NSInteger currentIndex;
 
@@ -56,8 +59,8 @@ static CGFloat kScrubberCellWidth = 42.0f;
   [self.collectionView addGestureRecognizer:gestureRecognizer];
   
   // Configure the scrubber.
-  // This is done in code as it doesn't appear to be possible to add a UICollectionView
-  // to a UIToolbar in Interfae Builder :(.
+  // This is done in code as it doesn't appear to be possible to add a
+  // UICollectionView to a UIToolbar in interface builder.
   UIBarButtonItem *negativeSpace =
   [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
                                                 target:nil
@@ -66,6 +69,13 @@ static CGFloat kScrubberCellWidth = 42.0f;
   UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.scrubberView];
   [self setToolbarItems:@[negativeSpace, barButtonItem]];
   
+  // Connect to the adapter.
+  self.photoConnector = [ISListViewAdapterConnector connectorWithCollectionView:self.collectionView];
+  self.scrubberConnector = [ISListViewAdapterConnector connectorWithCollectionView:self.scrubberView];
+  [self.adapter addObserver:self.photoConnector];
+  [self.adapter addObserver:self.scrubberConnector];
+
+  // Set the initial status bar state.
   _prefersStatusBarHidden = NO;
 }
 
@@ -153,13 +163,18 @@ static CGFloat kScrubberCellWidth = 42.0f;
   
   // Disallow indexes outside of the size of the content.
   if (currentIndex < 0 ||
-      currentIndex >= self.photoService.count) {
+      currentIndex >= self.adapter.count) {
     return;
   }
 
   // Update the title.
   _currentIndex = currentIndex;
-  self.title = [self.photoService itemName:_currentIndex];
+
+  ISListViewAdapterItem *item = [self.adapter entryForIndex:_currentIndex];
+  [item fetch:^(NSDictionary *dict) {
+    self.title = dict[@"name"];
+  }];
+
 }
 
 
@@ -181,7 +196,7 @@ static CGFloat kScrubberCellWidth = 42.0f;
 - (NSInteger)collectionView:(UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section
 {
-  return self.photoService.count;
+  return self.adapter.count;
 }
 
 
@@ -193,7 +208,10 @@ static CGFloat kScrubberCellWidth = 42.0f;
     ISPhotoViewCell *cell
     = [collectionView dequeueReusableCellWithReuseIdentifier:kPhotoCellReuseIdentifier
                                                 forIndexPath:indexPath];
-    cell.url = [self.photoService itemURL:indexPath.row];
+    ISListViewAdapterItem *item = [self.adapter entryForIndex:indexPath.item];
+    [item fetch:^(NSDictionary *dict) {
+      cell.url = dict[@"url"];
+    }];
     return cell;
     
   } else if (collectionView == self.scrubberView) {
@@ -201,13 +219,16 @@ static CGFloat kScrubberCellWidth = 42.0f;
     ISScrubberCell *cell
     = [collectionView dequeueReusableCellWithReuseIdentifier:kScrubberCellReuseIdentifier
                                                 forIndexPath:indexPath];
-    [cell.imageView setImageWithIdentifier:[self.photoService itemURL:indexPath.row]
-                            context:ISCacheImageContext
-                   placeholderImage:nil
-                           userInfo:@{@"width": @50.0,
-                                      @"height": @50.0,
-                                      @"scale": @(ISScalingCacheHandlerScaleAspectFit)}
-                              block:nil];
+    ISListViewAdapterItem *item = [self.adapter entryForIndex:indexPath.item];
+    [item fetch:^(NSDictionary *dict) {
+      [cell.imageView setImageWithIdentifier:dict[@"url"]
+                                     context:ISCacheImageContext
+                            placeholderImage:nil
+                                    userInfo:@{@"width": @50.0,
+                                               @"height": @50.0,
+                                               @"scale": @(ISScalingCacheHandlerScaleAspectFit)}
+                                       block:nil];
+    }];
     return cell;
     
   }
@@ -250,9 +271,6 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
   CGFloat offset = (*targetContentOffset).x / kScrubberCellWidth;
   NSInteger currentIndex = offset + 0.5;
   (*targetContentOffset).x = currentIndex * kScrubberCellWidth;
-  
-//  self.currentIndex = offset + 0.5;
-
 }
 
 

@@ -28,6 +28,7 @@
 
 @end
 
+//static NSString *kServiceRoot = @"http://127.0.0.1:8051";
 static NSString *kServiceRoot = @"http://photos.jbmorley.co.uk";
 static NSString *kKeyIdentifier = @"id";
 static NSString *kKeyName = @"name";
@@ -55,11 +56,6 @@ static NSString *kKeyName = @"name";
     if (self.itemDict == nil) {
       self.itemDict = [NSMutableDictionary dictionaryWithCapacity:3];
     }
-    
-    // TODO Remove this.
-    // It is necessary, for the initial work, to have no entries
-    // when the view is created.
-    self.itemDict = [NSMutableDictionary dictionaryWithCapacity:3];
     
     // Generate the sorted keys.
     [self sortKeys];
@@ -100,7 +96,7 @@ static NSString *kKeyName = @"name";
          // Notify the delegate.
          [self.adapter invalidate];
          
-         [self startReversing];
+//         [self startReversing];
          
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
          NSLog(@"Something went wrong: %@", error);

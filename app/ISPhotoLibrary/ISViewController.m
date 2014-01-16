@@ -69,7 +69,7 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
   if ([segue.identifier isEqualToString:kDetailSegueIdentifier]) {
     ISCollectionViewCell *cell = sender;
     ISItemViewController *viewController = segue.destinationViewController;
-    viewController.photoService = self.photoService;
+    viewController.adapter = self.adapter;
     viewController.index = cell.index;
     self.chromeState = ISViewControllerChromeStateShown;
   } else if ([segue.identifier isEqualToString:kDownloadsSegueIdentifier]) {

@@ -24,7 +24,7 @@
 <UICollectionViewDataSource
 ,UICollectionViewDelegate>
 
-@property (strong, nonatomic) ISPhotoService *photoService;
+@property (strong, nonatomic) ISListViewAdapter *adapter;
 @property (nonatomic) NSInteger index;
 
 @end
