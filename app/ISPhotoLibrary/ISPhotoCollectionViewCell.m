@@ -65,12 +65,12 @@ typedef enum {
     
     self.cacheItem =
     [self.imageView setImageWithIdentifier:_url
-                            context:ISCacheImageContext
-                   placeholderImage:nil
-                           userInfo:@{@"width": @320.0,
-                                      @"height": @568.0,
-                                      @"scale": @(ISScalingCacheHandlerScaleAspectFit)}
-                              block:NULL];
+                                   context:ISCacheImageContext
+                                  userInfo:@{@"width": @320.0,
+                                             @"height": @568.0,
+                                             @"scale": @(ISScalingCacheHandlerScaleAspectFit)}
+                          placeholderImage:nil
+                                     block:NULL];
     
     // Observe the cache item for progress changes.
     [self.cacheItem addObserver:self

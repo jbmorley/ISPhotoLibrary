@@ -227,10 +227,10 @@ static CGFloat kScrubberCellWidth = 42.0f;
     [item fetch:^(NSDictionary *dict) {
       [cell.imageView setImageWithIdentifier:dict[ISPhotoServiceKeyURL]
                                      context:ISCacheImageContext
-                            placeholderImage:nil
                                     userInfo:@{@"width": @50.0,
                                                @"height": @50.0,
                                                @"scale": @(ISScalingCacheHandlerScaleAspectFit)}
+                            placeholderImage:nil
                                        block:nil];
     }];
     return cell;

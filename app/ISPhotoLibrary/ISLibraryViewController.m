@@ -61,6 +61,7 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 
 }
 
+
 - (void)didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
@@ -180,10 +181,10 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
     // as it only fetches an individual item not the whole batch.
     [cell.imageView setImageWithIdentifier:dict[ISPhotoServiceKeyURL]
                                    context:ISCacheImageContext
-                          placeholderImage:self.thumbnail
                                   userInfo:@{@"width": @152.0,
                                              @"height": @152.0,
                                              @"scale": @(ISScalingCacheHandlerScaleAspectFill)}
+                          placeholderImage:self.thumbnail
                                      block:NULL];
     
     
