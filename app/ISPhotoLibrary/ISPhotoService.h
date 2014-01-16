@@ -25,19 +25,11 @@
 
 @class ISPhotoService;
 
-@protocol ISPhotoServiceDelegate <NSObject>
-
-- (void)photoServiceDidUpdate:(ISPhotoService *)photoService;
-
-@end
-
 extern const NSString *ISPhotoServiceKeyIdentifier;
 extern const NSString *ISPhotoServiceKeyURL;
 extern const NSString *ISPhotoServiceKeyName;
 
 @interface ISPhotoService : NSObject <ISListViewAdapterDataSource>
-
-@property (nonatomic, weak) id<ISPhotoServiceDelegate> delegate;
 
 - (id)init;
 - (void)update;

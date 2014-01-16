@@ -22,6 +22,7 @@
 
 #import <ISCache/ISCache.h>
 #import <ISListViewAdapter/ISListViewAdapter.h>
+#import <ISUtilities/UIAlertView+Block.h>
 
 #import "ISLibraryViewController.h"
 #import "ISLibraryCollectionViewCell.h"
@@ -51,7 +52,6 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 {
   [super viewDidLoad];
   self.photoService = [ISPhotoService new];
-  self.photoService.delegate = self;
   self.thumbnail = [UIImage imageNamed:@"Thumbnail.imageasset"];
   
   // Create an adapter and connect it to the collection view.
@@ -111,19 +111,44 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 
 - (IBAction)clearClicked:(id)sender
 {
-  ISCache *defaultCache = [ISCache defaultCache];
-  NSArray *items = [defaultCache items:
-                    [ISCacheStateFilter filterWithStates:ISCacheItemStateAll]];
-  [defaultCache removeItems:items];
-  [self.photoService update];
+  UIAlertView *alertView =
+  [[UIAlertView alloc] initWithTitle:@"Delete"
+                             message:@"Delete all cached images?"
+                     completionBlock:^(NSUInteger buttonIndex)
+   {
+     if (buttonIndex == 1) {
+
+      ISCache *defaultCache = [ISCache defaultCache];
+      NSArray *items = [defaultCache items:
+                        [ISCacheStateFilter filterWithStates:ISCacheItemStateAll]];
+      [defaultCache removeItems:items];
+      [self.photoService update];
+       
+     }
+   }
+                   cancelButtonTitle:@"Cancel"
+                   otherButtonTitles:@"OK", nil];
+  [alertView show];
 }
 
 
 - (IBAction)cancelClicked:(id)sender
 {
-  ISCache *defaultCache = [ISCache defaultCache];
-  NSArray *items = [defaultCache items:[ISCacheStateFilter filterWithStates:ISCacheItemStateInProgress]];
-  [defaultCache cancelItems:items];
+  UIAlertView *alertView =
+  [[UIAlertView alloc] initWithTitle:@"Cancel"
+                             message:@"Cancel active downloads?"
+                     completionBlock:^(NSUInteger buttonIndex)
+  {
+    if (buttonIndex == 1) {
+      ISCache *defaultCache = [ISCache defaultCache];
+      NSArray *items = [defaultCache items:[ISCacheStateFilter filterWithStates:ISCacheItemStateInProgress]];
+      [defaultCache cancelItems:items];
+    }
+  }
+                   cancelButtonTitle:@"Cancel"
+                   otherButtonTitles:@"OK", nil];
+  [alertView show];
+  
 }
 
 
@@ -206,15 +231,6 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 {
   [self.navigationController dismissViewControllerAnimated:YES
                                                 completion:NULL];
-}
-
-
-#pragma mark - ISPhotoServiceDelegate
-
-
-- (void)photoServiceDidUpdate:(ISPhotoService *)photoService
-{
-  [self.collectionView reloadData];
 }
 
 

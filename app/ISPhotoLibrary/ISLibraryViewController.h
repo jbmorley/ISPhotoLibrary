@@ -27,7 +27,6 @@
 @interface ISLibraryViewController : UIViewController
 <UICollectionViewDataSource
 ,UICollectionViewDelegate
-,ISDownloadsViewControllerDelegate
-,ISPhotoServiceDelegate>
+,ISDownloadsViewControllerDelegate>
 
 @end
