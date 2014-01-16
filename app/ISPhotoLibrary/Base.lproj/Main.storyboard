@@ -4,10 +4,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <scenes>
-        <!--View Controller - Photos-->
+        <!--Library View Controller - Photos-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController title="Photos" id="vXZ-lx-hvc" customClass="ISViewController" sceneMemberID="viewController">
+                <viewController title="Photos" id="vXZ-lx-hvc" customClass="ISLibraryViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ppJ-PV-dFt"/>
                         <viewControllerLayoutGuide type="bottom" id="Y1d-eB-Ppw"/>
@@ -27,8 +27,8 @@
                                     <inset key="sectionInset" minX="5" minY="5" maxX="5" maxY="5"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ThumbnailCell" id="rNu-ME-5ta" customClass="ISCollectionViewCell">
-                                        <rect key="frame" x="5" y="69" width="152" height="152"/>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ThumbnailCell" id="rNu-ME-5ta" customClass="ISLibraryCollectionViewCell">
+                                        <rect key="frame" x="5" y="5" width="152" height="152"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="152" height="152"/>
@@ -97,9 +97,7 @@
                             </connections>
                         </barButtonItem>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" title="Photo Library" id="3V4-wj-oel">
-                        <barButtonItem key="backBarButtonItem" title="Photos" id="Y1p-Di-ydq"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Photos" id="3V4-wj-oel"/>
                     <connections>
                         <outlet property="collectionView" destination="mbs-4t-Hh0" id="S43-5T-Khh"/>
                     </connections>
@@ -131,7 +129,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="ywv-2t-2sf">
-                                        <rect key="frame" x="0.0" y="64" width="50" height="50"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -196,10 +194,10 @@
             </objects>
             <point key="canvasLocation" x="942" y="520"/>
         </scene>
-        <!--Item View Controller - Photo-->
+        <!--Photo View Controller - Photo-->
         <scene sceneID="if8-vn-TsW">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="9h7-g0-btc" customClass="ISItemViewController" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="9h7-g0-btc" customClass="ISPhotoViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Nwc-LS-dai"/>
                         <viewControllerLayoutGuide type="bottom" id="irv-Hm-nXR"/>

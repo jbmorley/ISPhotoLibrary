@@ -15,19 +15,19 @@
 		D80A576718111A7F003A82B1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D80A576618111A7F003A82B1 /* main.m */; };
 		D80A576B18111A7F003A82B1 /* ISAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D80A576A18111A7F003A82B1 /* ISAppDelegate.m */; };
 		D80A576E18111A7F003A82B1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D80A576C18111A7F003A82B1 /* Main.storyboard */; };
-		D80A577118111A7F003A82B1 /* ISViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D80A577018111A7F003A82B1 /* ISViewController.m */; };
+		D80A577118111A7F003A82B1 /* ISLibraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D80A577018111A7F003A82B1 /* ISLibraryViewController.m */; };
 		D80A577318111A7F003A82B1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D80A577218111A7F003A82B1 /* Images.xcassets */; };
 		D80A577A18111A7F003A82B1 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80A577918111A7F003A82B1 /* XCTest.framework */; };
 		D80A577B18111A7F003A82B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80A575A18111A7F003A82B1 /* Foundation.framework */; };
 		D80A577C18111A7F003A82B1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80A575E18111A7F003A82B1 /* UIKit.framework */; };
 		D80A578418111A7F003A82B1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D80A578218111A7F003A82B1 /* InfoPlist.strings */; };
 		D80A578618111A7F003A82B1 /* ISPhotoLibraryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D80A578518111A7F003A82B1 /* ISPhotoLibraryTests.m */; };
-		D812C66E186C183300416A1B /* ISCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D812C66D186C183300416A1B /* ISCollectionViewCell.m */; };
+		D812C66E186C183300416A1B /* ISLibraryCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D812C66D186C183300416A1B /* ISLibraryCollectionViewCell.m */; };
 		D812C671186D7E6900416A1B /* ISPhotoService.m in Sources */ = {isa = PBXBuildFile; fileRef = D812C670186D7E6900416A1B /* ISPhotoService.m */; };
 		D81798AD1870F469009AA0A2 /* ISDownloadsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D81798AC1870F469009AA0A2 /* ISDownloadsViewController.m */; };
 		D881B397187D548C00C3EC10 /* ISPhotoViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D881B396187D548C00C3EC10 /* ISPhotoViewCell.m */; };
 		D8A9D57C1881DF800008FAED /* ISScrubberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A9D57B1881DF800008FAED /* ISScrubberCell.m */; };
-		D8F95D05185A0A0F0083A279 /* ISItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F95D04185A0A0F0083A279 /* ISItemViewController.m */; };
+		D8F95D05185A0A0F0083A279 /* ISPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F95D04185A0A0F0083A279 /* ISPhotoViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,16 +54,16 @@
 		D80A576918111A7F003A82B1 /* ISAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAppDelegate.h; sourceTree = "<group>"; };
 		D80A576A18111A7F003A82B1 /* ISAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISAppDelegate.m; sourceTree = "<group>"; };
 		D80A576D18111A7F003A82B1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		D80A576F18111A7F003A82B1 /* ISViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISViewController.h; sourceTree = "<group>"; };
-		D80A577018111A7F003A82B1 /* ISViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISViewController.m; sourceTree = "<group>"; };
+		D80A576F18111A7F003A82B1 /* ISLibraryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISLibraryViewController.h; sourceTree = "<group>"; };
+		D80A577018111A7F003A82B1 /* ISLibraryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISLibraryViewController.m; sourceTree = "<group>"; };
 		D80A577218111A7F003A82B1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D80A577818111A7F003A82B1 /* ISPhotoLibraryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ISPhotoLibraryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D80A577918111A7F003A82B1 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		D80A578118111A7F003A82B1 /* ISPhotoLibraryTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ISPhotoLibraryTests-Info.plist"; sourceTree = "<group>"; };
 		D80A578318111A7F003A82B1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D80A578518111A7F003A82B1 /* ISPhotoLibraryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISPhotoLibraryTests.m; sourceTree = "<group>"; };
-		D812C66C186C183300416A1B /* ISCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISCollectionViewCell.h; sourceTree = "<group>"; };
-		D812C66D186C183300416A1B /* ISCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISCollectionViewCell.m; sourceTree = "<group>"; };
+		D812C66C186C183300416A1B /* ISLibraryCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISLibraryCollectionViewCell.h; sourceTree = "<group>"; };
+		D812C66D186C183300416A1B /* ISLibraryCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISLibraryCollectionViewCell.m; sourceTree = "<group>"; };
 		D812C66F186D7E6900416A1B /* ISPhotoService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISPhotoService.h; sourceTree = "<group>"; };
 		D812C670186D7E6900416A1B /* ISPhotoService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISPhotoService.m; sourceTree = "<group>"; };
 		D81798AB1870F469009AA0A2 /* ISDownloadsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISDownloadsViewController.h; sourceTree = "<group>"; };
@@ -73,8 +73,8 @@
 		D881B396187D548C00C3EC10 /* ISPhotoViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISPhotoViewCell.m; sourceTree = "<group>"; };
 		D8A9D57A1881DF800008FAED /* ISScrubberCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISScrubberCell.h; sourceTree = "<group>"; };
 		D8A9D57B1881DF800008FAED /* ISScrubberCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISScrubberCell.m; sourceTree = "<group>"; };
-		D8F95D03185A0A0F0083A279 /* ISItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISItemViewController.h; sourceTree = "<group>"; };
-		D8F95D04185A0A0F0083A279 /* ISItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISItemViewController.m; sourceTree = "<group>"; };
+		D8F95D03185A0A0F0083A279 /* ISPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISPhotoViewController.h; sourceTree = "<group>"; };
+		D8F95D04185A0A0F0083A279 /* ISPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISPhotoViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,26 +137,12 @@
 		D80A576018111A7F003A82B1 /* ISPhotoLibrary */ = {
 			isa = PBXGroup;
 			children = (
-				D81798AB1870F469009AA0A2 /* ISDownloadsViewController.h */,
-				D81798AC1870F469009AA0A2 /* ISDownloadsViewController.m */,
-				D80A576918111A7F003A82B1 /* ISAppDelegate.h */,
-				D80A576A18111A7F003A82B1 /* ISAppDelegate.m */,
+				D854F9B71887EA8200A42A79 /* Application */,
+				D854F9B21887E93A00A42A79 /* Service */,
+				D854F9B61887EA6E00A42A79 /* UI */,
 				D80A576C18111A7F003A82B1 /* Main.storyboard */,
-				D812C66C186C183300416A1B /* ISCollectionViewCell.h */,
-				D812C66D186C183300416A1B /* ISCollectionViewCell.m */,
-				D80A576F18111A7F003A82B1 /* ISViewController.h */,
-				D80A577018111A7F003A82B1 /* ISViewController.m */,
-				D8F95D03185A0A0F0083A279 /* ISItemViewController.h */,
-				D8F95D04185A0A0F0083A279 /* ISItemViewController.m */,
 				D80A577218111A7F003A82B1 /* Images.xcassets */,
 				D80A576118111A7F003A82B1 /* Supporting Files */,
-				D812C66F186D7E6900416A1B /* ISPhotoService.h */,
-				D812C670186D7E6900416A1B /* ISPhotoService.m */,
-				D81798B21872893A009AA0A2 /* ISViewControllerChromeState.h */,
-				D881B395187D548C00C3EC10 /* ISPhotoViewCell.h */,
-				D881B396187D548C00C3EC10 /* ISPhotoViewCell.m */,
-				D8A9D57A1881DF800008FAED /* ISScrubberCell.h */,
-				D8A9D57B1881DF800008FAED /* ISScrubberCell.m */,
 			);
 			path = ISPhotoLibrary;
 			sourceTree = "<group>";
@@ -188,6 +174,68 @@
 				D80A578218111A7F003A82B1 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D854F9B21887E93A00A42A79 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				D812C66F186D7E6900416A1B /* ISPhotoService.h */,
+				D812C670186D7E6900416A1B /* ISPhotoService.m */,
+			);
+			name = Service;
+			sourceTree = "<group>";
+		};
+		D854F9B31887E95500A42A79 /* Downloads */ = {
+			isa = PBXGroup;
+			children = (
+				D81798AB1870F469009AA0A2 /* ISDownloadsViewController.h */,
+				D81798AC1870F469009AA0A2 /* ISDownloadsViewController.m */,
+			);
+			name = Downloads;
+			sourceTree = "<group>";
+		};
+		D854F9B41887E9E400A42A79 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				D81798B21872893A009AA0A2 /* ISViewControllerChromeState.h */,
+				D812C66C186C183300416A1B /* ISLibraryCollectionViewCell.h */,
+				D812C66D186C183300416A1B /* ISLibraryCollectionViewCell.m */,
+				D80A576F18111A7F003A82B1 /* ISLibraryViewController.h */,
+				D80A577018111A7F003A82B1 /* ISLibraryViewController.m */,
+			);
+			name = Library;
+			sourceTree = "<group>";
+		};
+		D854F9B51887EA5700A42A79 /* Photo */ = {
+			isa = PBXGroup;
+			children = (
+				D8F95D03185A0A0F0083A279 /* ISPhotoViewController.h */,
+				D8F95D04185A0A0F0083A279 /* ISPhotoViewController.m */,
+				D881B395187D548C00C3EC10 /* ISPhotoViewCell.h */,
+				D881B396187D548C00C3EC10 /* ISPhotoViewCell.m */,
+				D8A9D57A1881DF800008FAED /* ISScrubberCell.h */,
+				D8A9D57B1881DF800008FAED /* ISScrubberCell.m */,
+			);
+			name = Photo;
+			sourceTree = "<group>";
+		};
+		D854F9B61887EA6E00A42A79 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				D854F9B41887E9E400A42A79 /* Library */,
+				D854F9B51887EA5700A42A79 /* Photo */,
+				D854F9B31887E95500A42A79 /* Downloads */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		D854F9B71887EA8200A42A79 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				D80A576918111A7F003A82B1 /* ISAppDelegate.h */,
+				D80A576A18111A7F003A82B1 /* ISAppDelegate.m */,
+			);
+			name = Application;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -327,9 +375,9 @@
 				D81798AD1870F469009AA0A2 /* ISDownloadsViewController.m in Sources */,
 				D812C671186D7E6900416A1B /* ISPhotoService.m in Sources */,
 				D8A9D57C1881DF800008FAED /* ISScrubberCell.m in Sources */,
-				D812C66E186C183300416A1B /* ISCollectionViewCell.m in Sources */,
-				D80A577118111A7F003A82B1 /* ISViewController.m in Sources */,
-				D8F95D05185A0A0F0083A279 /* ISItemViewController.m in Sources */,
+				D812C66E186C183300416A1B /* ISLibraryCollectionViewCell.m in Sources */,
+				D80A577118111A7F003A82B1 /* ISLibraryViewController.m in Sources */,
+				D8F95D05185A0A0F0083A279 /* ISPhotoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

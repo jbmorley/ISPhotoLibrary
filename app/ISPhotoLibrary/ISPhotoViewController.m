@@ -20,13 +20,13 @@
 // SOFTWARE.
 //
 
-#import "ISItemViewController.h"
+#import "ISPhotoViewController.h"
 #import "ISViewControllerChromeState.h"
 #import "ISPhotoViewCell.h"
 #import "ISScrubberCell.h"
 #import <ISUtilities/ISListViewAdapter.h>
 
-@interface ISItemViewController () {
+@interface ISPhotoViewController () {
   BOOL _prefersStatusBarHidden;
 }
 
@@ -41,7 +41,7 @@
 
 @end
 
-@implementation ISItemViewController
+@implementation ISPhotoViewController
 
 static NSString *kPhotoCellReuseIdentifier = @"PhotoCell";
 static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";

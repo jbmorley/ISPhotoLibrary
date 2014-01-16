@@ -20,8 +20,13 @@
 // SOFTWARE.
 //
 
-#import "ISCollectionViewCell.h"
+#import <UIKit/UIKit.h>
+#import <ISCache/ISCache.h>
 
-@implementation ISCollectionViewCell
+@interface ISLibraryCollectionViewCell : UICollectionViewCell
+
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
+@property (nonatomic) NSInteger index;
 
 @end

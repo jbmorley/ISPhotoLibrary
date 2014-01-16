@@ -20,15 +20,8 @@
 // SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
-#import <ISCache/ISCache.h>
-#import "ISPhotoService.h"
+#import "ISLibraryCollectionViewCell.h"
 
-@interface ISItemViewController : UIViewController
-<UICollectionViewDataSource
-,UICollectionViewDelegate>
-
-@property (strong, nonatomic) ISListViewAdapter *adapter;
-@property (nonatomic) NSInteger index;
+@implementation ISLibraryCollectionViewCell
 
 @end

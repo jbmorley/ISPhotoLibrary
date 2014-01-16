@@ -21,13 +21,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ISDownloadsViewController.h"
+#import <ISCache/ISCache.h>
 #import "ISPhotoService.h"
 
-@interface ISViewController : UIViewController
+@interface ISPhotoViewController : UIViewController
 <UICollectionViewDataSource
-,UICollectionViewDelegate
-,ISDownloadsViewControllerDelegate
-,ISPhotoServiceDelegate>
+,UICollectionViewDelegate>
+
+@property (strong, nonatomic) ISListViewAdapter *adapter;
+@property (nonatomic) NSInteger index;
 
 @end

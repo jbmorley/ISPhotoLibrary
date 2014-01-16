@@ -23,12 +23,12 @@
 #import <ISCache/ISCache.h>
 #import <ISUtilities/ISListViewAdapter.h>
 
-#import "ISViewController.h"
-#import "ISCollectionViewCell.h"
-#import "ISItemViewController.h"
+#import "ISLibraryViewController.h"
+#import "ISLibraryCollectionViewCell.h"
+#import "ISPhotoViewController.h"
 #import "ISViewControllerChromeState.h"
 
-@interface ISViewController ()
+@interface ISLibraryViewController ()
 
 @property (nonatomic, weak) IBOutlet UICollectionView *collectionView;
 @property (nonatomic, strong) ISPhotoService *photoService;
@@ -41,7 +41,7 @@
 
 @end
 
-@implementation ISViewController
+@implementation ISLibraryViewController
 
 static NSString *kCollectionViewCellReuseIdentifier = @"ThumbnailCell";
 static NSString *kDetailSegueIdentifier = @"DetailSegue";
@@ -71,8 +71,8 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
                  sender:(id)sender
 {
   if ([segue.identifier isEqualToString:kDetailSegueIdentifier]) {
-    ISCollectionViewCell *cell = sender;
-    ISItemViewController *viewController = segue.destinationViewController;
+    ISLibraryCollectionViewCell *cell = sender;
+    ISPhotoViewController *viewController = segue.destinationViewController;
     viewController.adapter = self.adapter;
     viewController.index = cell.index;
     self.chromeState = ISViewControllerChromeStateShown;
@@ -139,7 +139,7 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
   // Configure the cell.
-  ISCollectionViewCell *cell
+  ISLibraryCollectionViewCell *cell
   = [collectionView dequeueReusableCellWithReuseIdentifier:kCollectionViewCellReuseIdentifier
                                               forIndexPath:indexPath];
   cell.index = indexPath.row;
