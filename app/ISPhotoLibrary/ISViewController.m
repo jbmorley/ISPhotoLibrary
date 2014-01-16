@@ -145,7 +145,7 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
   cell.index = indexPath.row;
   cell.imageView.image = self.thumbnail;
   
-  ISListViewAdapterItem *item = [self.adapter entryForIndex:indexPath.item];
+  ISListViewAdapterItem *item = [self.adapter itemForIndex:indexPath.item];
   [item fetch:^(NSDictionary *dict) {
     
     // TODO We need to use a weak reference for the cell?

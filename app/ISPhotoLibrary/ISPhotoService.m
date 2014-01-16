@@ -165,7 +165,7 @@ complectionBlock:(ISListViewAdapterBlock)completionBlock
 
 
 - (void)adapter:(ISListViewAdapter *)adapter
-entryForIdentifier:(id)identifier
+itemForIdentifier:(id)identifier
    completionBlock:(ISListViewAdapterBlock)completionBlock
 {
   completionBlock(@{@"url":[kServiceRoot
