@@ -7,6 +7,9 @@ import hashlib
 import os.path
 import wsgiref.simple_server
 
+# Use the 'photos' directory next to the script by default.
+directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'photos')
+
 class Index:
 
   def __init__(self, directory):
@@ -21,7 +24,6 @@ class Index:
         md5.update(filename)
         (name, ext) = os.path.splitext(filename)
         path = os.path.join(dirpath, filename)
-        path = path.replace(directory, "", 1)
         identifier = md5.hexdigest()
         self.index[identifier] = {'id': identifier, 'name': name, 'path': path}
 
@@ -35,7 +37,7 @@ class Index:
     return map(lambda x: x[0], self.index.items())
 
 
-def application(directory, environ, start_response):
+def application(environ, start_response):
 
   index = Index(directory)
 
@@ -66,11 +68,13 @@ def main():
   parser.add_argument("directory", help = "Directory to index")
   options = parser.parse_args()
 
-  app = lambda environ, start_response: application(options.directory, environ, start_response)
+  global directory
+  directory = options.directory
+
   httpd = wsgiref.simple_server.make_server(
     '0.0.0.0',
     8051,
-    app
+    application
     )
 
   httpd.serve_forever()
