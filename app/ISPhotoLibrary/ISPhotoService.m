@@ -149,7 +149,14 @@ static NSString *kServiceRoot = @"http://photos.jbmorley.co.uk";
 
 
 - (void)adapter:(ISListViewAdapter *)adapter
-entriesForOffset:(NSUInteger)offset
+  numberOfItems:(ISListViewAdapterCountBlock)completionBlock
+{
+  completionBlock(self.sortedKeys.count);
+}
+
+
+- (void)adapter:(ISListViewAdapter *)adapter
+itemsForOffset:(NSUInteger)offset
           limit:(NSInteger)limit
 complectionBlock:(ISListViewAdapterBlock)completionBlock
 {
