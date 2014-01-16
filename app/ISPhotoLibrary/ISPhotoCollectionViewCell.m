@@ -20,7 +20,7 @@
 // SOFTWARE.
 //
 
-#import "ISPhotoViewCell.h"
+#import "ISPhotoCollectionViewCell.h"
 #import "ISOwnerProxy.h"
 #import <ISCache/ISCache.h>
 
@@ -30,7 +30,7 @@ typedef enum {
   ISPhotoViewStateReady,
 } ISPhotoViewState;
 
-@interface ISPhotoViewCell ()
+@interface ISPhotoCollectionViewCell ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
@@ -39,7 +39,7 @@ typedef enum {
 
 @end
 
-@implementation ISPhotoViewCell
+@implementation ISPhotoCollectionViewCell
 
 
 - (void)dealloc

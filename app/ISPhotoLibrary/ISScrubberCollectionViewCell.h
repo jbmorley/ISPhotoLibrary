@@ -22,7 +22,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ISScrubberCell : UICollectionViewCell
+@interface ISScrubberCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, weak) IBOutlet UIImageView *imageView;
 

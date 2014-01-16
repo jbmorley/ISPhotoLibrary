@@ -22,8 +22,8 @@
 
 #import "ISPhotoViewController.h"
 #import "ISViewControllerChromeState.h"
-#import "ISPhotoViewCell.h"
-#import "ISScrubberCell.h"
+#import "ISPhotoCollectionViewCell.h"
+#import "ISScrubberCollectionViewCell.h"
 #import <ISUtilities/ISListViewAdapter.h>
 
 @interface ISPhotoViewController () {
@@ -209,7 +209,7 @@ static CGFloat kScrubberCellWidth = 42.0f;
 {
   if (collectionView == self.photoCollectionView) {
     
-    ISPhotoViewCell *cell
+    ISPhotoCollectionViewCell *cell
     = [collectionView dequeueReusableCellWithReuseIdentifier:kPhotoCellReuseIdentifier
                                                 forIndexPath:indexPath];
     ISListViewAdapterItem *item = [self.adapter itemForIndex:indexPath.item];
@@ -220,7 +220,7 @@ static CGFloat kScrubberCellWidth = 42.0f;
     
   } else if (collectionView == self.scrubberCollectionView) {
     
-    ISScrubberCell *cell
+    ISScrubberCollectionViewCell *cell
     = [collectionView dequeueReusableCellWithReuseIdentifier:kScrubberCellReuseIdentifier
                                                 forIndexPath:indexPath];
     ISListViewAdapterItem *item = [self.adapter itemForIndex:indexPath.item];

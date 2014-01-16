@@ -20,10 +20,9 @@
 // SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import "ISScrubberCollectionViewCell.h"
 
-@interface ISPhotoViewCell : UICollectionViewCell
+@implementation ISScrubberCollectionViewCell
 
-@property (strong, nonatomic) NSString *url;
 
 @end
