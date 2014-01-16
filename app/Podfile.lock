@@ -17,9 +17,11 @@ PODS:
   - AFNetworking/Serialization (2.0.3)
   - AFNetworking/UIKit (2.0.3):
     - AFNetworking/NSURLConnection
-  - ISCache (0.0.1)
+  - ISCache (0.0.1):
+    - NSString-Hashes (~> 1.2.1)
   - ISListViewAdapter (0.0.1)
   - ISUtilities (0.0.1)
+  - NSString-Hashes (1.2.1)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
@@ -37,8 +39,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: e499052cbf3d743e9bb727bb37adb9dc2547ba15
-  ISCache: c881efe1b93366828687716dc72a9fa5fcd399ff
+  ISCache: 84ffe9a9b2bf9be40e87c2e7bf203662b76b30e7
   ISListViewAdapter: 5d3ab5f6d0d6a71414c637890b2122d461390ddd
   ISUtilities: e6d3068e301231561acbab966d3fcc68758d2d2d
+  NSString-Hashes: 7fafa67a32177c8a953f0bed099c8fcf111827b2
 
 COCOAPODS: 0.29.0
