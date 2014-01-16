@@ -153,7 +153,7 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
     // Is it necessary for this to be done on a different worker?
     // Surely it's perfectly safe to make this single threaded
     // as it only fetches an individual item not the whole batch.
-    [cell.imageView setImageWithIdentifier:dict[@"url"]
+    [cell.imageView setImageWithIdentifier:dict[ISPhotoServiceKeyURL]
                                    context:ISCacheImageContext
                           placeholderImage:self.thumbnail
                                   userInfo:@{@"width": @152.0,

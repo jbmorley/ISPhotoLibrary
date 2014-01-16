@@ -32,10 +32,12 @@
 
 @end
 
+const NSString *ISPhotoServiceKeyIdentifier = @"id";
+const NSString *ISPhotoServiceKeyURL = @"url";
+const NSString *ISPhotoServiceKeyName = @"name";
+
 //static NSString *kServiceRoot = @"http://127.0.0.1:8051";
 static NSString *kServiceRoot = @"http://photos.jbmorley.co.uk";
-static NSString *kKeyIdentifier = @"id";
-static NSString *kKeyName = @"name";
 
 @implementation ISPhotoService
 
@@ -87,7 +89,7 @@ static NSString *kKeyName = @"name";
          // Read in the new values.
          for (NSDictionary *item in responseObject) {
            [self.itemDict setObject:item
-                          forKey:item[kKeyIdentifier]];
+                          forKey:item[ISPhotoServiceKeyIdentifier]];
          }
          
          // Cache the items.
@@ -127,40 +129,13 @@ static NSString *kKeyName = @"name";
   
   // Generate a sorted list of items.
   NSArray *sortedItems = [[self.itemDict allValues] sortedArrayUsingComparator:^NSComparisonResult(NSDictionary *obj1, NSDictionary *obj2) {
-    return [obj1[kKeyName] localizedCaseInsensitiveCompare:obj2[kKeyName]];
+    return [obj1[ISPhotoServiceKeyName] localizedCaseInsensitiveCompare:obj2[ISPhotoServiceKeyName]];
   }];
 
   // Extract the keys.
   for (NSDictionary *item in sortedItems) {
-    [self.sortedKeys addObject:item[kKeyIdentifier]];
+    [self.sortedKeys addObject:item[ISPhotoServiceKeyIdentifier]];
   }
-}
-
-
-- (NSUInteger)count
-{
-  return self.sortedKeys.count;
-}
-
-
-- (NSString *)itemAtIndex:(NSUInteger)index
-{
-  return self.sortedKeys[index];
-}
-
-
-- (NSString *)itemURL:(NSUInteger)index
-{
-  return [kServiceRoot
-          stringByAppendingFormat:
-          @"/%@",
-          [self itemAtIndex:index]];
-}
-
-
-- (NSString *)itemName:(NSUInteger)index
-{
-  return [self.itemDict objectForKey:[self itemAtIndex:index]][kKeyName];
 }
 
 
@@ -197,7 +172,7 @@ entryForIdentifier:(id)identifier
                             stringByAppendingFormat:
                             @"/%@",
                             identifier],
-                    @"name":[self.itemDict objectForKey:identifier][kKeyName]});
+                    @"name":[self.itemDict objectForKey:identifier][ISPhotoServiceKeyName]});
 }
 
 

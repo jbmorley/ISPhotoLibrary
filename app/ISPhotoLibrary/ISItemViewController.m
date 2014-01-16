@@ -176,7 +176,7 @@ static CGFloat kScrubberCellWidth = 42.0f;
 
   ISListViewAdapterItem *item = [self.adapter entryForIndex:_currentIndex];
   [item fetch:^(NSDictionary *dict) {
-    self.title = dict[@"name"];
+    self.title = dict[ISPhotoServiceKeyName];
   }];
 
 }
@@ -214,7 +214,7 @@ static CGFloat kScrubberCellWidth = 42.0f;
                                                 forIndexPath:indexPath];
     ISListViewAdapterItem *item = [self.adapter entryForIndex:indexPath.item];
     [item fetch:^(NSDictionary *dict) {
-      cell.url = dict[@"url"];
+      cell.url = dict[ISPhotoServiceKeyURL];
     }];
     return cell;
     
@@ -225,7 +225,7 @@ static CGFloat kScrubberCellWidth = 42.0f;
                                                 forIndexPath:indexPath];
     ISListViewAdapterItem *item = [self.adapter entryForIndex:indexPath.item];
     [item fetch:^(NSDictionary *dict) {
-      [cell.imageView setImageWithIdentifier:dict[@"url"]
+      [cell.imageView setImageWithIdentifier:dict[ISPhotoServiceKeyURL]
                                      context:ISCacheImageContext
                             placeholderImage:nil
                                     userInfo:@{@"width": @50.0,

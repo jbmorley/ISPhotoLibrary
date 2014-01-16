@@ -31,15 +31,15 @@
 
 @end
 
+extern const NSString *ISPhotoServiceKeyIdentifier;
+extern const NSString *ISPhotoServiceKeyURL;
+extern const NSString *ISPhotoServiceKeyName;
+
 @interface ISPhotoService : NSObject <ISListViewAdapterDataSource>
 
 @property (nonatomic, weak) id<ISPhotoServiceDelegate> delegate;
 
 - (id)init;
 - (void)update;
-
-- (NSUInteger)count;
-- (NSString *)itemURL:(NSUInteger)index;
-- (NSString *)itemName:(NSUInteger)index;
 
 @end
