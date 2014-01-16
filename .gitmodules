@@ -6,3 +6,6 @@
 	path = dependencies/ISUtilities
 	url = git@github.com:jbmorley/ISUtilities.git
 	branch = master
+[submodule "dependencies/ISListViewAdapter"]
+	path = dependencies/ISListViewAdapter
+	url = git@github.com:jbmorley/ISListViewAdapter.git

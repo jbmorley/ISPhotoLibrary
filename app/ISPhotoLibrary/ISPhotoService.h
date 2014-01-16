@@ -21,7 +21,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ISUtilities/ISListViewAdapter.h>
+#import <ISListViewAdapter/ISListViewAdapter.h>
 
 @class ISPhotoService;
 

@@ -21,7 +21,7 @@
 //
 
 #import <ISCache/ISCache.h>
-#import <ISUtilities/ISListViewAdapter.h>
+#import <ISListViewAdapter/ISListViewAdapter.h>
 
 #import "ISLibraryViewController.h"
 #import "ISLibraryCollectionViewCell.h"

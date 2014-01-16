@@ -18,22 +18,27 @@ PODS:
   - AFNetworking/UIKit (2.0.3):
     - AFNetworking/NSURLConnection
   - ISCache (0.0.1)
+  - ISListViewAdapter (0.0.1)
   - ISUtilities (0.0.1)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
   - ISCache (from `../dependencies/ISCache`)
+  - ISListViewAdapter (from `../dependencies/ISListViewAdapter`)
   - ISUtilities (from `../dependencies/ISUtilities`)
 
 EXTERNAL SOURCES:
   ISCache:
     :path: ../dependencies/ISCache
+  ISListViewAdapter:
+    :path: ../dependencies/ISListViewAdapter
   ISUtilities:
     :path: ../dependencies/ISUtilities
 
 SPEC CHECKSUMS:
   AFNetworking: e499052cbf3d743e9bb727bb37adb9dc2547ba15
   ISCache: 3515b786b376f5a56f194377bb10dad17a7c6157
+  ISListViewAdapter: 5d3ab5f6d0d6a71414c637890b2122d461390ddd
   ISUtilities: 548d8b942d5c1dcf1862c6a4c1c7eede589cfae7
 
 COCOAPODS: 0.29.0

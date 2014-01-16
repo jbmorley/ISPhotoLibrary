@@ -24,7 +24,7 @@
 #import "ISViewControllerChromeState.h"
 #import "ISPhotoCollectionViewCell.h"
 #import "ISScrubberCollectionViewCell.h"
-#import <ISUtilities/ISListViewAdapter.h>
+#import <ISListViewAdapter/ISListViewAdapter.h>
 
 @interface ISPhotoViewController () {
   BOOL _prefersStatusBarHidden;
