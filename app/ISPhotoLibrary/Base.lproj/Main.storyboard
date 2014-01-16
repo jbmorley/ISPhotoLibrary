@@ -258,8 +258,8 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Photo" id="CaZ-Q0-R0D"/>
                     <connections>
-                        <outlet property="collectionView" destination="alx-23-3D9" id="lyG-Ub-xxB"/>
-                        <outlet property="scrubberView" destination="Use-bs-868" id="UvJ-D1-IwN"/>
+                        <outlet property="photoCollectionView" destination="alx-23-3D9" id="mtL-CF-Rgt"/>
+                        <outlet property="scrubberCollectionView" destination="Use-bs-868" id="O57-0p-etf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4zf-Xt-bpm" userLabel="First Responder" sceneMemberID="firstResponder"/>

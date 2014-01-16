@@ -30,8 +30,8 @@
   BOOL _prefersStatusBarHidden;
 }
 
-@property (nonatomic, weak) IBOutlet UICollectionView *collectionView;
-@property (nonatomic, weak) IBOutlet UICollectionView *scrubberView;
+@property (nonatomic, weak) IBOutlet UICollectionView *photoCollectionView;
+@property (nonatomic, weak) IBOutlet UICollectionView *scrubberCollectionView;
 @property (nonatomic, weak) UIScrollView *activeScrollView;
 @property (nonatomic, strong) ISCache *cache;
 @property (nonatomic, strong) ISListViewAdapterConnector *photoConnector;
@@ -60,7 +60,7 @@ static CGFloat kScrubberCellWidth = 42.0f;
   gestureRecognizer.numberOfTapsRequired = 1;
   gestureRecognizer.numberOfTouchesRequired = 1;
   gestureRecognizer.enabled = YES;
-  [self.collectionView addGestureRecognizer:gestureRecognizer];
+  [self.photoCollectionView addGestureRecognizer:gestureRecognizer];
   
   // Configure the scrubber.
   // This is done in code as it doesn't appear to be possible to add a
@@ -70,12 +70,12 @@ static CGFloat kScrubberCellWidth = 42.0f;
                                                 target:nil
                                                 action:nil];
   negativeSpace.width = -16;
-  UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.scrubberView];
+  UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.scrubberCollectionView];
   [self setToolbarItems:@[negativeSpace, barButtonItem]];
   
   // Connect to the adapter.
-  self.photoConnector = [ISListViewAdapterConnector connectorWithCollectionView:self.collectionView];
-  self.scrubberConnector = [ISListViewAdapterConnector connectorWithCollectionView:self.scrubberView];
+  self.photoConnector = [ISListViewAdapterConnector connectorWithCollectionView:self.photoCollectionView];
+  self.scrubberConnector = [ISListViewAdapterConnector connectorWithCollectionView:self.scrubberCollectionView];
   [self.adapter addObserver:self.photoConnector];
   [self.adapter addObserver:self.scrubberConnector];
 
@@ -91,10 +91,10 @@ static CGFloat kScrubberCellWidth = 42.0f;
   // Show the correct item when presenting the view controller.
   NSIndexPath *indexPath = [NSIndexPath indexPathForItem:self.index
                                                inSection:0];
-  [self.collectionView scrollToItemAtIndexPath:indexPath
+  [self.photoCollectionView scrollToItemAtIndexPath:indexPath
                               atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
                                       animated:NO];
-  [self.scrubberView scrollToItemAtIndexPath:indexPath
+  [self.scrubberCollectionView scrollToItemAtIndexPath:indexPath
                             atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
                                     animated:NO];
   
@@ -207,7 +207,7 @@ static CGFloat kScrubberCellWidth = 42.0f;
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-  if (collectionView == self.collectionView) {
+  if (collectionView == self.photoCollectionView) {
     
     ISPhotoViewCell *cell
     = [collectionView dequeueReusableCellWithReuseIdentifier:kPhotoCellReuseIdentifier
@@ -218,7 +218,7 @@ static CGFloat kScrubberCellWidth = 42.0f;
     }];
     return cell;
     
-  } else if (collectionView == self.scrubberView) {
+  } else if (collectionView == self.scrubberCollectionView) {
     
     ISScrubberCell *cell
     = [collectionView dequeueReusableCellWithReuseIdentifier:kScrubberCellReuseIdentifier
@@ -246,10 +246,10 @@ static CGFloat kScrubberCellWidth = 42.0f;
 - (void)collectionView:(UICollectionView *)collectionView
 didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-  if (collectionView == self.scrubberView) {
-    [self.collectionView scrollToItemAtIndexPath:indexPath
+  if (collectionView == self.scrubberCollectionView) {
+    [self.photoCollectionView scrollToItemAtIndexPath:indexPath
                                 atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
-    [self.scrubberView scrollToItemAtIndexPath:indexPath
+    [self.scrubberCollectionView scrollToItemAtIndexPath:indexPath
                               atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
                                       animated:YES];
   }
@@ -282,18 +282,18 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
   if (scrollView == self.activeScrollView) {
   
-    if (scrollView == self.collectionView) {
+    if (scrollView == self.photoCollectionView) {
       
-      CGFloat offset = self.collectionView.contentOffset.x / self.collectionView.frame.size.width;
-      self.scrubberView.contentOffset = CGPointMake(offset * kScrubberCellWidth,
+      CGFloat offset = self.photoCollectionView.contentOffset.x / self.photoCollectionView.frame.size.width;
+      self.scrubberCollectionView.contentOffset = CGPointMake(offset * kScrubberCellWidth,
                                                     0.0f);
       self.currentIndex = offset + 0.5;
 
       
-    } else if (scrollView == self.scrubberView) {
+    } else if (scrollView == self.scrubberCollectionView) {
       
-      CGFloat offset = self.scrubberView.contentOffset.x / kScrubberCellWidth;
-      self.collectionView.contentOffset = CGPointMake(offset * self.collectionView.frame.size.width,
+      CGFloat offset = self.scrubberCollectionView.contentOffset.x / kScrubberCellWidth;
+      self.photoCollectionView.contentOffset = CGPointMake(offset * self.photoCollectionView.frame.size.width,
                                                       0.0f);
       self.currentIndex = offset + 0.5;
       
