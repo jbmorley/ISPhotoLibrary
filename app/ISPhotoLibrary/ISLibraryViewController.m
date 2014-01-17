@@ -174,19 +174,19 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
   ISListViewAdapterItem *item = [self.adapter itemForIndex:indexPath.item];
   [item fetch:^(NSDictionary *dict) {
     
-    // TODO We need to use a weak reference for the cell?
-    // How do we prevent reuse...
-    // Is it necessary for this to be done on a different worker?
-    // Surely it's perfectly safe to make this single threaded
-    // as it only fetches an individual item not the whole batch.
-    [cell.imageView setImageWithIdentifier:dict[ISPhotoServiceKeyURL]
-                                   context:ISCacheImageContext
-                                  userInfo:@{@"width": @152.0,
-                                             @"height": @152.0,
-                                             @"scale": @(ISScalingCacheHandlerScaleAspectFill)}
-                          placeholderImage:self.thumbnail
-                                     block:NULL];
-    
+    // Re-fetch the cell from the table view to ensure it is valid
+    // and still valid. This only works as the fetch operation is
+    // guaranteed to be dispatched asynchronously.
+    ISLibraryCollectionViewCell *cell = (ISLibraryCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
+    if (cell) {
+      [cell.imageView setImageWithIdentifier:dict[ISPhotoServiceKeyURL]
+                                     context:ISCacheImageContext
+                                    userInfo:@{@"width": @152.0,
+                                               @"height": @152.0,
+                                               @"scale": @(ISScalingCacheHandlerScaleAspectFill)}
+                            placeholderImage:self.thumbnail
+                                       block:NULL];
+    }
     
   }];
   
