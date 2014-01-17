@@ -214,7 +214,10 @@ static CGFloat kScrubberCellWidth = 42.0f;
                                                 forIndexPath:indexPath];
     ISListViewAdapterItem *item = [self.adapter itemForIndex:indexPath.item];
     [item fetch:^(NSDictionary *dict) {
-      cell.url = dict[ISPhotoServiceKeyURL];
+      ISPhotoCollectionViewCell *cell = (ISPhotoCollectionViewCell *)[self.photoCollectionView cellForItemAtIndexPath:indexPath];
+      if (cell) {
+        cell.url = dict[ISPhotoServiceKeyURL];
+      }
     }];
     return cell;
     
@@ -225,13 +228,16 @@ static CGFloat kScrubberCellWidth = 42.0f;
                                                 forIndexPath:indexPath];
     ISListViewAdapterItem *item = [self.adapter itemForIndex:indexPath.item];
     [item fetch:^(NSDictionary *dict) {
-      [cell.imageView setImageWithIdentifier:dict[ISPhotoServiceKeyURL]
-                                     context:ISCacheImageContext
-                                    userInfo:@{@"width": @50.0,
-                                               @"height": @50.0,
-                                               @"scale": @(ISScalingCacheHandlerScaleAspectFit)}
-                            placeholderImage:nil
-                                       block:nil];
+      ISScrubberCollectionViewCell *cell = (ISScrubberCollectionViewCell *)[self.scrubberCollectionView cellForItemAtIndexPath:indexPath];
+      if (cell) {
+        [cell.imageView setImageWithIdentifier:dict[ISPhotoServiceKeyURL]
+                                       context:ISCacheImageContext
+                                      userInfo:@{@"width": @50.0,
+                                                 @"height": @50.0,
+                                                 @"scale": @(ISScalingCacheHandlerScaleAspectFit)}
+                              placeholderImage:nil
+                                         block:nil];
+      }
     }];
     return cell;
     

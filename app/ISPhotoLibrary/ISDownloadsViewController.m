@@ -78,25 +78,22 @@ static NSString *kDownloadsViewCellReuseIdentifier = @"DownloadsCell";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-  // Configure the cell.
   ISDownloadsCollectionViewCell *cell
-  = [collectionView dequeueReusableCellWithReuseIdentifier:kDownloadsViewCellReuseIdentifier
-                                              forIndexPath:indexPath];
-//  cell.index = indexPath.row;
-//  cell.imageView.image = self.thumbnail;
-  
+  = [collectionView dequeueReusableCellWithReuseIdentifier:kDownloadsViewCellReuseIdentifier forIndexPath:indexPath];
+
   ISListViewAdapterItem *item = [self.adapter itemForIndex:indexPath.item];
   [item fetch:^(ISCacheItem *item) {
     
-    cell.label.text = item.identifier;
-    cell.progressView.progress = item.progress;
-
-    // TODO We need to use a weak reference for the cell?
-    // How do we prevent reuse...
+    // Re-fetch the cell.
+    ISDownloadsCollectionViewCell *cell = (ISDownloadsCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
+    if (cell) {
+      cell.label.text = item.identifier;
+      cell.progressView.progress = item.progress;
+    }
+    
   }];
   
   return cell;
-
 }
 
 
