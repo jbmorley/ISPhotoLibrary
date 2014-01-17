@@ -21,6 +21,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <ISListViewAdapter/ISListViewAdapter.h>
+#import <ISCache/ISCache.h>
 
 @class ISDownloadsViewController;
 
@@ -31,7 +33,11 @@
 @end
 
 @interface ISDownloadsViewController : UIViewController
+<UICollectionViewDataSource
+,UICollectionViewDelegate
+,ISListViewAdapterDataSource
+,ISCacheObserver>
 
-@property (nonatomic, weak) IBOutlet id<ISDownloadsViewControllerDelegate> delegate;
+@property (nonatomic, weak) id<ISDownloadsViewControllerDelegate> delegate;
 
 @end

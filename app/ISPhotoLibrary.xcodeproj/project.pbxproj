@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1D222C62D069480A8EE2FDA1 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A1B3E9B6DE4043D2813FF532 /* libPods.a */; };
+		D805775918881E340073157E /* ISDownloadsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D805775818881E340073157E /* ISDownloadsCollectionViewCell.m */; };
 		D80A575B18111A7F003A82B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80A575A18111A7F003A82B1 /* Foundation.framework */; };
 		D80A575D18111A7F003A82B1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80A575C18111A7F003A82B1 /* CoreGraphics.framework */; };
 		D80A575F18111A7F003A82B1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80A575E18111A7F003A82B1 /* UIKit.framework */; };
@@ -43,6 +44,8 @@
 /* Begin PBXFileReference section */
 		A1B3E9B6DE4043D2813FF532 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3A51A10D9084F24B21CEE33 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
+		D805775718881E340073157E /* ISDownloadsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISDownloadsCollectionViewCell.h; sourceTree = "<group>"; };
+		D805775818881E340073157E /* ISDownloadsCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISDownloadsCollectionViewCell.m; sourceTree = "<group>"; };
 		D80A575718111A7F003A82B1 /* Photo Library.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Photo Library.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D80A575A18111A7F003A82B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D80A575C18111A7F003A82B1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -188,6 +191,8 @@
 		D854F9B31887E95500A42A79 /* Downloads */ = {
 			isa = PBXGroup;
 			children = (
+				D805775718881E340073157E /* ISDownloadsCollectionViewCell.h */,
+				D805775818881E340073157E /* ISDownloadsCollectionViewCell.m */,
 				D81798AB1870F469009AA0A2 /* ISDownloadsViewController.h */,
 				D81798AC1870F469009AA0A2 /* ISDownloadsViewController.m */,
 			);
@@ -369,6 +374,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D805775918881E340073157E /* ISDownloadsCollectionViewCell.m in Sources */,
 				D80A576B18111A7F003A82B1 /* ISAppDelegate.m in Sources */,
 				D881B397187D548C00C3EC10 /* ISPhotoCollectionViewCell.m in Sources */,
 				D80A576718111A7F003A82B1 /* main.m in Sources */,

@@ -112,7 +112,7 @@ static NSString *kServiceRoot = @"http://photos.jbmorley.co.uk";
 
 - (void)startReversing
 {
-  double delayInSeconds = 10.0;
+  double delayInSeconds = 2.0f;
   dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
   dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
     self.sortedKeys = [[[self.sortedKeys reverseObjectEnumerator] allObjects] mutableCopy];
@@ -142,23 +142,14 @@ static NSString *kServiceRoot = @"http://photos.jbmorley.co.uk";
 #pragma mark - ISDBDataSource
 
 
-- (void)initialize:(ISListViewAdapter *)adapter
+- (void)initializeAdapter:(ISListViewAdapter *)adapter
 {
   self.adapter = adapter;
 }
 
 
-- (void)adapter:(ISListViewAdapter *)adapter
-  numberOfItems:(ISListViewAdapterCountBlock)completionBlock
-{
-  completionBlock(self.sortedKeys.count);
-}
-
-
-- (void)adapter:(ISListViewAdapter *)adapter
-itemsForOffset:(NSUInteger)offset
-          limit:(NSInteger)limit
-complectionBlock:(ISListViewAdapterBlock)completionBlock
+- (void)itemsForAdapter:(ISListViewAdapter *)adapter
+        completionBlock:(ISListViewAdapterBlock)completionBlock
 {
   NSMutableArray *items = [NSMutableArray arrayWithCapacity:self.sortedKeys.count];
   for (NSString *identifier in self.sortedKeys) {
