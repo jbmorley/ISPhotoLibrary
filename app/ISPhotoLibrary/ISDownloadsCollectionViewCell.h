@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <ISCache/ISCache.h>
 
 @interface ISDownloadsCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, weak) IBOutlet UIProgressView *progressView;
 @property (nonatomic, weak) IBOutlet UILabel *label;
+@property (nonatomic, strong) ISCacheItem *cacheItem;
 
 @end

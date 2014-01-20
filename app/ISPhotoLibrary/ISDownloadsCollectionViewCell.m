@@ -10,22 +10,50 @@
 
 @implementation ISDownloadsCollectionViewCell
 
-- (id)initWithFrame:(CGRect)frame
+- (void)setCacheItem:(ISCacheItem *)cacheItem
 {
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
+  if (_cacheItem != cacheItem) {
+    [self stopObservingCacheItem];
+    _cacheItem = cacheItem;
+    if (_cacheItem) {
+      self.label.text = _cacheItem.identifier;
+      [self startObservingCacheItem];
     }
-    return self;
+  }
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
+
+- (void)startObservingCacheItem
 {
-    // Drawing code
+  [_cacheItem addObserver:self
+               forKeyPath:NSStringFromSelector(@selector(progress))
+                  options:NSKeyValueObservingOptionInitial
+                  context:NULL];
 }
-*/
+
+
+- (void)stopObservingCacheItem
+{
+  @try {
+    [_cacheItem removeObserver:self
+                    forKeyPath:NSStringFromSelector(@selector(progress))];
+  }
+  @catch (NSException *exception) {}
+}
+
+
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
+  if (object == self.cacheItem) {
+    if ([keyPath isEqualToString:NSStringFromSelector(@selector(progress))]) {
+      self.progressView.progress = self.cacheItem.progress;
+    }
+  }
+}
+
 
 @end

@@ -27,6 +27,7 @@
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (nonatomic, strong) NSArray *items;
+@property (nonatomic, strong) NSMutableDictionary *uids;
 @property (nonatomic, strong) ISListViewAdapter *adapter;
 @property (nonatomic, strong) ISListViewAdapterConnector *connector;
 
@@ -42,16 +43,28 @@ static NSString *kDownloadsViewCellReuseIdentifier = @"DownloadsCell";
   [super viewDidLoad];
   
   // Fetch the items.
-  // TODO This needs to be moved elsewhere.
   self.items = [[ISCache defaultCache] items:[ISCacheStateFilter filterWithStates:ISCacheItemStateInProgress]];
   
   self.adapter = [[ISListViewAdapter alloc] initWithDataSource:self];
   self.connector = [ISListViewAdapterConnector connectorWithCollectionView:self.collectionView];
   [self.adapter addObserver:self.connector];
   
-  [[ISCache defaultCache] addObserver:self];
 }
 
+
+- (void)viewWillAppear:(BOOL)animated
+{
+  [super viewWillAppear:animated];
+  [[ISCache defaultCache] addCacheObserver:self];
+  [self.adapter invalidate];
+}
+
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+  [super viewDidDisappear:animated];
+  [[ISCache defaultCache] removeCacheObserver:self];
+}
 
 - (void)didReceiveMemoryWarning
 {
@@ -87,8 +100,7 @@ static NSString *kDownloadsViewCellReuseIdentifier = @"DownloadsCell";
     // Re-fetch the cell.
     ISDownloadsCollectionViewCell *cell = (ISDownloadsCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
     if (cell) {
-      cell.label.text = item.identifier;
-      cell.progressView.progress = item.progress;
+      cell.cacheItem = item;
     }
     
   }];
@@ -100,21 +112,16 @@ static NSString *kDownloadsViewCellReuseIdentifier = @"DownloadsCell";
 #pragma mark - ISListViewAdapterDataSource
 
 
-- (void)adapter:(ISListViewAdapter *)adapter
-  numberOfItems:(ISListViewAdapterCountBlock)completionBlock
-{
-  completionBlock(self.items.count);
-}
-
 - (void)itemsForAdapter:(ISListViewAdapter *)adapter
         completionBlock:(ISListViewAdapterBlock)completionBlock
 {
   // Convert them into a structure that the adapter can understand.
+  // TODO How is nil handled?
   NSMutableArray *descriptions =
   [NSMutableArray arrayWithCapacity:self.items.count];
   for (ISCacheItem *item in self.items) {
-    [descriptions addObject:[ISListViewAdapterItemDescription descriptionWithIdentifier:item.identifier
-                                                                                summary:nil]];
+    [descriptions addObject:
+     [ISListViewAdapterItemDescription descriptionWithIdentifier:item.uid summary:@"BOB"]];
   }
   completionBlock(descriptions);
 }
@@ -123,8 +130,7 @@ static NSString *kDownloadsViewCellReuseIdentifier = @"DownloadsCell";
 itemForIdentifier:(id)identifier
 completionBlock:(ISListViewAdapterBlock)completionBlock
 {
-  // TODO Perform a lookup on the item.
-  completionBlock(self.items[0]);
+  completionBlock([self.uids objectForKey:identifier]);
 }
 
 
@@ -133,6 +139,12 @@ completionBlock:(ISListViewAdapterBlock)completionBlock
 - (void)cache:(ISCache *)cache
 itemDidUpdate:(ISCacheItem *)item
 {
+  self.items = [[ISCache defaultCache] items:[ISCacheStateFilter filterWithStates:ISCacheItemStateInProgress]];
+  self.uids = [NSMutableDictionary dictionaryWithCapacity:3];
+  for (ISCacheItem *item in self.items) {
+    [self.uids setObject:item
+                  forKey:item.uid];
+  }
   [self.adapter invalidate];
 }
 
