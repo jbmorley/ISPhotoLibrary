@@ -164,6 +164,10 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+  if ([[ISCache defaultCache] debug]) {
+    NSLog(@"cellForItemAtIndexPath:%ld", (long)indexPath.item);
+  }
+  
   // Configure the cell.
   ISLibraryCollectionViewCell *cell
   = [collectionView dequeueReusableCellWithReuseIdentifier:kCollectionViewCellReuseIdentifier
@@ -173,6 +177,10 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
   
   ISListViewAdapterItem *item = [self.adapter itemForIndex:indexPath.item];
   [item fetch:^(NSDictionary *dict) {
+    
+    if ([[ISCache defaultCache] debug]) {
+      NSLog(@"fetch result for index %ld", (long)indexPath.item);
+    }
     
     // Re-fetch the cell from the table view to ensure it is valid
     // and still valid. This only works as the fetch operation is
