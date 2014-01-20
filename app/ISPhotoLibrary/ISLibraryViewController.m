@@ -57,7 +57,7 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
   // Create an adapter and connect it to the collection view.
   self.adapter = [[ISListViewAdapter alloc] initWithDataSource:self.photoService];
   self.connector = [ISListViewAdapterConnector connectorWithCollectionView:self.collectionView];
-  [self.adapter addObserver:self.connector];
+  [self.adapter addAdapterObserver:self.connector];
 
 }
 

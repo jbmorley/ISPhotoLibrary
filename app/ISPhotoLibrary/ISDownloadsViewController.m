@@ -47,7 +47,7 @@ static NSString *kDownloadsViewCellReuseIdentifier = @"DownloadsCell";
   
   self.adapter = [[ISListViewAdapter alloc] initWithDataSource:self];
   self.connector = [ISListViewAdapterConnector connectorWithCollectionView:self.collectionView];
-  [self.adapter addObserver:self.connector];
+  [self.adapter addAdapterObserver:self.connector];
   
 }
 

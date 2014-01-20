@@ -76,8 +76,8 @@ static CGFloat kScrubberCellWidth = 42.0f;
   // Connect to the adapter.
   self.photoConnector = [ISListViewAdapterConnector connectorWithCollectionView:self.photoCollectionView];
   self.scrubberConnector = [ISListViewAdapterConnector connectorWithCollectionView:self.scrubberCollectionView];
-  [self.adapter addObserver:self.photoConnector];
-  [self.adapter addObserver:self.scrubberConnector];
+  [self.adapter addAdapterObserver:self.photoConnector];
+  [self.adapter addAdapterObserver:self.scrubberConnector];
 
   // Set the initial status bar state.
   _prefersStatusBarHidden = NO;
