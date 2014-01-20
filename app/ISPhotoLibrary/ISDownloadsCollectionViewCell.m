@@ -8,6 +8,15 @@
 
 #import "ISDownloadsCollectionViewCell.h"
 
+@interface ISDownloadsCollectionViewCell ()
+
+@property (nonatomic, weak) IBOutlet UIProgressView *progressView;
+@property (nonatomic, weak) IBOutlet UILabel *label;
+@property (nonatomic, weak) IBOutlet UILabel *detailLabel;
+@property (nonatomic, weak) IBOutlet UIButton *button;
+
+@end
+
 @implementation ISDownloadsCollectionViewCell
 
 - (void)setCacheItem:(ISCacheItem *)cacheItem
@@ -50,8 +59,22 @@
 {
   if (object == self.cacheItem) {
     if ([keyPath isEqualToString:NSStringFromSelector(@selector(progress))]) {
-      self.progressView.progress = self.cacheItem.progress;
+      CGFloat progress = self.cacheItem.progress;
+      self.progressView.progress = progress;
+      NSInteger percentage = (progress * 100);
+      self.detailLabel.text = [NSString stringWithFormat:
+                               @"%d%%",
+                               percentage];
     }
+  }
+}
+
+
+- (IBAction)buttonClicked:(id)sender
+{
+  if (self.cacheItem) {
+    ISCache *defaultCache = [ISCache defaultCache];
+    [defaultCache cancelItems:@[self.cacheItem]];
   }
 }
 
