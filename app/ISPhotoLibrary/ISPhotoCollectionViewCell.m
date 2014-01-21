@@ -66,7 +66,7 @@ typedef enum {
     self.cacheItem =
     [self.imageView setImageWithIdentifier:_url
                                    context:ISCacheImageContext
-                                  userInfo:@{@"width": @320.0,
+                                  preferences:@{@"width": @320.0,
                                              @"height": @568.0,
                                              @"scale": @(ISScalingCacheHandlerScaleAspectFit)}
                           placeholderImage:nil

@@ -232,7 +232,7 @@ static CGFloat kScrubberCellWidth = 42.0f;
       if (cell) {
         [cell.imageView setImageWithIdentifier:dict[ISPhotoServiceKeyURL]
                                        context:ISCacheImageContext
-                                      userInfo:@{@"width": @50.0,
+                                      preferences:@{@"width": @50.0,
                                                  @"height": @50.0,
                                                  @"scale": @(ISScalingCacheHandlerScaleAspectFit)}
                               placeholderImage:nil

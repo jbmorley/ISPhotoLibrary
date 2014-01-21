@@ -36,8 +36,8 @@ const NSString *ISPhotoServiceKeyIdentifier = @"id";
 const NSString *ISPhotoServiceKeyURL = @"url";
 const NSString *ISPhotoServiceKeyName = @"name";
 
-static NSString *kServiceRoot = @"http://127.0.0.1:8051";
-//static NSString *kServiceRoot = @"http://photos.jbmorley.co.uk";
+//static NSString *kServiceRoot = @"http://127.0.0.1:8051";
+static NSString *kServiceRoot = @"http://photos.jbmorley.co.uk";
 
 @implementation ISPhotoService
 

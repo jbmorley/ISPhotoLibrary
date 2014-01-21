@@ -38,7 +38,7 @@
     _cacheItem = cacheItem;
     if (_cacheItem) {
       self.button.enabled = YES;
-      self.label.text = _cacheItem.data[ISPhotoServiceKeyName];
+      self.label.text = _cacheItem.userInfo[ISPhotoServiceKeyName];
       [self startObservingCacheItem];
     }
   }
