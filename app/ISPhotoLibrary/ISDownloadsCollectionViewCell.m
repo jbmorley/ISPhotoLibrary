@@ -21,13 +21,13 @@
 @implementation ISDownloadsCollectionViewCell
 
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (void)awakeFromNib
 {
-  self = [super initWithCoder:aDecoder];
-  if (self) {
-    self.button.enabled = NO;
-  }
-  return self;
+  [super awakeFromNib];
+  self.button.enabled = NO;
+  UIImage *image = [UIImage imageNamed:@"Stop.imageasset"];
+  [self.button setImage:[image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
+               forState:UIControlStateNormal];
 }
 
 
