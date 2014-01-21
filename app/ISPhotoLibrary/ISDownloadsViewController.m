@@ -43,7 +43,7 @@ static NSString *kDownloadsViewCellReuseIdentifier = @"DownloadsCell";
   [super viewDidLoad];
   
   // Fetch the items.
-  self.items = [[ISCache defaultCache] items:[ISCacheStateFilter filterWithStates:ISCacheItemStateInProgress]];
+  [self update];
   
   self.adapter = [[ISListViewAdapter alloc] initWithDataSource:self];
   self.connector = [ISListViewAdapterConnector connectorWithCollectionView:self.collectionView];
@@ -75,6 +75,17 @@ static NSString *kDownloadsViewCellReuseIdentifier = @"DownloadsCell";
 - (IBAction)doneClicked:(id)sender
 {
   [self.delegate downloadsViewControllerDidFinish:self];
+}
+
+
+- (void)update
+{
+  self.items = [[ISCache defaultCache] items:[ISCacheStateFilter filterWithStates:ISCacheItemStateInProgress]];
+  self.uids = [NSMutableDictionary dictionaryWithCapacity:3];
+  for (ISCacheItem *item in self.items) {
+    [self.uids setObject:item
+                  forKey:item.uid];
+  }
 }
 
 
@@ -116,7 +127,6 @@ static NSString *kDownloadsViewCellReuseIdentifier = @"DownloadsCell";
         completionBlock:(ISListViewAdapterBlock)completionBlock
 {
   // Convert them into a structure that the adapter can understand.
-  // TODO How is nil handled?
   NSMutableArray *descriptions =
   [NSMutableArray arrayWithCapacity:self.items.count];
   for (ISCacheItem *item in self.items) {
@@ -139,12 +149,7 @@ completionBlock:(ISListViewAdapterBlock)completionBlock
 - (void)cache:(ISCache *)cache
 itemDidUpdate:(ISCacheItem *)item
 {
-  self.items = [[ISCache defaultCache] items:[ISCacheStateFilter filterWithStates:ISCacheItemStateInProgress]];
-  self.uids = [NSMutableDictionary dictionaryWithCapacity:3];
-  for (ISCacheItem *item in self.items) {
-    [self.uids setObject:item
-                  forKey:item.uid];
-  }
+  [self update];
   [self.adapter invalidate];
 }
 

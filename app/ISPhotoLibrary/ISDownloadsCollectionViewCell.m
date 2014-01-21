@@ -7,6 +7,7 @@
 //
 
 #import "ISDownloadsCollectionViewCell.h"
+#import "ISPhotoService.h"
 
 @interface ISDownloadsCollectionViewCell ()
 
@@ -19,13 +20,25 @@
 
 @implementation ISDownloadsCollectionViewCell
 
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+  self = [super initWithCoder:aDecoder];
+  if (self) {
+    self.button.enabled = NO;
+  }
+  return self;
+}
+
+
 - (void)setCacheItem:(ISCacheItem *)cacheItem
 {
   if (_cacheItem != cacheItem) {
     [self stopObservingCacheItem];
     _cacheItem = cacheItem;
     if (_cacheItem) {
-      self.label.text = _cacheItem.identifier;
+      self.button.enabled = YES;
+      self.label.text = _cacheItem.data[ISPhotoServiceKeyName];
       [self startObservingCacheItem];
     }
   }
@@ -63,8 +76,8 @@
       self.progressView.progress = progress;
       NSInteger percentage = (progress * 100);
       self.detailLabel.text = [NSString stringWithFormat:
-                               @"%d%%",
-                               percentage];
+                               @"%ld%%",
+                               (long)percentage];
     }
   }
 }
@@ -75,6 +88,7 @@
   if (self.cacheItem) {
     ISCache *defaultCache = [ISCache defaultCache];
     [defaultCache cancelItems:@[self.cacheItem]];
+    self.button.enabled = NO;
   }
 }
 

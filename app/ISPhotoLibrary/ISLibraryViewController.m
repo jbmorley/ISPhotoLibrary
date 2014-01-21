@@ -187,6 +187,7 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
     // guaranteed to be dispatched asynchronously.
     ISLibraryCollectionViewCell *cell = (ISLibraryCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
     if (cell) {
+      ISCacheItem *item =
       [cell.imageView setImageWithIdentifier:dict[ISPhotoServiceKeyURL]
                                      context:ISCacheImageContext
                                     userInfo:@{@"width": @152.0,
@@ -194,6 +195,7 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
                                                @"scale": @(ISScalingCacheHandlerScaleAspectFill)}
                             placeholderImage:self.thumbnail
                                        block:NULL];
+      item.data = dict;
     }
     
   }];
