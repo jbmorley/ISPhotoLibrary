@@ -74,10 +74,31 @@
     if ([keyPath isEqualToString:NSStringFromSelector(@selector(progress))]) {
       CGFloat progress = self.cacheItem.progress;
       self.progressView.progress = progress;
-      NSInteger percentage = (progress * 100);
-      self.detailLabel.text = [NSString stringWithFormat:
-                               @"%ld%%",
-                               (long)percentage];
+//      NSInteger percentage = (progress * 100);
+//      self.detailLabel.text = [NSString stringWithFormat:
+//                               @"%ld%%",
+//                               (long)percentage];
+//      if (percentage == 0) {
+//        self.detailLabel.text = @"Calculating time remaining...";
+//      }
+      
+      if (self.cacheItem.totalBytesExpectedToRead == ISCacheItemTotalBytesUnknown || self.cacheItem.totalBytesExpectedToRead == 0) {
+        self.detailLabel.text = @"Calculating time remaining...";
+      } else if (self.cacheItem.totalBytesExpectedToRead == self.cacheItem.totalBytesRead) {
+        self.detailLabel.text = @"Download complete";
+      } else {
+        NSDate *modified  = self.cacheItem.modified;
+        NSTimeInterval interval = [modified timeIntervalSinceNow] * -1;
+        
+        CGFloat remaining = (CGFloat)(self.cacheItem.totalBytesExpectedToRead - self.cacheItem.totalBytesRead) / (CGFloat)self.cacheItem.totalBytesExpectedToRead;
+        
+        NSTimeInterval remainingTime = interval * remaining;
+        
+        self.detailLabel.text = [NSString stringWithFormat:
+                                 @"%d seconds remaining...",
+                                 (int)remainingTime];
+      }
+      
     }
   }
 }
