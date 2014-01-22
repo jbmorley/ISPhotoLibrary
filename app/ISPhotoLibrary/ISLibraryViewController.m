@@ -28,6 +28,7 @@
 #import "ISLibraryCollectionViewCell.h"
 #import "ISPhotoViewController.h"
 #import "ISViewControllerChromeState.h"
+#import "ISOrientationFlowLayout.h"
 
 @interface ISLibraryViewController ()
 
@@ -36,6 +37,7 @@
 @property (nonatomic, strong) UIImage *thumbnail;
 @property (nonatomic, strong) ISListViewAdapter *adapter;
 @property (nonatomic, strong) ISListViewAdapterConnector *connector;
+@property (nonatomic, strong) ISOrientationFlowLayout *layout;
 @property (nonatomic) CGPoint lastContentScrollOffset;
 @property (nonatomic) ISViewControllerChromeState chromeState;
 @property (nonatomic) BOOL scrollViewIsDragging;
@@ -58,6 +60,9 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
   self.adapter = [[ISListViewAdapter alloc] initWithDataSource:self.photoService];
   self.connector = [ISListViewAdapterConnector connectorWithCollectionView:self.collectionView];
   [self.adapter addAdapterObserver:self.connector];
+  
+  self.layout = [ISOrientationFlowLayout new];
+  self.collectionView.collectionViewLayout = self.layout;
 
 }
 
@@ -83,6 +88,20 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
     viewController.delegate = self;
   }
 }
+
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+                                duration:(NSTimeInterval)duration
+{
+  if (UIDeviceOrientationIsPortrait(toInterfaceOrientation)) {
+//    [_itemCollection setCollectionViewLayout:_portraitLayout];
+    [self.collectionView reloadData];
+  } else {
+//    [_itemCollection setCollectionViewLayout:_landscapeLayout];
+    [self.collectionView reloadData];
+  }
+}
+
 
 #pragma mark - Utilities
 
@@ -190,8 +209,8 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
       ISCacheItem *item =
       [cell.imageView setImageWithIdentifier:dict[ISPhotoServiceKeyURL]
                                      context:ISCacheImageContext
-                                    preferences:@{@"width": @152.0,
-                                               @"height": @152.0,
+                                    preferences:@{@"width": @100.0,
+                                               @"height": @100.0,
                                                @"scale": @(ISScalingCacheHandlerScaleAspectFill)}
                             placeholderImage:self.thumbnail
                                        block:NULL];

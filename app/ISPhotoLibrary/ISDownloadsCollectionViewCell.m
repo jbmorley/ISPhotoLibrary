@@ -15,6 +15,7 @@
 @property (nonatomic, weak) IBOutlet UILabel *label;
 @property (nonatomic, weak) IBOutlet UILabel *detailLabel;
 @property (nonatomic, weak) IBOutlet UIButton *button;
+@property (nonatomic) ISCacheItemState state;
 
 @end
 
@@ -51,10 +52,53 @@
 }
 
 
+- (void)setState:(ISCacheItemState)state
+{
+  if (_state != state) {
+    _state = state;
+    
+    if (_state == ISCacheItemStateInProgress) {
+      self.button.enabled = YES;
+    } else {
+      self.button.enabled = NO;
+    }
+    
+    [UIView animateWithDuration:0.3
+                     animations:
+     ^{
+       if (_state ==
+           ISCacheItemStateInProgress) {
+         self.backgroundColor =
+         [UIColor colorWithWhite:0.95
+                           alpha:1.0];
+       } else if (_state ==
+                  ISCacheItemStateNotFound) {
+         self.backgroundColor =
+         [UIColor colorWithWhite:0.93
+                           alpha:1.0];
+       } else if (_state ==
+                  ISCacheItemStateFound) {
+         self.backgroundColor =
+         [UIColor colorWithWhite:0.98
+                           alpha:1.0];
+       }
+     }];
+  }
+}
+
+
 - (void)startObservingCacheItem
 {
   [_cacheItem addObserver:self
                forKeyPath:NSStringFromSelector(@selector(progress))
+                  options:NSKeyValueObservingOptionInitial
+                  context:NULL];
+  [_cacheItem addObserver:self
+               forKeyPath:NSStringFromSelector(@selector(state))
+                  options:NSKeyValueObservingOptionInitial
+                  context:NULL];
+  [_cacheItem addObserver:self
+               forKeyPath:NSStringFromSelector(@selector(timeRemainingEstimate))
                   options:NSKeyValueObservingOptionInitial
                   context:NULL];
 }
@@ -65,6 +109,10 @@
   @try {
     [_cacheItem removeObserver:self
                     forKeyPath:NSStringFromSelector(@selector(progress))];
+    [_cacheItem removeObserver:self
+                    forKeyPath:NSStringFromSelector(@selector(state))];
+    [_cacheItem removeObserver:self
+                    forKeyPath:NSStringFromSelector(@selector(timeRemainingEstimate))];
   }
   @catch (NSException *exception) {}
 }
@@ -80,31 +128,22 @@
     if ([keyPath isEqualToString:NSStringFromSelector(@selector(progress))]) {
       CGFloat progress = self.cacheItem.progress;
       self.progressView.progress = progress;
-//      NSInteger percentage = (progress * 100);
-//      self.detailLabel.text = [NSString stringWithFormat:
-//                               @"%ld%%",
-//                               (long)percentage];
-//      if (percentage == 0) {
-//        self.detailLabel.text = @"Calculating time remaining...";
-//      }
-      
-      if (self.cacheItem.totalBytesExpectedToRead == ISCacheItemTotalBytesUnknown || self.cacheItem.totalBytesExpectedToRead == 0) {
-        self.detailLabel.text = @"Calculating time remaining...";
-      } else if (self.cacheItem.totalBytesExpectedToRead == self.cacheItem.totalBytesRead) {
-        self.detailLabel.text = @"Download complete";
-      } else {
-        NSDate *modified  = self.cacheItem.modified;
-        NSTimeInterval interval = [modified timeIntervalSinceNow] * -1;
-        
-        CGFloat remaining = (CGFloat)(self.cacheItem.totalBytesExpectedToRead - self.cacheItem.totalBytesRead) / (CGFloat)self.cacheItem.totalBytesExpectedToRead;
-        
-        NSTimeInterval remainingTime = interval * remaining;
-        
+    } else if ([keyPath isEqualToString:NSStringFromSelector(@selector(state))]) {
+      self.state = self.cacheItem.state;
+    } else if ([keyPath isEqualToString:NSStringFromSelector(@selector(timeRemainingEstimate))]) {
+      NSTimeInterval timeRemainingEstimate = self.cacheItem.timeRemainingEstimate;
+      if (timeRemainingEstimate != 0) {
         self.detailLabel.text = [NSString stringWithFormat:
                                  @"%d seconds remaining...",
-                                 (int)remainingTime];
+                                 (int)self.cacheItem.timeRemainingEstimate];
+      } else {
+        if (self.cacheItem.state ==
+            ISCacheItemStateFound) {
+          self.detailLabel.text = @"Download complete";
+        } else if (self.cacheItem.lastError) {
+          self.detailLabel.text = @"Download failed";
+        }
       }
-      
     }
   }
 }
