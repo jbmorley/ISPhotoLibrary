@@ -31,6 +31,12 @@
 }
 
 
+- (void)dealloc
+{
+  [self stopObservingCacheItem];
+}
+
+
 - (void)setCacheItem:(ISCacheItem *)cacheItem
 {
   if (_cacheItem != cacheItem) {
