@@ -36,7 +36,8 @@
 <UICollectionViewDataSource
 ,UICollectionViewDelegate
 ,ISListViewAdapterDataSource
-,ISCacheObserver>
+,ISCacheObserver
+,UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, weak) id<ISDownloadsViewControllerDelegate> delegate;
 

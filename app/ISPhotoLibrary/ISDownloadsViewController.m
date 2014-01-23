@@ -72,6 +72,18 @@ static NSString *kDownloadsViewCellReuseIdentifier = @"DownloadsCell";
 }
 
 
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+                               duration: (NSTimeInterval)duration
+{
+}
+
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+  [self.collectionView reloadData];
+}
+
+
 - (IBAction)doneClicked:(id)sender
 {
   [self.delegate downloadsViewControllerDidFinish:self];
@@ -146,6 +158,7 @@ completionBlock:(ISListViewAdapterBlock)completionBlock
 
 #pragma mark - ISCacheObserver
 
+
 //- (void)cache:(ISCache *)cache
 //itemDidUpdate:(ISCacheItem *)item
 //{
@@ -161,6 +174,61 @@ completionBlock:(ISListViewAdapterBlock)completionBlock
   [self.adapter invalidate];
 }
 
+
+#pragma mark - UICollectionViewDelegateFlowLayout
+
+
+
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout*)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+  UIDeviceOrientation orientation =
+  [[UIDevice currentDevice] orientation];
+  if (UIDeviceOrientationIsPortrait(orientation)) {
+    return CGSizeMake(320.0, 72.0);
+  } else if (UIDeviceOrientationIsLandscape(orientation)) {
+    return CGSizeMake(283.0, 72.0);
+  }
+  return CGSizeZero;
+}
+
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView
+                        layout:(UICollectionViewLayout*)collectionViewLayout
+        insetForSectionAtIndex:(NSInteger)section
+{
+  UIDeviceOrientation orientation =
+  [[UIDevice currentDevice] orientation];
+  if (UIDeviceOrientationIsPortrait(orientation)) {
+    return UIEdgeInsetsMake(0.0,
+                            0.0,
+                            0.0,
+                            0.0);
+  } else if (UIDeviceOrientationIsLandscape(orientation)) {
+    return UIEdgeInsetsMake(0.0,
+                            0.0,
+                            0.0,
+                            0.0);
+  }
+  return UIEdgeInsetsZero;
+}
+
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView
+                   layout:(UICollectionViewLayout*)collectionViewLayout
+minimumLineSpacingForSectionAtIndex:(NSInteger)section
+{
+  return 2.0;
+}
+
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView
+                   layout:(UICollectionViewLayout*)collectionViewLayout
+minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
+{
+  return 1.0;
+}
 
 
 @end
