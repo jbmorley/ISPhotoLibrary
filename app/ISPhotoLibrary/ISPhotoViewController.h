@@ -26,7 +26,8 @@
 
 @interface ISPhotoViewController : UIViewController
 <UICollectionViewDataSource
-,UICollectionViewDelegate>
+,UICollectionViewDelegate
+,UICollectionViewDelegateFlowLayout>
 
 @property (strong, nonatomic) ISListViewAdapter *adapter;
 @property (nonatomic) NSInteger index;

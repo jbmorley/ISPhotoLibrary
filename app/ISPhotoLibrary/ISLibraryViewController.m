@@ -28,7 +28,6 @@
 #import "ISLibraryCollectionViewCell.h"
 #import "ISPhotoViewController.h"
 #import "ISViewControllerChromeState.h"
-#import "ISOrientationFlowLayout.h"
 
 @interface ISLibraryViewController ()
 
@@ -37,7 +36,6 @@
 @property (nonatomic, strong) UIImage *thumbnail;
 @property (nonatomic, strong) ISListViewAdapter *adapter;
 @property (nonatomic, strong) ISListViewAdapterConnector *connector;
-@property (nonatomic, strong) ISOrientationFlowLayout *layout;
 @property (nonatomic) CGPoint lastContentScrollOffset;
 @property (nonatomic) ISViewControllerChromeState chromeState;
 @property (nonatomic) BOOL scrollViewIsDragging;
@@ -60,10 +58,6 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
   self.adapter = [[ISListViewAdapter alloc] initWithDataSource:self.photoService];
   self.connector = [ISListViewAdapterConnector connectorWithCollectionView:self.collectionView];
   [self.adapter addAdapterObserver:self.connector];
-  
-  self.layout = [ISOrientationFlowLayout new];
-  self.collectionView.collectionViewLayout = self.layout;
-
 }
 
 
@@ -263,5 +257,52 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
                                                 completion:NULL];
 }
 
+
+#pragma mark - ISCollectionViewDelegateFlowLayout
+
+
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout*)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+  return CGSizeMake(100, 100);
+}
+
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView
+                        layout:(UICollectionViewLayout*)collectionViewLayout
+        insetForSectionAtIndex:(NSInteger)section
+{
+  UIDeviceOrientation orientation =
+  [[UIDevice currentDevice] orientation];
+  if (UIDeviceOrientationIsPortrait(orientation)) {
+    return UIEdgeInsetsMake(5.0,
+                            5.0,
+                            5.0,
+                            5.0);
+  } else if (UIDeviceOrientationIsLandscape(orientation)) {
+    return UIEdgeInsetsMake(5.0,
+                            20.0,
+                            5.0,
+                            20.0);
+  }
+  return UIEdgeInsetsZero;
+}
+
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView
+                   layout:(UICollectionViewLayout*)collectionViewLayout
+minimumLineSpacingForSectionAtIndex:(NSInteger)section
+{
+  return 5.0;
+}
+
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView
+                   layout:(UICollectionViewLayout*)collectionViewLayout
+minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
+{
+  return 5.0;
+}
 
 @end

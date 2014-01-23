@@ -26,7 +26,6 @@
 		D812C66E186C183300416A1B /* ISLibraryCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D812C66D186C183300416A1B /* ISLibraryCollectionViewCell.m */; };
 		D812C671186D7E6900416A1B /* ISPhotoService.m in Sources */ = {isa = PBXBuildFile; fileRef = D812C670186D7E6900416A1B /* ISPhotoService.m */; };
 		D81798AD1870F469009AA0A2 /* ISDownloadsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D81798AC1870F469009AA0A2 /* ISDownloadsViewController.m */; };
-		D86368BF18906CCC003A4B7D /* ISOrientationFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = D86368BE18906CCC003A4B7D /* ISOrientationFlowLayout.m */; };
 		D881B397187D548C00C3EC10 /* ISPhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D881B396187D548C00C3EC10 /* ISPhotoCollectionViewCell.m */; };
 		D8A9D57C1881DF800008FAED /* ISScrubberCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A9D57B1881DF800008FAED /* ISScrubberCollectionViewCell.m */; };
 		D8F95D05185A0A0F0083A279 /* ISPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F95D04185A0A0F0083A279 /* ISPhotoViewController.m */; };
@@ -73,8 +72,6 @@
 		D81798AB1870F469009AA0A2 /* ISDownloadsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISDownloadsViewController.h; sourceTree = "<group>"; };
 		D81798AC1870F469009AA0A2 /* ISDownloadsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISDownloadsViewController.m; sourceTree = "<group>"; };
 		D81798B21872893A009AA0A2 /* ISViewControllerChromeState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISViewControllerChromeState.h; sourceTree = "<group>"; };
-		D86368BD18906CCC003A4B7D /* ISOrientationFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ISOrientationFlowLayout.h; path = ISPhotoLibrary/ISOrientationFlowLayout.h; sourceTree = "<group>"; };
-		D86368BE18906CCC003A4B7D /* ISOrientationFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISOrientationFlowLayout.m; path = ISPhotoLibrary/ISOrientationFlowLayout.m; sourceTree = "<group>"; };
 		D881B395187D548C00C3EC10 /* ISPhotoCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISPhotoCollectionViewCell.h; sourceTree = "<group>"; };
 		D881B396187D548C00C3EC10 /* ISPhotoCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISPhotoCollectionViewCell.m; sourceTree = "<group>"; };
 		D8A9D57A1881DF800008FAED /* ISScrubberCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISScrubberCollectionViewCell.h; sourceTree = "<group>"; };
@@ -111,8 +108,6 @@
 		D80A574E18111A7F003A82B1 = {
 			isa = PBXGroup;
 			children = (
-				D86368BD18906CCC003A4B7D /* ISOrientationFlowLayout.h */,
-				D86368BE18906CCC003A4B7D /* ISOrientationFlowLayout.m */,
 				D80A576018111A7F003A82B1 /* ISPhotoLibrary */,
 				D80A577F18111A7F003A82B1 /* ISPhotoLibraryTests */,
 				D80A575918111A7F003A82B1 /* Frameworks */,
@@ -379,7 +374,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D86368BF18906CCC003A4B7D /* ISOrientationFlowLayout.m in Sources */,
 				D805775918881E340073157E /* ISDownloadsCollectionViewCell.m in Sources */,
 				D80A576B18111A7F003A82B1 /* ISAppDelegate.m in Sources */,
 				D881B397187D548C00C3EC10 /* ISPhotoCollectionViewCell.m in Sources */,

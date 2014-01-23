@@ -120,6 +120,18 @@ static CGFloat kScrubberCellWidth = 42.0f;
 }
 
 
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+                               duration: (NSTimeInterval)duration
+{
+}
+
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+  [self.photoCollectionView reloadData];
+}
+
+
 - (void)setChromeState:(ISViewControllerChromeState)chromeState
 {
   if (_chromeState != chromeState) {
@@ -307,6 +319,72 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
     
   }
   
+}
+
+
+#pragma mark - UICollectionViewDelegateFlowLayout
+
+
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout*)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+  if (collectionView == self.photoCollectionView) {
+    return self.photoCollectionView.bounds.size;
+  } else if (collectionView == self.scrubberCollectionView) {
+    return CGSizeMake(38.0, 38.0);
+  }
+  return CGSizeZero;
+}
+
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView
+                        layout:(UICollectionViewLayout*)collectionViewLayout
+        insetForSectionAtIndex:(NSInteger)section
+{
+  UIDeviceOrientation orientation =
+  [[UIDevice currentDevice] orientation];
+  
+  if (collectionView == self.photoCollectionView) {
+    if (UIDeviceOrientationIsPortrait(orientation)) {
+      return UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0);
+    } else if (UIDeviceOrientationIsLandscape(orientation)) {
+      return UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0);
+    }
+  } else if (collectionView == self.scrubberCollectionView) {
+    if (UIDeviceOrientationIsPortrait(orientation)) {
+      return UIEdgeInsetsMake(2.0, 139.0, 2.0, 139.0);
+    } else if (UIDeviceOrientationIsLandscape(orientation)) {
+      return UIEdgeInsetsMake(2.0, 139.0, 2.0, 139.0);
+    }
+  }
+  return UIEdgeInsetsZero;
+}
+
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView
+                   layout:(UICollectionViewLayout*)collectionViewLayout
+minimumLineSpacingForSectionAtIndex:(NSInteger)section
+{
+  if (collectionView == self.photoCollectionView) {
+    return 0.0;
+  } else if (collectionView == self.scrubberCollectionView) {
+    return 4.0;
+  }
+  return 0.0;
+}
+
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView
+                   layout:(UICollectionViewLayout*)collectionViewLayout
+minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
+{
+  if (collectionView == self.photoCollectionView) {
+    return 0.0;
+  } else if (collectionView == self.scrubberCollectionView) {
+    return 4.0;
+  }
+  return 0.0;
 }
 
 
