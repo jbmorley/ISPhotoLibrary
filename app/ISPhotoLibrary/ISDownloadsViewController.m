@@ -159,12 +159,10 @@ completionBlock:(ISListViewAdapterBlock)completionBlock
 #pragma mark - ISCacheObserver
 
 
-//- (void)cache:(ISCache *)cache
-//itemDidUpdate:(ISCacheItem *)item
-//{
-//  [self update];
-//  [self.adapter invalidate];
-//}
+- (void)cache:(ISCache *)cache
+itemDidUpdate:(ISCacheItem *)item
+{
+}
 
 
 - (void)cache:(ISCache *)cache

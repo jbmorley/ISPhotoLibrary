@@ -61,6 +61,14 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 }
 
 
+- (void)viewWillAppear:(BOOL)animated
+{
+  [super viewWillAppear:animated];
+  // Force a relayout in case we have missed a rotation event.
+  [self.collectionView reloadData];
+}
+
+
 - (void)didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
