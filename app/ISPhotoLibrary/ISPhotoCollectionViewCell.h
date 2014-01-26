@@ -22,7 +22,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ISPhotoCollectionViewCell : UICollectionViewCell
+@interface ISPhotoCollectionViewCell : UICollectionViewCell <UIScrollViewDelegate>
 
 @property (strong, nonatomic) NSString *url;
 

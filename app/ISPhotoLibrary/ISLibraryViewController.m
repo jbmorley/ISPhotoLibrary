@@ -39,6 +39,7 @@
 @property (nonatomic) CGPoint lastContentScrollOffset;
 @property (nonatomic) ISViewControllerChromeState chromeState;
 @property (nonatomic) BOOL scrollViewIsDragging;
+@property (nonatomic) BOOL isPortrait;
 
 @end
 
@@ -64,8 +65,11 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 - (void)viewWillAppear:(BOOL)animated
 {
   [super viewWillAppear:animated];
+  self.isPortrait = !UIDeviceOrientationIsLandscape([[UIDevice currentDevice] orientation]);
   // Force a relayout in case we have missed a rotation event.
+  // TODO We only want to do this if the orientation actually changes.
   [self.collectionView reloadData];
+
 }
 
 
@@ -95,13 +99,9 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
                                 duration:(NSTimeInterval)duration
 {
-  if (UIDeviceOrientationIsPortrait(toInterfaceOrientation)) {
-//    [_itemCollection setCollectionViewLayout:_portraitLayout];
-    [self.collectionView reloadData];
-  } else {
-//    [_itemCollection setCollectionViewLayout:_landscapeLayout];
-    [self.collectionView reloadData];
-  }
+  // TODO Only reload if changed.
+  self.isPortrait = UIInterfaceOrientationIsPortrait(toInterfaceOrientation);
+  [self.collectionView reloadData];
 }
 
 
@@ -281,20 +281,17 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
                         layout:(UICollectionViewLayout*)collectionViewLayout
         insetForSectionAtIndex:(NSInteger)section
 {
-  UIDeviceOrientation orientation =
-  [[UIDevice currentDevice] orientation];
-  if (UIDeviceOrientationIsPortrait(orientation)) {
+  if (self.isPortrait) {
     return UIEdgeInsetsMake(5.0,
                             5.0,
                             5.0,
                             5.0);
-  } else if (UIDeviceOrientationIsLandscape(orientation)) {
+  } else {
     return UIEdgeInsetsMake(5.0,
                             20.0,
                             5.0,
                             20.0);
   }
-  return UIEdgeInsetsZero;
 }
 
 

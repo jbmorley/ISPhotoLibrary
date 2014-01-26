@@ -32,6 +32,7 @@ typedef enum {
 
 @interface ISPhotoCollectionViewCell ()
 
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (strong, nonatomic) ISCacheItem *cacheItem;
@@ -141,6 +142,15 @@ typedef enum {
                        }];
     }
   }
+}
+
+
+#pragma mark - UIScrollViewDelegate
+
+
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
+{
+  return self.imageView;
 }
 
 @end

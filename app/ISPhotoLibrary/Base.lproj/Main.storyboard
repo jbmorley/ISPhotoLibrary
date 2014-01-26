@@ -284,10 +284,19 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="z2Q-3a-Cls">
+                                                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" maximumZoomScale="2" translatesAutoresizingMaskIntoConstraints="NO" id="Vaa-Nn-qEP">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                </imageView>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <subviews>
+                                                        <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z2Q-3a-Cls">
+                                                            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="Qpx-bN-0Cb" id="OZ7-dy-OLk"/>
+                                                    </connections>
+                                                </scrollView>
                                                 <progressView opaque="NO" alpha="0.0" contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="W4w-EE-pdn">
                                                     <rect key="frame" x="85" y="283" width="150" height="2"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -296,16 +305,13 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstAttribute="bottom" secondItem="z2Q-3a-Cls" secondAttribute="bottom" id="EqS-Ez-sxR"/>
-                                            <constraint firstItem="z2Q-3a-Cls" firstAttribute="top" secondItem="Qpx-bN-0Cb" secondAttribute="top" id="J3p-0a-dbf"/>
                                             <constraint firstAttribute="centerX" secondItem="W4w-EE-pdn" secondAttribute="centerX" id="Orc-HD-49Y"/>
-                                            <constraint firstItem="z2Q-3a-Cls" firstAttribute="leading" secondItem="Qpx-bN-0Cb" secondAttribute="leading" id="ffh-Vd-1jf"/>
                                             <constraint firstAttribute="centerY" secondItem="W4w-EE-pdn" secondAttribute="centerY" id="ihS-of-KrL"/>
-                                            <constraint firstAttribute="trailing" secondItem="z2Q-3a-Cls" secondAttribute="trailing" id="w5r-Tm-NbB"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="imageView" destination="z2Q-3a-Cls" id="UPC-Tr-joc"/>
                                             <outlet property="progressView" destination="W4w-EE-pdn" id="Y4k-72-F6M"/>
+                                            <outlet property="scrollView" destination="Vaa-Nn-qEP" id="WtP-Go-2PA"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>

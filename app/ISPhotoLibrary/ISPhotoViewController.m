@@ -89,7 +89,7 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
 {
   [super viewWillAppear:animated];
 
-  _isPortrait = UIDeviceOrientationIsPortrait([[UIDevice currentDevice] orientation]);
+  self.isPortrait = !UIDeviceOrientationIsLandscape([[UIDevice currentDevice] orientation]);
   [self showIndex:self.index
          animated:NO];
   self.currentIndex = self.index;
