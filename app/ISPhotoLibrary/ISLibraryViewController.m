@@ -68,8 +68,7 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
   [super viewWillAppear:animated];
   self.isPortrait = !UIDeviceOrientationIsLandscape([[UIDevice currentDevice] orientation]);
   // Force a relayout in case we have missed a rotation event.
-  // TODO We only want to do this if the orientation actually changes.
-  [self.collectionView reloadData];
+  [self.collectionView.collectionViewLayout invalidateLayout];
 
 }
 

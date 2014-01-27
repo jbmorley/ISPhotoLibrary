@@ -35,10 +35,10 @@
 @property (nonatomic) CGSize photoSize;
 @property (nonatomic) ISViewControllerChromeState chromeState;
 @property (nonatomic, strong) UICollectionView *scrubberCollectionView;
-@property (nonatomic, weak) UIScrollView *activeScrollView;
 @property (nonatomic, strong) ISCache *cache;
 @property (nonatomic, strong) ISListViewAdapterConnector *scrubberConnector;
 @property (nonatomic) BOOL isPortrait;
+@property (nonatomic) NSInteger currentIndex;
 
 @end
 
@@ -137,16 +137,6 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
   
   self.isPortrait = !UIDeviceOrientationIsLandscape([[UIDevice currentDevice] orientation]);
   
-  // Show the initial view controller.
-  ISItemViewController *viewController = [self viewControllerForIndex:self.index];
-  [self setViewControllers:@[viewController]
-                 direction:UIPageViewControllerNavigationDirectionForward
-                  animated:NO
-                completion:NULL];
-  
-  // Set the title.
-  self.title = viewController.title;
-  
   // Update the graphics.
   [self showIndex:self.index
          animated:NO];
@@ -156,11 +146,46 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
 - (void)showIndex:(NSUInteger)index
          animated:(BOOL)animated
 {
-  self.index = index;
-  CGFloat cellWidth = [self cellWidthWithSpacing:self.scrubberCollectionView];
-  [self.scrubberCollectionView setContentOffset:CGPointMake(cellWidth * index,
-                                                            0.0)
-                                       animated:animated];
+  if (self.currentIndex != index) {
+    
+    // Determine the direciton.
+    UIPageViewControllerNavigationDirection direction;
+    if (index < self.index) {
+      direction = UIPageViewControllerNavigationDirectionReverse;
+    } else {
+      direction = UIPageViewControllerNavigationDirectionForward;
+    }
+    
+    // Set the index.
+    self.index = index;
+    self.currentIndex = index;
+    
+    // Animate the scrubber.
+    [self scrubberShowIndex:index
+                   animated:animated];
+    
+    // Show the contents.
+    ISItemViewController *viewController = [self viewControllerForIndex:index];
+    [self setViewControllers:@[viewController]
+                   direction:direction
+                    animated:animated
+                  completion:NULL];
+    
+    // Set the title.
+    self.title = viewController.title;
+  }
+}
+
+
+- (void)scrubberShowIndex:(NSUInteger)index
+                 animated:(BOOL)animated
+{
+  NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index
+                                               inSection:0];
+  [self.scrubberCollectionView
+   scrollToItemAtIndexPath:indexPath
+   atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
+   animated:animated];
 }
 
 
@@ -180,12 +205,14 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
                                duration: (NSTimeInterval)duration
 {
   self.isPortrait = UIInterfaceOrientationIsPortrait(toInterfaceOrientation);
-  [self.scrubberCollectionView reloadData];
+  [self.scrubberCollectionView.collectionViewLayout invalidateLayout];
 }
 
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
+  [self scrubberShowIndex:self.index
+                 animated:YES];
 }
 
 
@@ -314,44 +341,12 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
 - (void)collectionView:(UICollectionView *)collectionView
 didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-  [self.scrubberCollectionView scrollToItemAtIndexPath:indexPath
-                                      atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
-                                              animated:YES];
+  [self showIndex:indexPath.item
+         animated:YES];
 }
 
 
 #pragma mark - UIScrollViewDelegate
-
-
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
-  // Track which scroll view / collection view the user is interacting with.
-  self.activeScrollView = scrollView;
-}
-
-
-- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView
-                     withVelocity:(CGPoint)velocity
-              targetContentOffset:(inout CGPoint *)targetContentOffset
-{
-  // If the user has finished dragging the scrubber then we adjust the
-  // offset to ensure it falls on a page boundary.
-  CGFloat offset = (*targetContentOffset).x / [self cellWidthWithSpacing:self.scrubberCollectionView];
-  NSInteger currentIndex = offset + 0.5;
-  (*targetContentOffset).x = currentIndex * [self cellWidthWithSpacing:self.scrubberCollectionView];
-}
-
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-  if (scrollView == self.activeScrollView) {
-    
-//    CGFloat offset = self.scrubberCollectionView.contentOffset.x / [self cellWidthWithSpacing:self.scrubberCollectionView];
-    // self.currentIndex = offset + 0.5;
-    
-  }
-  
-}
 
 
 - (CGFloat)cellWidthWithSpacing:(UICollectionView *)collectionView
@@ -402,8 +397,8 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
   ISItemViewController *viewController =
   self.viewControllers[0];
-  [self showIndex:viewController.index
-         animated:YES];
+  [self scrubberShowIndex:viewController.index
+                 animated:YES];
   self.title = viewController.title;
 }
 
