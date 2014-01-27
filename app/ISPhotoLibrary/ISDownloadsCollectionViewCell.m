@@ -59,7 +59,9 @@
     
     if (_state == ISCacheItemStateInProgress) {
       self.button.enabled = YES;
-    } else {
+    } else if (_state == ISCacheItemStateNotFound) {
+      self.button.enabled = YES;
+    } else if (_state == ISCacheItemStateFound) {
       self.button.enabled = NO;
     }
     
@@ -152,9 +154,14 @@
 - (IBAction)buttonClicked:(id)sender
 {
   if (self.cacheItem) {
-    ISCache *defaultCache = [ISCache defaultCache];
-    [defaultCache cancelItems:@[self.cacheItem]];
-    self.button.enabled = NO;
+    
+    if (self.cacheItem.state ==
+        ISCacheItemStateInProgress) {
+      [self.cacheItem cancel];
+    } else if (self.cacheItem.state ==
+               ISCacheItemStateNotFound) {
+      [self.cacheItem fetch];
+    }
   }
 }
 
