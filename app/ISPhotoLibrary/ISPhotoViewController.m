@@ -21,31 +21,60 @@
 //
 
 #import "ISPhotoViewController.h"
+#import "ISItemViewController.h"
+#import "ISPhotoService.h"
 #import "ISViewControllerChromeState.h"
-#import "ISPhotoCollectionViewCell.h"
 #import "ISScrubberCollectionViewCell.h"
-#import <ISListViewAdapter/ISListViewAdapter.h>
+#import <ISCache/ISCache.h>
 
 @interface ISPhotoViewController () {
   BOOL _prefersStatusBarHidden;
 }
 
-@property (nonatomic, weak) IBOutlet UICollectionView *photoCollectionView;
-@property (nonatomic, weak) IBOutlet UICollectionView *scrubberCollectionView;
+@property (nonatomic, readonly) NSUInteger count;
+@property (nonatomic) CGSize photoSize;
+@property (nonatomic) ISViewControllerChromeState chromeState;
+@property (nonatomic, strong) UICollectionView *scrubberCollectionView;
 @property (nonatomic, weak) UIScrollView *activeScrollView;
 @property (nonatomic, strong) ISCache *cache;
-@property (nonatomic, strong) ISListViewAdapterConnector *photoConnector;
 @property (nonatomic, strong) ISListViewAdapterConnector *scrubberConnector;
-@property (nonatomic) ISViewControllerChromeState chromeState;
-@property (nonatomic) NSInteger currentIndex;
 @property (nonatomic) BOOL isPortrait;
 
 @end
 
+static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
+
 @implementation ISPhotoViewController
 
-static NSString *kPhotoCellReuseIdentifier = @"PhotoCell";
-static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
++ (id)detailViewController
+{
+  ISPhotoViewController *detailViewController =
+  [[self alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll
+                  navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal
+                                options:@{UIPageViewControllerOptionInterPageSpacingKey: @8.0}];
+  return detailViewController;
+}
+
+
+- (id)initWithTransitionStyle:(UIPageViewControllerTransitionStyle)style
+        navigationOrientation:(UIPageViewControllerNavigationOrientation)navigationOrientation
+                      options:(NSDictionary *)options
+{
+  self = [super initWithTransitionStyle:style
+                  navigationOrientation:navigationOrientation
+                                options:options];
+  if (self) {
+    self.delegate = self;
+    self.dataSource = self;
+    
+    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+    self.photoSize = CGSizeMake(MAX(screenSize.width,
+                                    screenSize.height),
+                                MAX(screenSize.width,
+                                    screenSize.height));
+  }
+  return self;
+}
 
 
 - (void)viewDidLoad
@@ -53,14 +82,19 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
   [super viewDidLoad];
   self.cache = [ISCache defaultCache];
   _chromeState = ISViewControllerChromeStateShown;
+  self.automaticallyAdjustsScrollViewInsets = NO;
   
+  // Set the background color.
+  self.view.backgroundColor = [UIColor whiteColor];
+  
+  // Configure the gesture recognizer.
   UITapGestureRecognizer *gestureRecognizer =
   [[UITapGestureRecognizer alloc] initWithTarget:self
                                           action:@selector(handleTap:)];
   gestureRecognizer.numberOfTapsRequired = 1;
   gestureRecognizer.numberOfTouchesRequired = 1;
   gestureRecognizer.enabled = YES;
-  [self.photoCollectionView addGestureRecognizer:gestureRecognizer];
+  [self.view addGestureRecognizer:gestureRecognizer];
   
   // Configure the scrubber.
   // This is done in code as it doesn't appear to be possible to add a
@@ -70,16 +104,28 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
                                                 target:nil
                                                 action:nil];
   negativeSpace.width = -16;
-  self.scrubberCollectionView.frame = self.navigationController.toolbar.bounds;
+  CGRect toolbarBounds = self.navigationController.toolbar.bounds;
+  UICollectionViewFlowLayout *layout =
+  [UICollectionViewFlowLayout new];
+  layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+  self.scrubberCollectionView =
+  [[UICollectionView alloc] initWithFrame:toolbarBounds
+                     collectionViewLayout:layout];
+  [self.scrubberCollectionView registerClass:[ISScrubberCollectionViewCell class] forCellWithReuseIdentifier:kScrubberCellReuseIdentifier];
+  self.scrubberCollectionView.showsHorizontalScrollIndicator = NO;
+  self.scrubberCollectionView.showsVerticalScrollIndicator = NO;
+  self.scrubberCollectionView.dataSource = self;
+  self.scrubberCollectionView.delegate = self;
+  self.scrubberCollectionView.backgroundColor = [UIColor clearColor];
+  self.scrubberCollectionView.autoresizingMask =
+  UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
   UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.scrubberCollectionView];
   [self setToolbarItems:@[negativeSpace, barButtonItem]];
   
   // Connect to the adapter.
-  self.photoConnector = [ISListViewAdapterConnector connectorWithCollectionView:self.photoCollectionView];
   self.scrubberConnector = [ISListViewAdapterConnector connectorWithCollectionView:self.scrubberCollectionView];
-  [self.adapter addAdapterObserver:self.photoConnector];
   [self.adapter addAdapterObserver:self.scrubberConnector];
-
+  
   // Set the initial status bar state.
   _prefersStatusBarHidden = NO;
 }
@@ -88,31 +134,33 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
 - (void)viewWillAppear:(BOOL)animated
 {
   [super viewWillAppear:animated];
-
+  
   self.isPortrait = !UIDeviceOrientationIsLandscape([[UIDevice currentDevice] orientation]);
+  
+  // Show the initial view controller.
+  ISItemViewController *viewController = [self viewControllerForIndex:self.index];
+  [self setViewControllers:@[viewController]
+                 direction:UIPageViewControllerNavigationDirectionForward
+                  animated:NO
+                completion:NULL];
+  
+  // Set the title.
+  self.title = viewController.title;
+  
+  // Update the graphics.
   [self showIndex:self.index
          animated:NO];
-  self.currentIndex = self.index;
 }
 
 
 - (void)showIndex:(NSUInteger)index
          animated:(BOOL)animated
 {
-  self.photoCollectionView.contentOffset =
-  CGPointMake([self cellWidthWithSpacing:self.photoCollectionView] * index,
-              0.0);
-  NSLog(@"photo offset: %@", NSStringFromCGPoint(self.photoCollectionView.contentOffset));
-  self.scrubberCollectionView.contentOffset =
-  CGPointMake([self cellWidthWithSpacing:self.scrubberCollectionView] * index,
-              0.0);
-  NSLog(@"scrubber offset: %@", NSStringFromCGPoint(self.scrubberCollectionView.contentOffset));
-}
-
-
-- (void)didReceiveMemoryWarning
-{
-  [super didReceiveMemoryWarning];
+  self.index = index;
+  CGFloat cellWidth = [self cellWidthWithSpacing:self.scrubberCollectionView];
+  [self.scrubberCollectionView setContentOffset:CGPointMake(cellWidth * index,
+                                                            0.0)
+                                       animated:animated];
 }
 
 
@@ -132,10 +180,7 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
                                duration: (NSTimeInterval)duration
 {
   self.isPortrait = UIInterfaceOrientationIsPortrait(toInterfaceOrientation);
-  [self.photoCollectionView reloadData];
   [self.scrubberCollectionView reloadData];
-  [self showIndex:self.currentIndex
-         animated:NO];
 }
 
 
@@ -144,17 +189,51 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
 }
 
 
+- (NSUInteger)count
+{
+  return [self.adapter count];
+}
+
+
+- (ISItemViewController *)viewControllerForIndex:(NSInteger)index
+{
+  if (index >= 0 && index < self.count) {
+    
+    ISItemViewController *viewController = [[ISItemViewController alloc] init];
+    viewController.index = index;
+//    viewController.view.backgroundColor = [UIColor whiteColor];
+    
+    // Fix up the item.
+    ISListViewAdapterItem *item = [self.adapter itemForIndex:index];
+    [item fetch:^(NSDictionary *dict) {
+      
+      viewController.title = dict[ISPhotoServiceKeyName];
+      
+      // TODO Use a weak reference to the view controller.
+      [viewController setCacheItem:dict[ISPhotoServiceKeyURL]
+                           context:ISCacheImageContext
+                       preferences:@{@"width": @(self.photoSize.width),
+                                     @"height": @(self.photoSize.height),
+                                     @"scale": @(ISScalingCacheHandlerScaleAspectFit)}];
+    }];
+    
+    return viewController;
+  }
+  return nil;
+}
+
+
 - (void)setChromeState:(ISViewControllerChromeState)chromeState
 {
   if (_chromeState != chromeState) {
     _chromeState = chromeState;
     if (_chromeState == ISViewControllerChromeStateShown) {
-
+      
       [UIView animateWithDuration:0.2f
                        animations:^{
                          
                          self.view.backgroundColor = [UIColor whiteColor];
-                           _prefersStatusBarHidden = NO;
+                         _prefersStatusBarHidden = NO;
                          [self setNeedsStatusBarAppearanceUpdate];
                          
                        }];
@@ -162,10 +241,10 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
                                          animated:YES];
       [self.navigationController setNavigationBarHidden:NO
                                                animated:YES];
-
+      
       
     } else if (_chromeState == ISViewControllerChromeStateHidden) {
-
+      
       [self.navigationController setToolbarHidden:YES
                                          animated:YES];
       [self.navigationController setNavigationBarHidden:YES
@@ -179,30 +258,6 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
       
     }
   }
-}
-
-
-- (void)setCurrentIndex:(NSInteger)currentIndex
-{
-  // Ignore repeated sets.
-  if (_currentIndex == currentIndex) {
-    return;
-  }
-  
-  // Disallow indexes outside of the size of the content.
-  if (currentIndex < 0 ||
-      currentIndex >= self.adapter.count) {
-    return;
-  }
-
-  // Update the title.
-  _currentIndex = currentIndex;
-
-  ISListViewAdapterItem *item = [self.adapter itemForIndex:_currentIndex];
-  [item fetch:^(NSDictionary *dict) {
-    self.title = dict[ISPhotoServiceKeyName];
-  }];
-
 }
 
 
@@ -231,43 +286,26 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-  if (collectionView == self.photoCollectionView) {
-    
-    ISPhotoCollectionViewCell *cell
-    = [collectionView dequeueReusableCellWithReuseIdentifier:kPhotoCellReuseIdentifier
-                                                forIndexPath:indexPath];
-    ISListViewAdapterItem *item = [self.adapter itemForIndex:indexPath.item];
-    [item fetch:^(NSDictionary *dict) {
-      ISPhotoCollectionViewCell *cell = (ISPhotoCollectionViewCell *)[self.photoCollectionView cellForItemAtIndexPath:indexPath];
-      if (cell) {
-        cell.url = dict[ISPhotoServiceKeyURL];
-      }
-    }];
-    return cell;
-    
-  } else if (collectionView == self.scrubberCollectionView) {
-    
-    ISScrubberCollectionViewCell *cell
-    = [collectionView dequeueReusableCellWithReuseIdentifier:kScrubberCellReuseIdentifier
-                                                forIndexPath:indexPath];
-    ISListViewAdapterItem *item = [self.adapter itemForIndex:indexPath.item];
-    [item fetch:^(NSDictionary *dict) {
-      ISScrubberCollectionViewCell *cell = (ISScrubberCollectionViewCell *)[self.scrubberCollectionView cellForItemAtIndexPath:indexPath];
-      if (cell) {
-        [cell.imageView setImageWithIdentifier:dict[ISPhotoServiceKeyURL]
-                                       context:ISCacheImageContext
-                                      preferences:@{@"width": @50.0,
-                                                 @"height": @50.0,
-                                                 @"scale": @(ISScalingCacheHandlerScaleAspectFit)}
-                              placeholderImage:nil
-                                         block:nil];
-      }
-    }];
-    return cell;
-    
-  }
-  return nil;
+  ISScrubberCollectionViewCell *cell
+  = [collectionView dequeueReusableCellWithReuseIdentifier:kScrubberCellReuseIdentifier
+                                              forIndexPath:indexPath];
+  ISListViewAdapterItem *item = [self.adapter itemForIndex:indexPath.item];
+  [item fetch:^(NSDictionary *dict) {
+    ISScrubberCollectionViewCell *cell = (ISScrubberCollectionViewCell *)[self.scrubberCollectionView cellForItemAtIndexPath:indexPath];
+    if (cell) {
+      [cell.imageView setImageWithIdentifier:dict[ISPhotoServiceKeyURL]
+                                     context:ISCacheImageContext
+                                 preferences:@{@"width": @50.0,
+                                               @"height": @50.0,
+                                               @"scale": @(ISScalingCacheHandlerScaleAspectFit)}
+                            placeholderImage:nil
+                                       block:nil];
+    }
+  }];
+  
+  return cell;
 }
+
 
 
 #pragma mark - UICollectionViewDelegate
@@ -276,13 +314,9 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
 - (void)collectionView:(UICollectionView *)collectionView
 didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-  if (collectionView == self.scrubberCollectionView) {
-    [self.photoCollectionView scrollToItemAtIndexPath:indexPath
-                                atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
-    [self.scrubberCollectionView scrollToItemAtIndexPath:indexPath
-                              atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
-                                      animated:YES];
-  }
+  [self.scrubberCollectionView scrollToItemAtIndexPath:indexPath
+                                      atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
+                                              animated:YES];
 }
 
 
@@ -311,23 +345,9 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
   if (scrollView == self.activeScrollView) {
-  
-    if (scrollView == self.photoCollectionView) {
-      
-      CGFloat offset = self.photoCollectionView.contentOffset.x / [self cellWidthWithSpacing:self.photoCollectionView];
-      self.scrubberCollectionView.contentOffset = CGPointMake(offset * [self cellWidthWithSpacing:self.scrubberCollectionView],
-                                                    0.0f);
-      self.currentIndex = offset + 0.5;
-
-      
-    } else if (scrollView == self.scrubberCollectionView) {
-      
-      CGFloat offset = self.scrubberCollectionView.contentOffset.x / [self cellWidthWithSpacing:self.scrubberCollectionView];
-      self.photoCollectionView.contentOffset = CGPointMake(offset * [self cellWidthWithSpacing:self.photoCollectionView],
-                                                      0.0f);
-      self.currentIndex = offset + 0.5;
-      
-    }
+    
+//    CGFloat offset = self.scrubberCollectionView.contentOffset.x / [self cellWidthWithSpacing:self.scrubberCollectionView];
+    // self.currentIndex = offset + 0.5;
     
   }
   
@@ -351,6 +371,43 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 }
 
 
+#pragma mark - UIPageViewControllerDataSource
+
+- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController
+      viewControllerBeforeViewController:(UIViewController *)viewController
+{
+  NSInteger index =  ((ISItemViewController *)viewController).index - 1;
+  return [self viewControllerForIndex:index];
+}
+
+- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController
+{
+  NSInteger index = ((ISItemViewController *)viewController).index + 1;
+  return [self viewControllerForIndex:index];
+}
+
+
+#pragma mark - UIPageViewControllerDelegate
+
+
+- (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray *)pendingViewControllers
+{
+}
+
+
+- (void)pageViewController:(UIPageViewController *)pageViewController
+        didFinishAnimating:(BOOL)finished
+   previousViewControllers:(NSArray *)previousViewControllers
+       transitionCompleted:(BOOL)completed
+{
+  ISItemViewController *viewController =
+  self.viewControllers[0];
+  [self showIndex:viewController.index
+         animated:YES];
+  self.title = viewController.title;
+}
+
+
 #pragma mark - UICollectionViewDelegateFlowLayout
 
 
@@ -358,16 +415,11 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
                   layout:(UICollectionViewLayout*)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-  if (collectionView == self.photoCollectionView) {
-    return [self screenSize];
-  } else if (collectionView == self.scrubberCollectionView) {
-    if (self.isPortrait) {
-      return CGSizeMake(38.0, 38.0);
-    } else {
-      return CGSizeMake(26.0, 26.0);
-    }
+  if (self.isPortrait) {
+    return CGSizeMake(38.0, 38.0);
+  } else {
+    return CGSizeMake(26.0, 26.0);
   }
-  return CGSizeZero;
 }
 
 
@@ -387,25 +439,14 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
                         layout:(UICollectionViewLayout*)collectionViewLayout
         insetForSectionAtIndex:(NSInteger)section
 {
-  // TODO Calculate the insets to center the scrubber.
-  if (collectionView == self.photoCollectionView) {
-    if (self.isPortrait) {
-      return UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0);
-    } else {
-      return UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0);
-    }
-  } else if (collectionView == self.scrubberCollectionView) {
-    
-    CGSize screenSize = [self screenSize];
-    CGSize cellSize = [self cellSize:self.scrubberCollectionView];
-    CGFloat inset = (screenSize.width - cellSize.width) / 2;
-    if (self.isPortrait) {
-      return UIEdgeInsetsMake(2.0, inset, 2.0, inset);
-    } else {
-      return UIEdgeInsetsMake(2.0, inset, 2.0, inset);
-    }
+  CGSize screenSize = [self screenSize];
+  CGSize cellSize = [self cellSize:self.scrubberCollectionView];
+  CGFloat inset = (screenSize.width - cellSize.width) / 2;
+  if (self.isPortrait) {
+    return UIEdgeInsetsMake(2.0, inset, 2.0, inset);
+  } else {
+    return UIEdgeInsetsMake(2.0, inset, 2.0, inset);
   }
-  return UIEdgeInsetsZero;
 }
 
 
@@ -413,12 +454,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
                    layout:(UICollectionViewLayout*)collectionViewLayout
 minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
-  if (collectionView == self.photoCollectionView) {
-    return 0.0;
-  } else if (collectionView == self.scrubberCollectionView) {
-    return 4.0;
-  }
-  return 0.0;
+  return 4.0;
 }
 
 
@@ -426,12 +462,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
                    layout:(UICollectionViewLayout*)collectionViewLayout
 minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 {
-  if (collectionView == self.photoCollectionView) {
-    return 0.0;
-  } else if (collectionView == self.scrubberCollectionView) {
-    return 4.0;
-  }
-  return 0.0;
+  return 4.0;
 }
 
 

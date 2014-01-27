@@ -24,6 +24,6 @@
 
 @interface ISScrubberCollectionViewCell : UICollectionViewCell
 
-@property (nonatomic, weak) IBOutlet UIImageView *imageView;
+@property (nonatomic, strong) UIImageView *imageView;
 
 @end

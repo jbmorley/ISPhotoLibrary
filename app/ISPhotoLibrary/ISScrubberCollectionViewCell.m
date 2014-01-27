@@ -25,4 +25,17 @@
 @implementation ISScrubberCollectionViewCell
 
 
+- (id)initWithFrame:(CGRect)frame
+{
+  self = [super initWithFrame:frame];
+  if (self) {
+    self.imageView = [[UIImageView alloc] initWithFrame:self.bounds];
+    self.imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [self addSubview:self.imageView];
+  }
+  return self;
+}
+
+
 @end

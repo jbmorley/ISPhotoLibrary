@@ -54,7 +54,6 @@
                                         <connections>
                                             <outlet property="activityIndicatorView" destination="VKs-UE-Lxh" id="Aiy-3j-8qE"/>
                                             <outlet property="imageView" destination="r8F-sp-joC" id="1bs-cd-yYI"/>
-                                            <segue destination="9h7-g0-btc" kind="push" identifier="DetailSegue" id="yDT-c0-XZP"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -266,73 +265,27 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="alx-23-3D9">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceHorizontal="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u07-vY-K5H" customClass="ISPhotoScrollView">
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="B6o-xz-UB2">
-                                    <size key="itemSize" width="320" height="568"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoCell" id="Qpx-bN-0Cb" customClass="ISPhotoCollectionViewCell">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" maximumZoomScale="2" translatesAutoresizingMaskIntoConstraints="NO" id="Vaa-Nn-qEP">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                    <subviews>
-                                                        <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z2Q-3a-Cls">
-                                                            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                        </imageView>
-                                                    </subviews>
-                                                    <connections>
-                                                        <outlet property="delegate" destination="Qpx-bN-0Cb" id="OZ7-dy-OLk"/>
-                                                    </connections>
-                                                </scrollView>
-                                                <progressView opaque="NO" alpha="0.0" contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="W4w-EE-pdn">
-                                                    <rect key="frame" x="85" y="283" width="150" height="2"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                </progressView>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                        <constraints>
-                                            <constraint firstAttribute="centerX" secondItem="W4w-EE-pdn" secondAttribute="centerX" id="Orc-HD-49Y"/>
-                                            <constraint firstAttribute="centerY" secondItem="W4w-EE-pdn" secondAttribute="centerY" id="ihS-of-KrL"/>
-                                        </constraints>
-                                        <connections>
-                                            <outlet property="imageView" destination="z2Q-3a-Cls" id="UPC-Tr-joc"/>
-                                            <outlet property="progressView" destination="W4w-EE-pdn" id="Y4k-72-F6M"/>
-                                            <outlet property="scrollView" destination="Vaa-Nn-qEP" id="WtP-Go-2PA"/>
-                                        </connections>
-                                    </collectionViewCell>
-                                </cells>
+                                <color key="backgroundColor" red="0.5" green="0.0" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
-                                    <outlet property="dataSource" destination="9h7-g0-btc" id="Sbu-Hu-MWm"/>
-                                    <outlet property="delegate" destination="9h7-g0-btc" id="OLw-F6-eX6"/>
+                                    <outlet property="dataSource" destination="9h7-g0-btc" id="Czb-vz-iio"/>
                                 </connections>
-                            </collectionView>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="alx-23-3D9" firstAttribute="top" secondItem="Nkd-hd-wf2" secondAttribute="top" id="OPO-8O-xpM"/>
-                            <constraint firstAttribute="trailing" secondItem="alx-23-3D9" secondAttribute="trailing" id="Ys2-c8-pt1"/>
-                            <constraint firstAttribute="bottom" secondItem="alx-23-3D9" secondAttribute="bottom" id="lza-3r-frE"/>
-                            <constraint firstItem="alx-23-3D9" firstAttribute="leading" secondItem="Nkd-hd-wf2" secondAttribute="leading" id="qqJ-TS-YzZ"/>
+                            <constraint firstAttribute="bottom" secondItem="u07-vY-K5H" secondAttribute="bottom" id="Zrj-ef-She"/>
+                            <constraint firstAttribute="trailing" secondItem="u07-vY-K5H" secondAttribute="trailing" id="hIJ-3A-TMP"/>
+                            <constraint firstItem="u07-vY-K5H" firstAttribute="leading" secondItem="Nkd-hd-wf2" secondAttribute="leading" id="pHt-DP-A8j"/>
+                            <constraint firstItem="u07-vY-K5H" firstAttribute="top" secondItem="Nwc-LS-dai" secondAttribute="bottom" id="wT4-Tw-ew2"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Photo" id="CaZ-Q0-R0D"/>
                     <connections>
-                        <outlet property="photoCollectionView" destination="alx-23-3D9" id="mtL-CF-Rgt"/>
+                        <outlet property="photoScrollView" destination="u07-vY-K5H" id="rrY-ff-HO1"/>
                         <outlet property="scrubberCollectionView" destination="Use-bs-868" id="O57-0p-etf"/>
                     </connections>
                 </viewController>

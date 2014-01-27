@@ -21,15 +21,17 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <ISCache/ISCache.h>
-#import "ISPhotoService.h"
+#import <ISListViewAdapter/ISListViewAdapter.h>
 
-@interface ISPhotoViewController : UIViewController
-<UICollectionViewDataSource
-,UICollectionViewDelegate
+@interface ISPhotoViewController : UIPageViewController
+<UIPageViewControllerDataSource
+,UIPageViewControllerDelegate
+,UICollectionViewDataSource
 ,UICollectionViewDelegateFlowLayout>
 
-@property (strong, nonatomic) ISListViewAdapter *adapter;
-@property (nonatomic) NSInteger index;
+@property (nonatomic, strong) ISListViewAdapter *adapter;
+@property (nonatomic) NSUInteger index;
+
++ (id)detailViewController;
 
 @end

@@ -28,6 +28,7 @@
 #import "ISLibraryCollectionViewCell.h"
 #import "ISPhotoViewController.h"
 #import "ISViewControllerChromeState.h"
+#import "ISPhotoViewController.h"
 
 @interface ISLibraryViewController ()
 
@@ -176,11 +177,13 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 
 #pragma mark - UITableViewDataSource
 
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section
 {
   return self.adapter.count;
 }
+
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -253,6 +256,18 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
                   willDecelerate:(BOOL)decelerate
 {
   self.scrollViewIsDragging = NO;
+}
+
+
+- (void)collectionView:(UICollectionView *)collectionView
+didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+  self.chromeState = ISViewControllerChromeStateShown;
+  ISPhotoViewController *detailViewController = [ISPhotoViewController detailViewController];
+  detailViewController.adapter = self.adapter;
+  detailViewController.index= indexPath.row;
+  [self.navigationController pushViewController:detailViewController
+                                       animated:YES];
 }
 
 
