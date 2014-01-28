@@ -215,9 +215,9 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
       ISCacheItem *item =
       [cell.imageView setImageWithIdentifier:dict[ISPhotoServiceKeyURL]
                                      context:ISCacheImageContext
-                                    preferences:@{@"width": @(self.thumbnailSize.width),
-                                               @"height": @(self.thumbnailSize.height),
-                                               @"scale": @(ISScalingCacheHandlerScaleAspectFill)}
+                                    preferences:@{ISCacheImageWidth: @(self.thumbnailSize.width),
+                                               ISCacheImageHeight: @(self.thumbnailSize.height),
+                                               ISCacheImageScaleMode: @(ISCacheImageScaleAspectFill)}
                             placeholderImage:self.thumbnail
                                        block:NULL];
       item.userInfo = dict;

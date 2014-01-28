@@ -239,9 +239,9 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
       // TODO Use a weak reference to the view controller.
       [viewController setCacheItem:dict[ISPhotoServiceKeyURL]
                            context:ISCacheImageContext
-                       preferences:@{@"width": @(self.photoSize.width),
-                                     @"height": @(self.photoSize.height),
-                                     @"scale": @(ISScalingCacheHandlerScaleAspectFit)}];
+                       preferences:@{ISCacheImageWidth: @(self.photoSize.width),
+                                     ISCacheImageHeight: @(self.photoSize.height),
+                                     ISCacheImageScaleMode: @(ISCacheImageScaleAspectFit)}];
     }];
     
     return viewController;
@@ -322,9 +322,9 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
     if (cell) {
       [cell.imageView setImageWithIdentifier:dict[ISPhotoServiceKeyURL]
                                      context:ISCacheImageContext
-                                 preferences:@{@"width": @50.0,
-                                               @"height": @50.0,
-                                               @"scale": @(ISScalingCacheHandlerScaleAspectFit)}
+                                 preferences:@{ISCacheImageWidth: @50.0,
+                                               ISCacheImageHeight: @50.0,
+                                               ISCacheImageScaleMode: @(ISCacheImageScaleAspectFit)}
                             placeholderImage:nil
                                        block:nil];
     }

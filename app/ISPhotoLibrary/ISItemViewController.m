@@ -144,9 +144,9 @@ typedef enum {
   self.cacheItem =
   [self.imageView setImageWithIdentifier:identifier
                                  context:context
-                             preferences:@{@"width": @320.0,
-                                           @"height": @568.0,
-                                           @"scale": @(ISScalingCacheHandlerScaleAspectFit)}
+                             preferences:@{ISCacheImageWidth: @320.0,
+                                           ISCacheImageHeight: @568.0,
+                                           ISCacheImageScaleMode: @(ISCacheImageScaleAspectFit)}
                         placeholderImage:nil
                                    block:NULL];
   
