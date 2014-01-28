@@ -41,6 +41,7 @@
 @property (nonatomic) ISViewControllerChromeState chromeState;
 @property (nonatomic) BOOL scrollViewIsDragging;
 @property (nonatomic) BOOL isPortrait;
+@property (nonatomic) CGFloat spacing;
 
 @end
 
@@ -55,6 +56,7 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
   [super viewDidLoad];
   self.photoService = [ISPhotoService new];
   self.thumbnail = [UIImage imageNamed:@"Thumbnail.imageasset"];
+  self.spacing = 5.0;
   
   // Create an adapter and connect it to the collection view.
   self.adapter = [[ISListViewAdapter alloc] initWithDataSource:self.photoService];
@@ -213,8 +215,8 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
       ISCacheItem *item =
       [cell.imageView setImageWithIdentifier:dict[ISPhotoServiceKeyURL]
                                      context:ISCacheImageContext
-                                    preferences:@{@"width": @100.0,
-                                               @"height": @100.0,
+                                    preferences:@{@"width": @(self.thumbnailSize.width),
+                                               @"height": @(self.thumbnailSize.height),
                                                @"scale": @(ISScalingCacheHandlerScaleAspectFill)}
                             placeholderImage:self.thumbnail
                                        block:NULL];
@@ -283,11 +285,33 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 #pragma mark - ISCollectionViewDelegateFlowLayout
 
 
+- (CGSize)thumbnailSize
+{
+  if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+    return CGSizeMake(100, 100);
+  } else {
+    return CGSizeMake(180, 180);
+  }
+}
+
+
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout*)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-  return CGSizeMake(100, 100);
+  return [self thumbnailSize];
+}
+
+
+- (CGSize)screenSize:(BOOL)isPortrait
+{
+  UIScreen *screen = [UIScreen mainScreen];
+  if (isPortrait) {
+    return screen.bounds.size;
+  } else {
+    return CGSizeMake(screen.bounds.size.height,
+                      screen.bounds.size.width);
+  }
 }
 
 
@@ -295,17 +319,14 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
                         layout:(UICollectionViewLayout*)collectionViewLayout
         insetForSectionAtIndex:(NSInteger)section
 {
-  if (self.isPortrait) {
-    return UIEdgeInsetsMake(5.0,
-                            5.0,
-                            5.0,
-                            5.0);
-  } else {
-    return UIEdgeInsetsMake(5.0,
-                            20.0,
-                            5.0,
-                            20.0);
-  }
+  CGFloat screenWidth = [self screenSize:self.isPortrait].width;
+  NSInteger count = floor((screenWidth + self.spacing) / (self.thumbnailSize.width + self.spacing));
+  NSInteger margin = floor((screenWidth - (self.thumbnailSize.width * count) - (self.spacing * (count - 1))) / 2);
+  
+  return UIEdgeInsetsMake(self.spacing,
+                          margin,
+                          self.spacing,
+                          margin);
 }
 
 
@@ -313,7 +334,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
                    layout:(UICollectionViewLayout*)collectionViewLayout
 minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
-  return 5.0;
+  return self.spacing;
 }
 
 
@@ -321,7 +342,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
                    layout:(UICollectionViewLayout*)collectionViewLayout
 minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 {
-  return 5.0;
+  return self.spacing;
 }
 
 @end
