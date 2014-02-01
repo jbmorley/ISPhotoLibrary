@@ -151,14 +151,7 @@ static NSString *kServiceRoot = @"http://photos.jbmorley.co.uk";
 - (void)itemsForAdapter:(ISListViewAdapter *)adapter
         completionBlock:(ISListViewAdapterBlock)completionBlock
 {
-  NSMutableArray *items = [NSMutableArray arrayWithCapacity:self.sortedKeys.count];
-  for (NSString *identifier in self.sortedKeys) {
-    ISListViewAdapterItemDescription *description =
-    [ISListViewAdapterItemDescription descriptionWithIdentifier:identifier
-                                            summary:@""];
-    [items addObject:description];
-  }
-  completionBlock(items);
+  completionBlock(self.sortedKeys);
 }
 
 
@@ -171,6 +164,20 @@ itemForIdentifier:(id)identifier
                             @"/%@",
                             identifier],
                     @"name":[self.itemDict objectForKey:identifier][ISPhotoServiceKeyName]});
+}
+
+
+- (id)adapter:(ISListViewAdapter *)adapter
+identifierForItem:(id)item
+{
+  return item;
+}
+
+
+- (id)adapter:(ISListViewAdapter *)adapter
+summaryForItem:(id)item
+{
+  return @"";
 }
 
 

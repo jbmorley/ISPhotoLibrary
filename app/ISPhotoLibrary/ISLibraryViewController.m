@@ -23,6 +23,7 @@
 #import <ISCache/ISCache.h>
 #import <ISListViewAdapter/ISListViewAdapter.h>
 #import <ISUtilities/UIAlertView+Block.h>
+#import <ISUtilities/ISDevice.h>
 
 #import "ISLibraryViewController.h"
 #import "ISLibraryCollectionViewCell.h"
@@ -68,7 +69,7 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 - (void)viewWillAppear:(BOOL)animated
 {
   [super viewWillAppear:animated];
-  self.isPortrait = !UIDeviceOrientationIsLandscape([[UIDevice currentDevice] orientation]);
+  self.isPortrait = [ISDevice isPortrait];
   // Force a relayout in case we have missed a rotation event.
   [self.collectionView.collectionViewLayout invalidateLayout];
 
@@ -303,23 +304,11 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 }
 
 
-- (CGSize)screenSize:(BOOL)isPortrait
-{
-  UIScreen *screen = [UIScreen mainScreen];
-  if (isPortrait) {
-    return screen.bounds.size;
-  } else {
-    return CGSizeMake(screen.bounds.size.height,
-                      screen.bounds.size.width);
-  }
-}
-
-
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView
                         layout:(UICollectionViewLayout*)collectionViewLayout
         insetForSectionAtIndex:(NSInteger)section
 {
-  CGFloat screenWidth = [self screenSize:self.isPortrait].width;
+  CGFloat screenWidth = [ISDevice screenSize:self.isPortrait].width;
   NSInteger count = floor((screenWidth + self.spacing) / (self.thumbnailSize.width + self.spacing));
   NSInteger margin = floor((screenWidth - (self.thumbnailSize.width * count) - (self.spacing * (count - 1))) / 2);
   
