@@ -58,8 +58,14 @@
     _state = state;
     
     if (_state == ISCacheItemStateInProgress) {
+      UIImage *image = [UIImage imageNamed:@"Stop.imageasset"];
+      [self.button setImage:[image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
+                   forState:UIControlStateNormal];
       self.button.enabled = YES;
     } else if (_state == ISCacheItemStateNotFound) {
+      UIImage *image = [UIImage imageNamed:@"Refresh.imageasset"];
+      [self.button setImage:[image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
+                   forState:UIControlStateNormal];
       self.button.enabled = YES;
     } else if (_state == ISCacheItemStateFound) {
       self.button.enabled = NO;
