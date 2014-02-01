@@ -143,7 +143,14 @@
             ISCacheItemStateFound) {
           self.detailLabel.text = @"Download complete";
         } else if (self.cacheItem.lastError) {
-          self.detailLabel.text = @"Download failed";
+          if (self.cacheItem.lastError.domain ==
+              ISCacheErrorDomain &&
+              self.cacheItem.lastError.code ==
+              ISCacheErrorCancelled) {
+            self.detailLabel.text = @"Download cancelled";
+          } else {
+            self.detailLabel.text = @"Download failed";
+          }
         }
       }
     }
