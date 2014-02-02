@@ -55,12 +55,12 @@ typedef enum {
   [self.view addSubview:self.scrollView];
   
   // Image view.
-  // TODO The image view probably shouldn't have a flexible height.
   // It should match the size of the image.
   self.imageView = [[ISCacheImageView alloc] initWithFrame:self.view.frame];
   self.imageView.contentMode = UIViewContentModeScaleAspectFit;
   self.imageView.autoresizingMask =
   UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+  self.imageView.alpha = 0.0f;
   [self.scrollView addSubview:self.imageView];
   
   self.progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
@@ -141,6 +141,7 @@ typedef enum {
   }
   
   // Update the image.
+  ISItemViewController *__weak weakSelf = self;
   self.cacheItem =
   [self.imageView setImageWithIdentifier:identifier
                                  context:context
@@ -148,7 +149,29 @@ typedef enum {
                                            ISCacheImageHeight: @568.0,
                                            ISCacheImageScaleMode: @(ISCacheImageScaleAspectFit)}
                         placeholderImage:nil
-                                   block:NULL];
+                                   block:
+   ^(NSError *error) {
+     if (error) {
+       return;
+     }
+     
+     ISItemViewController *strongSelf = weakSelf;
+     if (strongSelf == nil) {
+       return;
+     }
+     
+     // TODO Work out why the image is the wrong size!
+     strongSelf.imageView.frame =
+     CGRectMake(0.0f,
+                0.0f,
+                strongSelf.imageView.image.size.width,
+                strongSelf.imageView.image.size.height);
+     strongSelf.scrollView.contentSize = strongSelf.imageView.image.size;
+     
+     // TODO Work out what scale we need to be at to fit the image in.
+     
+     
+   }];
   
   [self startObservingCacheItem];
 }

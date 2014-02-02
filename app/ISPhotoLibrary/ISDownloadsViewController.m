@@ -27,8 +27,6 @@
 @interface ISDownloadsViewController ()
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-@property (nonatomic, strong) NSArray *items;
-@property (nonatomic, strong) NSMutableDictionary *uids;
 @property (nonatomic, strong) ISListViewAdapter *adapter;
 @property (nonatomic, strong) ISListViewAdapterConnector *connector;
 @property (nonatomic) BOOL isPortrait;
@@ -45,9 +43,6 @@ static NSString *kDownloadsViewCellReuseIdentifier = @"DownloadsCell";
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  
-  // Fetch the items.
-  [self update];
   
   self.adapter = [[ISListViewAdapter alloc] initWithDataSource:self];
   self.adapter.debug = YES;
@@ -100,17 +95,6 @@ static NSString *kDownloadsViewCellReuseIdentifier = @"DownloadsCell";
 }
 
 
-- (void)update
-{
-  self.items = [[ISCache defaultCache] items:[ISCacheStateFilter filterWithStates:ISCacheItemStateInProgress]];
-  self.uids = [NSMutableDictionary dictionaryWithCapacity:3];
-  for (ISCacheItem *item in self.items) {
-    [self.uids setObject:item
-                  forKey:item.uid];
-  }
-}
-
-
 #pragma mark - UICollectionViewDataSource
 
 
@@ -148,7 +132,9 @@ static NSString *kDownloadsViewCellReuseIdentifier = @"DownloadsCell";
 - (void)itemsForAdapter:(ISListViewAdapter *)adapter
         completionBlock:(ISListViewAdapterBlock)completionBlock
 {
-  completionBlock(self.items);
+  ISCache *defaultCache = [ISCache defaultCache];
+  NSArray *items = [defaultCache items:[ISCacheStateFilter filterWithStates:ISCacheItemStateInProgress]];
+  completionBlock(items);
 }
 
 
@@ -171,7 +157,8 @@ summaryForItem:(id)item
 itemForIdentifier:(id)identifier
 completionBlock:(ISListViewAdapterBlock)completionBlock
 {
-  completionBlock([self.uids objectForKey:identifier]);
+  ISCache *defaultCache = [ISCache defaultCache];
+  completionBlock([defaultCache itemForUid:identifier]);
 }
 
 
@@ -187,7 +174,6 @@ itemDidUpdate:(ISCacheItem *)item
 - (void)cache:(ISCache *)cache
       newItem:(ISCacheItem *)item
 {
-  [self update];
   [self.adapter invalidate];
 }
 
@@ -200,14 +186,6 @@ itemDidUpdate:(ISCacheItem *)item
                   layout:(UICollectionViewLayout*)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-//  UIDeviceOrientation orientation =
-//  [[UIDevice currentDevice] orientation];
-//  if (UIDeviceOrientationIsPortrait(orientation)) {
-//    return CGSizeMake(320.0, 72.0);
-//  } else {
-//    return CGSizeMake(283.0, 72.0);
-//  }
-  
   // Work out how many minimum size cells we can fit in.
   CGFloat screenWidth = [ISDevice screenSize:self.isPortrait].width;
   NSInteger max = floor((screenWidth + self.spacing) / (self.minimumSize.width + self.spacing));
