@@ -21,9 +21,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <ISCache/ISCache.h>
 
 @interface ISScrubberCollectionViewCell : UICollectionViewCell
 
-@property (nonatomic, strong) UIImageView *imageView;
+@property (nonatomic, strong) ISCacheImageView *imageView;
 
 @end

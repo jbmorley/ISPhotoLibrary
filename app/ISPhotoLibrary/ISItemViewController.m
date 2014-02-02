@@ -17,7 +17,7 @@ typedef enum {
 @interface ISItemViewController ()
 
 @property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) UIImageView *imageView;
+@property (nonatomic, strong) ISCacheImageView *imageView;
 @property (nonatomic, strong) UIProgressView *progressView;
 @property (nonatomic) ISPhotoViewState state;
 @property (strong, nonatomic) ISCacheItem *cacheItem;
@@ -57,7 +57,7 @@ typedef enum {
   // Image view.
   // TODO The image view probably shouldn't have a flexible height.
   // It should match the size of the image.
-  self.imageView = [[UIImageView alloc] initWithFrame:self.view.frame];
+  self.imageView = [[ISCacheImageView alloc] initWithFrame:self.view.frame];
   self.imageView.contentMode = UIViewContentModeScaleAspectFit;
   self.imageView.autoresizingMask =
   UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
