@@ -128,6 +128,8 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
   
   // Set the initial status bar state.
   _prefersStatusBarHidden = NO;
+  
+  self.currentIndex = -1;
 }
 
 
@@ -224,27 +226,35 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
 
 - (ISItemViewController *)viewControllerForIndex:(NSInteger)index
 {
+  NSLog(@"viewControllerForIndex: %d", index);
   if (index >= 0 && index < self.count) {
     
-    ISItemViewController *viewController = [[ISItemViewController alloc] init];
-    viewController.index = index;
-//    viewController.view.backgroundColor = [UIColor whiteColor];
+    // Check the controller is still valid.
+    ISItemViewController *controller = [[ISItemViewController alloc] init];
+    controller.index = index;
     
-    // Fix up the item.
+    // Set the contents.
     ISListViewAdapterItem *item = [self.adapter itemForIndex:index];
+    
+    ISItemViewController *__weak weakController = controller;
     [item fetch:^(NSDictionary *dict) {
       
-      viewController.title = dict[ISPhotoServiceKeyName];
+      ISItemViewController *strongController = weakController;
+      if (strongController == nil) {
+        return;
+      }
+      
+      strongController.title = dict[ISPhotoServiceKeyName];
       
       // TODO Use a weak reference to the view controller.
-      [viewController setCacheItem:dict[ISPhotoServiceKeyURL]
-                           context:ISCacheImageContext
-                       preferences:@{ISCacheImageWidth: @(self.photoSize.width),
-                                     ISCacheImageHeight: @(self.photoSize.height),
-                                     ISCacheImageScaleMode: @(ISCacheImageScaleAspectFit)}];
+      [strongController setCacheItem:dict[ISPhotoServiceKeyURL]
+                             context:ISCacheImageContext
+                         preferences:@{ISCacheImageWidth: @(self.photoSize.width),
+                                       ISCacheImageHeight: @(self.photoSize.height),
+                                       ISCacheImageScaleMode: @(ISCacheImageScaleAspectFit)}];
     }];
     
-    return viewController;
+    return controller;
   }
   return nil;
 }
