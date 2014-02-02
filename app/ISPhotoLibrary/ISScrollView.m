@@ -41,6 +41,7 @@
   if (self) {
     // Initialization code
     self.delegate = self;
+    self.decelerationRate = UIScrollViewDecelerationRateFast;
   }
   return self;
 }

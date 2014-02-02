@@ -52,8 +52,7 @@ typedef enum {
   UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
   self.scrollView.showsHorizontalScrollIndicator = NO;
   self.scrollView.showsVerticalScrollIndicator = NO;
-  self.scrollView.alwaysBounceHorizontal = YES;
-  self.scrollView.alwaysBounceVertical = YES;
+  self.scrollView.bounces = YES;
   [self.view addSubview:self.scrollView];
   
   // Image view.
@@ -142,11 +141,13 @@ typedef enum {
   
   // Update the image.
   ISItemViewController *__weak weakSelf = self;
+  CGFloat max = MAX(CGRectGetWidth(self.scrollView.bounds),
+                    CGRectGetHeight(self.scrollView.bounds));
   self.cacheItem =
   [self.imageView setImageWithIdentifier:identifier
                                  context:context
-                             preferences:@{ISCacheImageWidth: @320.0,
-                                           ISCacheImageHeight: @568.0,
+                             preferences:@{ISCacheImageWidth: @(max),
+                                           ISCacheImageHeight: @(max),
                                            ISCacheImageScaleMode: @(ISCacheImageScaleAspectFit)}
                         placeholderImage:nil
                                    block:
@@ -168,6 +169,7 @@ typedef enum {
      strongSelf.scrollView.contentSize =
      CGSizeMake(strongSelf.imageView.image.size.width,
                 strongSelf.imageView.image.size.height);
+     [strongSelf.scrollView configure];
    }];
   
   [self startObservingCacheItem];

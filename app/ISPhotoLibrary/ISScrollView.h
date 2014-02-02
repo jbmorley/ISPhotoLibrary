@@ -27,4 +27,6 @@
 
 @property (nonatomic, retain) UIView *contentView;
 
+- (void)configure;
+
 @end

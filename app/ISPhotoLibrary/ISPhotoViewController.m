@@ -225,7 +225,6 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
 
 - (ISItemViewController *)viewControllerForIndex:(NSInteger)index
 {
-  NSLog(@"viewControllerForIndex: %d", index);
   if (index >= 0 && index < self.count) {
     
     // Check the controller is still valid.
