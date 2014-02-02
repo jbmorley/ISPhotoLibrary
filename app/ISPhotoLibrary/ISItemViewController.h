@@ -10,7 +10,6 @@
 #import <ISCache/ISCache.h>
 
 @interface ISItemViewController : UIViewController
-<UIScrollViewDelegate>
 
 @property (nonatomic) NSUInteger index;
 

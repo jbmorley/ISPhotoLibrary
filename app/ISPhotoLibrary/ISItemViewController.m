@@ -7,6 +7,7 @@
 //
 
 #import "ISItemViewController.h"
+#import "ISScrollView.h"
 
 typedef enum {
   ISPhotoViewStateUnknown,
@@ -16,7 +17,7 @@ typedef enum {
 
 @interface ISItemViewController ()
 
-@property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic, strong) ISScrollView *scrollView;
 @property (nonatomic, strong) ISCacheImageView *imageView;
 @property (nonatomic, strong) UIProgressView *progressView;
 @property (nonatomic) ISPhotoViewState state;
@@ -46,22 +47,21 @@ typedef enum {
   self.view.backgroundColor = [UIColor clearColor];
 
   // Scroll view.
-  self.scrollView = [[UIScrollView alloc] initWithFrame:self.view.frame];
-  self.scrollView.delegate = self;
-  self.scrollView.minimumZoomScale = 1.0f;
-  self.scrollView.maximumZoomScale = 2.0f;
+  self.scrollView = [[ISScrollView alloc] initWithFrame:self.view.frame];
   self.scrollView.autoresizingMask =
   UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+  self.scrollView.showsHorizontalScrollIndicator = NO;
+  self.scrollView.showsVerticalScrollIndicator = NO;
+  self.scrollView.alwaysBounceHorizontal = YES;
+  self.scrollView.alwaysBounceVertical = YES;
   [self.view addSubview:self.scrollView];
   
   // Image view.
   // It should match the size of the image.
   self.imageView = [[ISCacheImageView alloc] initWithFrame:self.view.frame];
   self.imageView.contentMode = UIViewContentModeScaleAspectFit;
-  self.imageView.autoresizingMask =
-  UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
   self.imageView.alpha = 0.0f;
-  [self.scrollView addSubview:self.imageView];
+  self.scrollView.contentView = self.imageView;
   
   self.progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
   self.progressView.frame =
@@ -160,17 +160,14 @@ typedef enum {
        return;
      }
      
-     // TODO Work out why the image is the wrong size!
      strongSelf.imageView.frame =
      CGRectMake(0.0f,
                 0.0f,
                 strongSelf.imageView.image.size.width,
                 strongSelf.imageView.image.size.height);
-     strongSelf.scrollView.contentSize = strongSelf.imageView.image.size;
-     
-     // TODO Work out what scale we need to be at to fit the image in.
-     
-     
+     strongSelf.scrollView.contentSize =
+     CGSizeMake(strongSelf.imageView.image.size.width,
+                strongSelf.imageView.image.size.height);
    }];
   
   [self startObservingCacheItem];
@@ -228,12 +225,5 @@ typedef enum {
   }
 }
 
-
-#pragma mark - UIScrollViewDelegate
-
-- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
-{
-  return self.imageView;
-}
 
 @end
