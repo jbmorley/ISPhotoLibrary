@@ -173,8 +173,7 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
                     animated:animated
                   completion:NULL];
     
-    // Set the title.
-    self.title = viewController.title;
+    [self setTitleForViewController:viewController];
   }
 }
 
@@ -310,6 +309,28 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
 }
 
 
+- (void)setTitleForViewController:(ISItemViewController *)viewController
+{
+  NSInteger index = viewController.index;
+  ISListViewAdapterItem *item =
+  [self.adapter itemForIndex:viewController.index];
+  ISPhotoViewController *__weak weakSelf = self;
+  [item fetch:^(NSDictionary *dict) {
+    
+    ISPhotoViewController *strongSelf = weakSelf;
+    if (strongSelf == nil) {
+      return;
+    }
+    
+    // Check that index is the same.
+    ISItemViewController *current = self.viewControllers[0];
+    if (current.index == index) {
+      strongSelf.title = dict[ISPhotoServiceKeyName];
+    }
+  }];
+}
+
+
 #pragma mark - UICollectionViewDataSource
 
 
@@ -409,7 +430,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
   self.viewControllers[0];
   [self scrubberShowIndex:viewController.index
                  animated:YES];
-  self.title = viewController.title;
+  [self setTitleForViewController:viewController];
 }
 
 
