@@ -28,6 +28,7 @@
 <UICollectionViewDataSource
 ,UICollectionViewDelegate
 ,ISDownloadsViewControllerDelegate
-,UICollectionViewDelegateFlowLayout>
+,UICollectionViewDelegateFlowLayout
+,ISPhotoServiceDelegate>
 
 @end

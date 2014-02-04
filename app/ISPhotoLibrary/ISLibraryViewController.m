@@ -34,6 +34,7 @@
 @interface ISLibraryViewController ()
 
 @property (nonatomic, weak) IBOutlet UICollectionView *collectionView;
+@property (nonatomic, retain) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) ISPhotoService *photoService;
 @property (nonatomic, strong) UIImage *thumbnail;
 @property (nonatomic, strong) ISListViewAdapter *adapter;
@@ -56,6 +57,7 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 {
   [super viewDidLoad];
   self.photoService = [ISPhotoService new];
+  self.photoService.delegate = self;
   self.thumbnail = [UIImage imageNamed:@"Thumbnail.imageasset"];
   self.spacing = 5.0;
   
@@ -63,6 +65,16 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
   self.adapter = [[ISListViewAdapter alloc] initWithDataSource:self.photoService];
   self.connector = [ISListViewAdapterConnector connectorWithCollectionView:self.collectionView];
   [self.adapter addAdapterObserver:self.connector];
+  
+  // Add the refresh control.
+  self.refreshControl = [UIRefreshControl new];
+  [self.refreshControl addTarget:self
+                          action:@selector(startRefresh:)
+                forControlEvents:UIControlEventValueChanged];
+  [self.collectionView addSubview:self.refreshControl];
+  
+  // Star tthe photo service updating.
+  [self.photoService update];
 }
 
 
@@ -70,9 +82,7 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 {
   [super viewWillAppear:animated];
   self.isPortrait = [ISDevice isPortrait];
-  // Force a relayout in case we have missed a rotation event.
   [self.collectionView.collectionViewLayout invalidateLayout];
-
 }
 
 
@@ -102,9 +112,8 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
                                 duration:(NSTimeInterval)duration
 {
-  // TODO Only reload if changed.
   self.isPortrait = UIInterfaceOrientationIsPortrait(toInterfaceOrientation);
-  [self.collectionView reloadData];
+  [self.collectionView.collectionViewLayout invalidateLayout];
 }
 
 
@@ -127,6 +136,13 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 
 
 #pragma mark - Actions
+
+
+- (void)startRefresh:(id)sender
+{
+  [self.photoService update];
+}
+
 
 - (IBAction)refreshClicked:(id)sender
 {
@@ -154,26 +170,6 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
                    cancelButtonTitle:@"Cancel"
                    otherButtonTitles:@"OK", nil];
   [alertView show];
-}
-
-
-- (IBAction)cancelClicked:(id)sender
-{
-  UIAlertView *alertView =
-  [[UIAlertView alloc] initWithTitle:@"Cancel"
-                             message:@"Cancel active downloads?"
-                     completionBlock:^(NSUInteger buttonIndex)
-  {
-    if (buttonIndex == 1) {
-      ISCache *defaultCache = [ISCache defaultCache];
-      NSArray *items = [defaultCache items:[ISCacheStateFilter filterWithStates:ISCacheItemStateInProgress]];
-      [defaultCache cancelItems:items];
-    }
-  }
-                   cancelButtonTitle:@"Cancel"
-                   otherButtonTitles:@"OK", nil];
-  [alertView show];
-  
 }
 
 
@@ -332,6 +328,21 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
 minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 {
   return self.spacing;
+}
+
+
+#pragma mark - ISPhotoServiceDelegate
+
+
+- (void)photoServiceWillUpdate:(ISPhotoService *)photoService
+{
+  [self.refreshControl beginRefreshing];
+}
+
+
+- (void)photoServiceDidUpdate:(ISPhotoService *)photoService
+{
+  [self.refreshControl endRefreshing];
 }
 
 @end

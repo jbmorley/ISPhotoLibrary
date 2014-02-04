@@ -45,7 +45,6 @@ static NSString *kDownloadsViewCellReuseIdentifier = @"DownloadsCell";
   [super viewDidLoad];
   
   self.adapter = [[ISListViewAdapter alloc] initWithDataSource:self];
-  self.adapter.debug = YES;
   self.connector = [ISListViewAdapterConnector connectorWithCollectionView:self.collectionView];
   [self.adapter addAdapterObserver:self.connector];
   
@@ -86,6 +85,14 @@ static NSString *kDownloadsViewCellReuseIdentifier = @"DownloadsCell";
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
+}
+
+
+- (IBAction)cancelClicked:(id)sender
+{
+  ISCache *defaultCache = [ISCache defaultCache];
+  NSArray *items = [defaultCache items:[ISCacheStateFilter filterWithStates:ISCacheItemStateInProgress]];
+  [defaultCache cancelItems:items];
 }
 
 

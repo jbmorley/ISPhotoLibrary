@@ -66,9 +66,6 @@ static NSString *kServiceRoot = @"http://photos.jbmorley.co.uk";
     // Generate the sorted keys.
     [self sortKeys];
 
-    // Update the service.
-    [self update];
-
   }
   return self;
 }
@@ -76,6 +73,8 @@ static NSString *kServiceRoot = @"http://photos.jbmorley.co.uk";
 
 - (void)update
 {
+  [self.delegate photoServiceWillUpdate:self];
+  
   // Fetch the library data.
   AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
   [manager GET:kServiceRoot
@@ -102,23 +101,12 @@ static NSString *kServiceRoot = @"http://photos.jbmorley.co.uk";
          // Notify the delegate.
          [self.adapter invalidate];
          
-//         [self startReversing];
+         // Did update.
+         [self.delegate photoServiceDidUpdate:self];
          
        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
          NSLog(@"Something went wrong: %@", error);
        }];
-}
-
-
-- (void)startReversing
-{
-  double delayInSeconds = 2.0f;
-  dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-  dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-    self.sortedKeys = [[[self.sortedKeys reverseObjectEnumerator] allObjects] mutableCopy];
-    [self.adapter invalidate];
-    [self startReversing];
-  });
 }
 
 
