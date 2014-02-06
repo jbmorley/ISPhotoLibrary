@@ -26,6 +26,7 @@
 		D812C66E186C183300416A1B /* ISLibraryCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D812C66D186C183300416A1B /* ISLibraryCollectionViewCell.m */; };
 		D812C671186D7E6900416A1B /* ISPhotoService.m in Sources */ = {isa = PBXBuildFile; fileRef = D812C670186D7E6900416A1B /* ISPhotoService.m */; };
 		D81798AD1870F469009AA0A2 /* ISDownloadsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D81798AC1870F469009AA0A2 /* ISDownloadsViewController.m */; };
+		D8629D4818A42346002C3D3B /* ISRotatingFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = D8629D4718A42346002C3D3B /* ISRotatingFlowLayout.m */; };
 		D89D46C1189E3562001D5D04 /* ISScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = D89D46C0189E3562001D5D04 /* ISScrollView.m */; };
 		D8A9D57C1881DF800008FAED /* ISScrubberCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A9D57B1881DF800008FAED /* ISScrubberCollectionViewCell.m */; };
 		D8BC6C1618952C4000167097 /* ISItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8BC6C1518952C4000167097 /* ISItemViewController.m */; };
@@ -73,6 +74,8 @@
 		D81798AB1870F469009AA0A2 /* ISDownloadsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISDownloadsViewController.h; sourceTree = "<group>"; };
 		D81798AC1870F469009AA0A2 /* ISDownloadsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISDownloadsViewController.m; sourceTree = "<group>"; };
 		D81798B21872893A009AA0A2 /* ISViewControllerChromeState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISViewControllerChromeState.h; sourceTree = "<group>"; };
+		D8629D4618A42346002C3D3B /* ISRotatingFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISRotatingFlowLayout.h; sourceTree = "<group>"; };
+		D8629D4718A42346002C3D3B /* ISRotatingFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISRotatingFlowLayout.m; sourceTree = "<group>"; };
 		D89D46BF189E3562001D5D04 /* ISScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISScrollView.h; sourceTree = "<group>"; };
 		D89D46C0189E3562001D5D04 /* ISScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISScrollView.m; sourceTree = "<group>"; };
 		D8A9D57A1881DF800008FAED /* ISScrubberCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISScrubberCollectionViewCell.h; sourceTree = "<group>"; };
@@ -210,6 +213,8 @@
 				D812C66D186C183300416A1B /* ISLibraryCollectionViewCell.m */,
 				D80A576F18111A7F003A82B1 /* ISLibraryViewController.h */,
 				D80A577018111A7F003A82B1 /* ISLibraryViewController.m */,
+				D8629D4618A42346002C3D3B /* ISRotatingFlowLayout.h */,
+				D8629D4718A42346002C3D3B /* ISRotatingFlowLayout.m */,
 			);
 			name = Library;
 			sourceTree = "<group>";
@@ -387,6 +392,7 @@
 				D81798AD1870F469009AA0A2 /* ISDownloadsViewController.m in Sources */,
 				D812C671186D7E6900416A1B /* ISPhotoService.m in Sources */,
 				D8A9D57C1881DF800008FAED /* ISScrubberCollectionViewCell.m in Sources */,
+				D8629D4818A42346002C3D3B /* ISRotatingFlowLayout.m in Sources */,
 				D812C66E186C183300416A1B /* ISLibraryCollectionViewCell.m in Sources */,
 				D80A577118111A7F003A82B1 /* ISLibraryViewController.m in Sources */,
 				D8BC6C1618952C4000167097 /* ISItemViewController.m in Sources */,

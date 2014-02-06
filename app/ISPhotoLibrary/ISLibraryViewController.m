@@ -30,6 +30,7 @@
 #import "ISPhotoViewController.h"
 #import "ISViewControllerChromeState.h"
 #import "ISPhotoViewController.h"
+#import "ISRotatingFlowLayout.h"
 
 @interface ISLibraryViewController ()
 
@@ -42,8 +43,7 @@
 @property (nonatomic) CGPoint lastContentScrollOffset;
 @property (nonatomic) ISViewControllerChromeState chromeState;
 @property (nonatomic) BOOL scrollViewIsDragging;
-@property (nonatomic) BOOL isPortrait;
-@property (nonatomic) CGFloat spacing;
+@property (nonatomic, strong) ISRotatingFlowLayout *flowLayout;
 
 @end
 
@@ -59,7 +59,6 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
   self.photoService = [ISPhotoService new];
   self.photoService.delegate = self;
   self.thumbnail = [UIImage imageNamed:@"Thumbnail.imageasset"];
-  self.spacing = 5.0;
   
   // Create an adapter and connect it to the collection view.
   self.adapter = [[ISListViewAdapter alloc] initWithDataSource:self.photoService];
@@ -73,16 +72,12 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
                 forControlEvents:UIControlEventValueChanged];
   [self.collectionView addSubview:self.refreshControl];
   
-  // Star tthe photo service updating.
+  // Create the flow layout.
+  self.flowLayout = [ISRotatingFlowLayout new];
+  self.collectionView.collectionViewLayout = self.flowLayout;
+  
+  // Star the photo service updating.
   [self.photoService update];
-}
-
-
-- (void)viewWillAppear:(BOOL)animated
-{
-  [super viewWillAppear:animated];
-  self.isPortrait = [ISDevice isPortrait];
-  [self.collectionView.collectionViewLayout invalidateLayout];
 }
 
 
@@ -106,14 +101,6 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
     ISDownloadsViewController *viewController = (ISDownloadsViewController *)navigationController.topViewController;
     viewController.delegate = self;
   }
-}
-
-
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
-                                duration:(NSTimeInterval)duration
-{
-  self.isPortrait = UIInterfaceOrientationIsPortrait(toInterfaceOrientation);
-  [self.collectionView.collectionViewLayout invalidateLayout];
 }
 
 
@@ -284,50 +271,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 
 - (CGSize)thumbnailSize
 {
-  if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-    return CGSizeMake(100, 100);
-  } else {
-    return CGSizeMake(180, 180);
-  }
-}
-
-
-- (CGSize)collectionView:(UICollectionView *)collectionView
-                  layout:(UICollectionViewLayout*)collectionViewLayout
-  sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-  return [self thumbnailSize];
-}
-
-
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView
-                        layout:(UICollectionViewLayout*)collectionViewLayout
-        insetForSectionAtIndex:(NSInteger)section
-{
-  CGFloat screenWidth = [ISDevice screenSize:self.isPortrait].width;
-  NSInteger count = floor((screenWidth + self.spacing) / (self.thumbnailSize.width + self.spacing));
-  NSInteger margin = floor((screenWidth - (self.thumbnailSize.width * count) - (self.spacing * (count - 1))) / 2);
-  
-  return UIEdgeInsetsMake(self.spacing,
-                          margin,
-                          self.spacing,
-                          margin);
-}
-
-
-- (CGFloat)collectionView:(UICollectionView *)collectionView
-                   layout:(UICollectionViewLayout*)collectionViewLayout
-minimumLineSpacingForSectionAtIndex:(NSInteger)section
-{
-  return self.spacing;
-}
-
-
-- (CGFloat)collectionView:(UICollectionView *)collectionView
-                   layout:(UICollectionViewLayout*)collectionViewLayout
-minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
-{
-  return self.spacing;
+  return ((UICollectionViewFlowLayout *)(self.collectionView.collectionViewLayout)).itemSize;
 }
 
 
