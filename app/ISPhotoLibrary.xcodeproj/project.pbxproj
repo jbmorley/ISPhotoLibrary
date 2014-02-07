@@ -213,8 +213,6 @@
 				D812C66D186C183300416A1B /* ISLibraryCollectionViewCell.m */,
 				D80A576F18111A7F003A82B1 /* ISLibraryViewController.h */,
 				D80A577018111A7F003A82B1 /* ISLibraryViewController.m */,
-				D8629D4618A42346002C3D3B /* ISRotatingFlowLayout.h */,
-				D8629D4718A42346002C3D3B /* ISRotatingFlowLayout.m */,
 			);
 			name = Library;
 			sourceTree = "<group>";
@@ -237,6 +235,8 @@
 		D854F9B61887EA6E00A42A79 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				D8629D4618A42346002C3D3B /* ISRotatingFlowLayout.h */,
+				D8629D4718A42346002C3D3B /* ISRotatingFlowLayout.m */,
 				D854F9B41887E9E400A42A79 /* Library */,
 				D854F9B51887EA5700A42A79 /* Photo */,
 				D854F9B31887E95500A42A79 /* Downloads */,

@@ -22,6 +22,7 @@
 
 #import "ISDownloadsViewController.h"
 #import "ISDownloadsCollectionViewCell.h"
+#import "ISRotatingFlowLayout.h"
 #import <ISUtilities/ISDevice.h>
 
 @interface ISDownloadsViewController ()
@@ -29,9 +30,7 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (nonatomic, strong) ISListViewAdapter *adapter;
 @property (nonatomic, strong) ISListViewAdapterConnector *connector;
-@property (nonatomic) BOOL isPortrait;
-@property (nonatomic) CGSize minimumSize;
-@property (nonatomic) CGFloat spacing;
+@property (nonatomic, strong) ISRotatingFlowLayout *flowLayout;
 
 @end
 
@@ -48,8 +47,16 @@ static NSString *kDownloadsViewCellReuseIdentifier = @"DownloadsCell";
   self.connector = [ISListViewAdapterConnector connectorWithCollectionView:self.collectionView];
   [self.adapter addAdapterObserver:self.connector];
   
-  self.minimumSize = CGSizeMake(283.0, 72.0);
-  self.spacing = 2.0;
+  // Create and configure the flow layout.
+  self.flowLayout = [ISRotatingFlowLayout new];
+  self.flowLayout.adjustsItemSize = YES;
+  self.flowLayout.spacing = 2.0f;
+  if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+    self.flowLayout.minimumItemSize = CGSizeMake(283.0, 72.0);
+  } else {
+    self.flowLayout.minimumItemSize = CGSizeMake(283.0, 72.0);
+  }
+  self.collectionView.collectionViewLayout = self.flowLayout;
   
 }
 
@@ -57,9 +64,7 @@ static NSString *kDownloadsViewCellReuseIdentifier = @"DownloadsCell";
 - (void)viewWillAppear:(BOOL)animated
 {
   [super viewWillAppear:animated];
-  self.isPortrait = [ISDevice isPortrait];
   [[ISCache defaultCache] addCacheObserver:self];
-  [self.adapter invalidate];
 }
 
 
@@ -72,19 +77,6 @@ static NSString *kDownloadsViewCellReuseIdentifier = @"DownloadsCell";
 - (void)didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
-}
-
-
--(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
-                               duration: (NSTimeInterval)duration
-{
-  self.isPortrait = UIInterfaceOrientationIsPortrait(toInterfaceOrientation);
-  [self.collectionView.collectionViewLayout invalidateLayout];
-}
-
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
 }
 
 
@@ -182,51 +174,6 @@ itemDidUpdate:(ISCacheItem *)item
       newItem:(ISCacheItem *)item
 {
   [self.adapter invalidate];
-}
-
-
-#pragma mark - UICollectionViewDelegateFlowLayout
-
-
-
-- (CGSize)collectionView:(UICollectionView *)collectionView
-                  layout:(UICollectionViewLayout*)collectionViewLayout
-  sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-  // Work out how many minimum size cells we can fit in.
-  CGFloat screenWidth = [ISDevice screenSize:self.isPortrait].width;
-  NSInteger max = floor((screenWidth + self.spacing) / (self.minimumSize.width + self.spacing));
-  assert(max > 0);
-  
-  // Work out the how much is given over to spacing.
-  CGFloat width = floor((screenWidth - (self.spacing * (max - 1))) / max);
-  return CGSizeMake(width,
-                    self.minimumSize.height);
-  
-}
-
-
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView
-                        layout:(UICollectionViewLayout*)collectionViewLayout
-        insetForSectionAtIndex:(NSInteger)section
-{
-  return UIEdgeInsetsZero;
-}
-
-
-- (CGFloat)collectionView:(UICollectionView *)collectionView
-                   layout:(UICollectionViewLayout*)collectionViewLayout
-minimumLineSpacingForSectionAtIndex:(NSInteger)section
-{
-  return self.spacing;
-}
-
-
-- (CGFloat)collectionView:(UICollectionView *)collectionView
-                   layout:(UICollectionViewLayout*)collectionViewLayout
-minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
-{
-  return self.spacing;
 }
 
 

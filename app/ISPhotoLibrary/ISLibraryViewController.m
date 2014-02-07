@@ -72,10 +72,16 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
                 forControlEvents:UIControlEventValueChanged];
   [self.collectionView addSubview:self.refreshControl];
   
-  // Create the flow layout.
+  // Create and configure the flow layout.
   self.flowLayout = [ISRotatingFlowLayout new];
+  self.flowLayout.spacing = 5.0f;
+  if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+    self.flowLayout.minimumItemSize = CGSizeMake(100, 100);
+  } else {
+    self.flowLayout.minimumItemSize = CGSizeMake(180, 180);
+  }
   self.collectionView.collectionViewLayout = self.flowLayout;
-  
+
   // Star the photo service updating.
   [self.photoService update];
 }

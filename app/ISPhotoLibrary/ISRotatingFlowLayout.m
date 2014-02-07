@@ -11,7 +11,6 @@
 
 @interface ISRotatingFlowLayout ()
 
-@property (nonatomic) CGFloat spacing;
 @property (nonatomic) CGRect currentBounds;
 
 @end
@@ -22,8 +21,9 @@
 {
   self = [super init];
   if (self) {
-    self.spacing = 5.0f;
+    self.spacing = 0.0f;
     self.currentBounds = CGRectZero;
+    self.minimumItemSize = CGSizeZero;
   }
   return self;
 }
@@ -64,24 +64,76 @@
 }
 
 
-- (CGSize)calculateItemSize
+- (UIEdgeInsets)calculateSectionInset
 {
-  if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-    return CGSizeMake(100, 100);
-  } else {
-    return CGSizeMake(180, 180);
+  if (self.scrollDirection ==
+      UICollectionViewScrollDirectionHorizontal) {
+
+    NSInteger count = floor((self.collectionView.frame.size.height + self.spacing) / (self.itemSize.height + self.spacing));
+    NSInteger margin = floor((self.collectionView.frame.size.height - (self.itemSize.height * count) - (self.spacing * (count - 1))) / 2);
+    return UIEdgeInsetsMake(margin,
+                            self.spacing,
+                            margin,
+                            self.spacing);
+    
+  } else if (self.scrollDirection ==
+             UICollectionViewScrollDirectionVertical) {
+    
+    NSInteger count = floor((self.collectionView.frame.size.width + self.spacing) / (self.itemSize.width + self.spacing));
+    NSInteger margin = floor((self.collectionView.frame.size.width - (self.itemSize.width * count) - (self.spacing * (count - 1))) / 2);
+    return UIEdgeInsetsMake(self.spacing,
+                            margin,
+                            self.spacing,
+                            margin);
+    
   }
+  
+  return UIEdgeInsetsZero;
 }
 
 
-- (UIEdgeInsets)calculateSectionInset
+- (CGSize)calculateItemSize
 {
-  NSInteger count = floor((self.collectionView.frame.size.width + self.spacing) / (self.itemSize.width + self.spacing));
-  NSInteger margin = floor((self.collectionView.frame.size.width - (self.itemSize.width * count) - (self.spacing * (count - 1))) / 2);
-  return UIEdgeInsetsMake(self.spacing,
-                          margin,
-                          self.spacing,
-                          margin);
+  if (self.adjustsItemSize) {
+    
+    if (self.scrollDirection ==
+        UICollectionViewScrollDirectionVertical) {
+
+      // Work out how many minimum size cells we can fit in.
+      NSInteger max = floor((self.collectionView.bounds.size.width + self.spacing) / (self.minimumItemSize.width + self.spacing));
+      
+      // Work out the how much is given over to spacing.
+      if (max == 0) {
+        return self.minimumItemSize;
+      } else {
+        CGFloat dimension = floor((self.collectionView.bounds.size.width - (self.spacing * (max + 1))) / max);
+        return CGSizeMake(dimension, self.minimumItemSize.height);
+      }
+      
+    } else if (self.scrollDirection ==
+               UICollectionViewScrollDirectionHorizontal) {
+      
+      // Work out how many minimum size cells we can fit in.
+      NSInteger max = floor((self.collectionView.bounds.size.height + self.spacing) / (self.minimumItemSize.height + self.spacing));
+      
+      // Work out the how much is given over to spacing.
+      if (max == 0) {
+        return self.minimumItemSize;
+      } else {
+        CGFloat dimension = floor((self.collectionView.bounds.size.height - (self.spacing * (max + 1))) / max);
+        return CGSizeMake(self.minimumItemSize.height, dimension);
+      }
+      
+    } else {
+      return self.minimumItemSize;
+    }
+    
+  } else {
+  
+    return self.minimumItemSize;
+    
+  }
+  
 }
 
 
