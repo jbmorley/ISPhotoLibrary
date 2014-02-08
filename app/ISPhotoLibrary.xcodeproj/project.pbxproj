@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1D222C62D069480A8EE2FDA1 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A1B3E9B6DE4043D2813FF532 /* libPods.a */; };
-		D805775918881E340073157E /* ISDownloadsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D805775818881E340073157E /* ISDownloadsCollectionViewCell.m */; };
 		D80A575B18111A7F003A82B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80A575A18111A7F003A82B1 /* Foundation.framework */; };
 		D80A575D18111A7F003A82B1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80A575C18111A7F003A82B1 /* CoreGraphics.framework */; };
 		D80A575F18111A7F003A82B1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80A575E18111A7F003A82B1 /* UIKit.framework */; };
@@ -25,9 +24,6 @@
 		D80A578618111A7F003A82B1 /* ISPhotoLibraryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D80A578518111A7F003A82B1 /* ISPhotoLibraryTests.m */; };
 		D812C66E186C183300416A1B /* ISLibraryCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D812C66D186C183300416A1B /* ISLibraryCollectionViewCell.m */; };
 		D812C671186D7E6900416A1B /* ISPhotoService.m in Sources */ = {isa = PBXBuildFile; fileRef = D812C670186D7E6900416A1B /* ISPhotoService.m */; };
-		D81798AD1870F469009AA0A2 /* ISDownloadsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D81798AC1870F469009AA0A2 /* ISDownloadsViewController.m */; };
-		D896301D18A65FC200D7C1A4 /* ISDownloadsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D896301C18A65FC200D7C1A4 /* ISDownloadsCollectionViewCell.xib */; };
-		D896301F18A6616400D7C1A4 /* ISDownloadsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D896301E18A6616400D7C1A4 /* ISDownloadsViewController.xib */; };
 		D89D46C1189E3562001D5D04 /* ISScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = D89D46C0189E3562001D5D04 /* ISScrollView.m */; };
 		D8A9D57C1881DF800008FAED /* ISScrubberCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A9D57B1881DF800008FAED /* ISScrubberCollectionViewCell.m */; };
 		D8BC6C1618952C4000167097 /* ISItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8BC6C1518952C4000167097 /* ISItemViewController.m */; };
@@ -47,8 +43,6 @@
 /* Begin PBXFileReference section */
 		A1B3E9B6DE4043D2813FF532 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3A51A10D9084F24B21CEE33 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
-		D805775718881E340073157E /* ISDownloadsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISDownloadsCollectionViewCell.h; sourceTree = "<group>"; };
-		D805775818881E340073157E /* ISDownloadsCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISDownloadsCollectionViewCell.m; sourceTree = "<group>"; };
 		D80A575718111A7F003A82B1 /* Photo Library.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Photo Library.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D80A575A18111A7F003A82B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D80A575C18111A7F003A82B1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -72,11 +66,7 @@
 		D812C66D186C183300416A1B /* ISLibraryCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISLibraryCollectionViewCell.m; sourceTree = "<group>"; };
 		D812C66F186D7E6900416A1B /* ISPhotoService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISPhotoService.h; sourceTree = "<group>"; };
 		D812C670186D7E6900416A1B /* ISPhotoService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISPhotoService.m; sourceTree = "<group>"; };
-		D81798AB1870F469009AA0A2 /* ISDownloadsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISDownloadsViewController.h; sourceTree = "<group>"; };
-		D81798AC1870F469009AA0A2 /* ISDownloadsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISDownloadsViewController.m; sourceTree = "<group>"; };
 		D81798B21872893A009AA0A2 /* ISViewControllerChromeState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISViewControllerChromeState.h; sourceTree = "<group>"; };
-		D896301C18A65FC200D7C1A4 /* ISDownloadsCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ISDownloadsCollectionViewCell.xib; sourceTree = "<group>"; };
-		D896301E18A6616400D7C1A4 /* ISDownloadsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ISDownloadsViewController.xib; sourceTree = "<group>"; };
 		D89D46BF189E3562001D5D04 /* ISScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISScrollView.h; sourceTree = "<group>"; };
 		D89D46C0189E3562001D5D04 /* ISScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISScrollView.m; sourceTree = "<group>"; };
 		D8A9D57A1881DF800008FAED /* ISScrubberCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISScrubberCollectionViewCell.h; sourceTree = "<group>"; };
@@ -195,19 +185,6 @@
 			name = Service;
 			sourceTree = "<group>";
 		};
-		D854F9B31887E95500A42A79 /* Downloads */ = {
-			isa = PBXGroup;
-			children = (
-				D805775718881E340073157E /* ISDownloadsCollectionViewCell.h */,
-				D805775818881E340073157E /* ISDownloadsCollectionViewCell.m */,
-				D896301C18A65FC200D7C1A4 /* ISDownloadsCollectionViewCell.xib */,
-				D81798AB1870F469009AA0A2 /* ISDownloadsViewController.h */,
-				D81798AC1870F469009AA0A2 /* ISDownloadsViewController.m */,
-				D896301E18A6616400D7C1A4 /* ISDownloadsViewController.xib */,
-			);
-			name = Downloads;
-			sourceTree = "<group>";
-		};
 		D854F9B41887E9E400A42A79 /* Library */ = {
 			isa = PBXGroup;
 			children = (
@@ -240,7 +217,6 @@
 			children = (
 				D854F9B41887E9E400A42A79 /* Library */,
 				D854F9B51887EA5700A42A79 /* Photo */,
-				D854F9B31887E95500A42A79 /* Downloads */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -333,10 +309,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D896301D18A65FC200D7C1A4 /* ISDownloadsCollectionViewCell.xib in Resources */,
 				D80A577318111A7F003A82B1 /* Images.xcassets in Resources */,
 				D80A576518111A7F003A82B1 /* InfoPlist.strings in Resources */,
-				D896301F18A6616400D7C1A4 /* ISDownloadsViewController.xib in Resources */,
 				D80A576E18111A7F003A82B1 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -388,11 +362,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				D8BC6C1918952C6200167097 /* ISPhotoViewController.m in Sources */,
-				D805775918881E340073157E /* ISDownloadsCollectionViewCell.m in Sources */,
 				D89D46C1189E3562001D5D04 /* ISScrollView.m in Sources */,
 				D80A576B18111A7F003A82B1 /* ISAppDelegate.m in Sources */,
 				D80A576718111A7F003A82B1 /* main.m in Sources */,
-				D81798AD1870F469009AA0A2 /* ISDownloadsViewController.m in Sources */,
 				D812C671186D7E6900416A1B /* ISPhotoService.m in Sources */,
 				D8A9D57C1881DF800008FAED /* ISScrubberCollectionViewCell.m in Sources */,
 				D812C66E186C183300416A1B /* ISLibraryCollectionViewCell.m in Sources */,
