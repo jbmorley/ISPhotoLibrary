@@ -39,6 +39,24 @@ static NSString *kDownloadsViewCellReuseIdentifier = @"DownloadsCell";
 @implementation ISDownloadsViewController
 
 
++ (id)downloadsViewController
+{
+  return [[self alloc] initWithNibName:@"ISDownloadsViewController" bundle:nil];
+}
+
+
+- (id)initWithNibName:(NSString *)nibNameOrNil
+               bundle:(NSBundle *)nibBundleOrNil
+{
+  self = [super initWithNibName:nibNameOrNil
+                         bundle:nibBundleOrNil];
+  if (self) {
+    self.title = @"Downloads";
+  }
+  return self;
+}
+
+
 - (void)viewDidLoad
 {
   [super viewDidLoad];
@@ -46,6 +64,12 @@ static NSString *kDownloadsViewCellReuseIdentifier = @"DownloadsCell";
   self.adapter = [[ISListViewAdapter alloc] initWithDataSource:self];
   self.connector = [ISListViewAdapterConnector connectorWithCollectionView:self.collectionView];
   [self.adapter addAdapterObserver:self.connector];
+  
+  // Register the download cell.
+  UINib *nib = [UINib nibWithNibName:@"ISDownloadsCollectionViewCell"
+                              bundle:nil];
+  [self.collectionView registerNib:nib
+        forCellWithReuseIdentifier:kDownloadsViewCellReuseIdentifier];
   
   // Create and configure the flow layout.
   self.flowLayout = [ISRotatingFlowLayout new];
@@ -57,6 +81,10 @@ static NSString *kDownloadsViewCellReuseIdentifier = @"DownloadsCell";
     self.flowLayout.minimumItemSize = CGSizeMake(283.0, 72.0);
   }
   self.collectionView.collectionViewLayout = self.flowLayout;
+
+  // Buttons.
+  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneClicked:)];
+  self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel All" style:UIBarButtonItemStylePlain target:self action:@selector(cancelClicked:)];
   
 }
 

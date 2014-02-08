@@ -26,6 +26,8 @@
 		D812C66E186C183300416A1B /* ISLibraryCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D812C66D186C183300416A1B /* ISLibraryCollectionViewCell.m */; };
 		D812C671186D7E6900416A1B /* ISPhotoService.m in Sources */ = {isa = PBXBuildFile; fileRef = D812C670186D7E6900416A1B /* ISPhotoService.m */; };
 		D81798AD1870F469009AA0A2 /* ISDownloadsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D81798AC1870F469009AA0A2 /* ISDownloadsViewController.m */; };
+		D896301D18A65FC200D7C1A4 /* ISDownloadsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D896301C18A65FC200D7C1A4 /* ISDownloadsCollectionViewCell.xib */; };
+		D896301F18A6616400D7C1A4 /* ISDownloadsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D896301E18A6616400D7C1A4 /* ISDownloadsViewController.xib */; };
 		D89D46C1189E3562001D5D04 /* ISScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = D89D46C0189E3562001D5D04 /* ISScrollView.m */; };
 		D8A9D57C1881DF800008FAED /* ISScrubberCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A9D57B1881DF800008FAED /* ISScrubberCollectionViewCell.m */; };
 		D8BC6C1618952C4000167097 /* ISItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8BC6C1518952C4000167097 /* ISItemViewController.m */; };
@@ -73,6 +75,8 @@
 		D81798AB1870F469009AA0A2 /* ISDownloadsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISDownloadsViewController.h; sourceTree = "<group>"; };
 		D81798AC1870F469009AA0A2 /* ISDownloadsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISDownloadsViewController.m; sourceTree = "<group>"; };
 		D81798B21872893A009AA0A2 /* ISViewControllerChromeState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISViewControllerChromeState.h; sourceTree = "<group>"; };
+		D896301C18A65FC200D7C1A4 /* ISDownloadsCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ISDownloadsCollectionViewCell.xib; sourceTree = "<group>"; };
+		D896301E18A6616400D7C1A4 /* ISDownloadsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ISDownloadsViewController.xib; sourceTree = "<group>"; };
 		D89D46BF189E3562001D5D04 /* ISScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISScrollView.h; sourceTree = "<group>"; };
 		D89D46C0189E3562001D5D04 /* ISScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISScrollView.m; sourceTree = "<group>"; };
 		D8A9D57A1881DF800008FAED /* ISScrubberCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISScrubberCollectionViewCell.h; sourceTree = "<group>"; };
@@ -196,8 +200,10 @@
 			children = (
 				D805775718881E340073157E /* ISDownloadsCollectionViewCell.h */,
 				D805775818881E340073157E /* ISDownloadsCollectionViewCell.m */,
+				D896301C18A65FC200D7C1A4 /* ISDownloadsCollectionViewCell.xib */,
 				D81798AB1870F469009AA0A2 /* ISDownloadsViewController.h */,
 				D81798AC1870F469009AA0A2 /* ISDownloadsViewController.m */,
+				D896301E18A6616400D7C1A4 /* ISDownloadsViewController.xib */,
 			);
 			name = Downloads;
 			sourceTree = "<group>";
@@ -327,8 +333,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D896301D18A65FC200D7C1A4 /* ISDownloadsCollectionViewCell.xib in Resources */,
 				D80A577318111A7F003A82B1 /* Images.xcassets in Resources */,
 				D80A576518111A7F003A82B1 /* InfoPlist.strings in Resources */,
+				D896301F18A6616400D7C1A4 /* ISDownloadsViewController.xib in Resources */,
 				D80A576E18111A7F003A82B1 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

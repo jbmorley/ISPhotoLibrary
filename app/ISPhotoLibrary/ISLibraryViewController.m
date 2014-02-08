@@ -143,6 +143,20 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 }
 
 
+- (IBAction)downloadsClicked:(id)sender
+{
+  ISDownloadsViewController *viewController = [ISDownloadsViewController downloadsViewController];
+  viewController.delegate = self;
+  
+  UINavigationController *navigationController =
+  [[UINavigationController alloc] initWithRootViewController:viewController];
+  [self.navigationController presentViewController:navigationController
+                                          animated:YES
+                                        completion:^{
+                                        }];
+}
+
+
 - (IBAction)clearClicked:(id)sender
 {
   UIAlertView *alertView =

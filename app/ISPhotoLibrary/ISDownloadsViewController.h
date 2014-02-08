@@ -41,4 +41,6 @@
 
 @property (nonatomic, weak) id<ISDownloadsViewControllerDelegate> delegate;
 
++ (id)downloadsViewController;
+
 @end
