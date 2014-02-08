@@ -9,3 +9,6 @@
 [submodule "dependencies/ISListViewAdapter"]
 	path = dependencies/ISListViewAdapter
 	url = git@github.com:jbmorley/ISListViewAdapter.git
+[submodule "dependencies/ISToolkit"]
+	path = dependencies/ISToolkit
+	url = git@github.com:jbmorley/ISToolkit.git
