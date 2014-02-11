@@ -243,8 +243,6 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
       }
       
       strongController.title = dict[ISPhotoServiceKeyName];
-      
-      // TODO Use a weak reference to the view controller.
       [strongController setCacheItem:dict[ISPhotoServiceKeyURL]
                              context:ISCacheImageContext
                          preferences:@{ISCacheImageWidth: @(self.photoSize.width),
