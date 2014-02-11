@@ -35,7 +35,7 @@
 @interface ISLibraryViewController ()
 
 @property (nonatomic, weak) IBOutlet UICollectionView *collectionView;
-@property (nonatomic, retain) UIRefreshControl *refreshControl;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) ISPhotoService *photoService;
 @property (nonatomic, strong) UIImage *thumbnail;
 @property (nonatomic, strong) ISListViewAdapter *adapter;

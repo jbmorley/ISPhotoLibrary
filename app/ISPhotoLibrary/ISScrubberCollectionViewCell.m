@@ -22,6 +22,14 @@
 
 #import "ISScrubberCollectionViewCell.h"
 
+@interface ISScrubberCollectionViewCell ()
+
+@property (nonatomic, strong) ISCacheImageView *imageView;
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicatorView;
+@property (nonatomic, strong) NSString *imageURL;
+
+@end
+
 @implementation ISScrubberCollectionViewCell
 
 
@@ -33,8 +41,42 @@
     self.imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [self addSubview:self.imageView];
+    
+    self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self.activityIndicatorView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
+    self.activityIndicatorView.frame =
+    CGRectMake((CGRectGetWidth(self.bounds) - CGRectGetWidth(self.activityIndicatorView.frame)) / 2.0,
+               (CGRectGetHeight(self.bounds) - CGRectGetHeight(self.activityIndicatorView.frame)) / 2.0,
+               CGRectGetWidth(self.activityIndicatorView.frame),
+               CGRectGetHeight(self.activityIndicatorView.frame));
+    [self addSubview:self.activityIndicatorView];
+    [self.activityIndicatorView startAnimating];
+    
   }
   return self;
+}
+
+
+- (void)setImageURL:(NSString *)imageURL
+               size:(CGSize)size
+{
+  ISScrubberCollectionViewCell *__weak weakSelf = self;
+  if (![_imageURL isEqualToString:imageURL]) {
+    _imageURL = imageURL;
+    [self.imageView setImageWithIdentifier:_imageURL
+                                   context:ISCacheImageContext
+                               preferences:  @{ISCacheImageWidth: @(size.width),
+                                               ISCacheImageHeight: @(size.height),
+                                               ISCacheImageScaleMode: @(ISCacheImageScaleAspectFit)}
+                          placeholderImage:nil
+                                     block:
+     ^(NSError *error) {
+       ISScrubberCollectionViewCell *strongSelf = weakSelf;
+       if (strongSelf) {
+         [strongSelf.activityIndicatorView stopAnimating];
+       }
+     }];
+  }
 }
 
 

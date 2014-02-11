@@ -25,6 +25,7 @@
 
 @interface ISScrubberCollectionViewCell : UICollectionViewCell
 
-@property (nonatomic, strong) ISCacheImageView *imageView;
+- (void)setImageURL:(NSString *)imageURL
+               size:(CGSize)size;
 
 @end

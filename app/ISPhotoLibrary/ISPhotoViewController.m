@@ -350,13 +350,8 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
   [item fetch:^(NSDictionary *dict) {
     ISScrubberCollectionViewCell *cell = (ISScrubberCollectionViewCell *)[self.scrubberCollectionView cellForItemAtIndexPath:indexPath];
     if (cell) {
-      [cell.imageView setImageWithIdentifier:dict[ISPhotoServiceKeyURL]
-                                     context:ISCacheImageContext
-                                 preferences:@{ISCacheImageWidth: @50.0,
-                                               ISCacheImageHeight: @50.0,
-                                               ISCacheImageScaleMode: @(ISCacheImageScaleAspectFit)}
-                            placeholderImage:nil
-                                       block:nil];
+      [cell setImageURL:dict[ISPhotoServiceKeyURL]
+                   size:CGSizeMake(50.0f, 50.0f)];      
     }
   }];
   
