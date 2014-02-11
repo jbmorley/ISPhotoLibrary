@@ -235,18 +235,21 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
     ISListViewAdapterItem *item = [self.adapter itemForIndex:index];
     
     ISItemViewController *__weak weakController = controller;
+    ISPhotoViewController *__weak weakSelf = self;
     [item fetch:^(NSDictionary *dict) {
       
       ISItemViewController *strongController = weakController;
-      if (strongController == nil) {
+      ISPhotoViewController *strongSelf = weakSelf;
+      if (strongController == nil ||
+          strongSelf == nil) {
         return;
       }
       
       strongController.title = dict[ISPhotoServiceKeyName];
       [strongController setCacheItem:dict[ISPhotoServiceKeyURL]
                              context:ISCacheImageContext
-                         preferences:@{ISCacheImageWidth: @(self.photoSize.width),
-                                       ISCacheImageHeight: @(self.photoSize.height),
+                         preferences:@{ISCacheImageWidth: @(strongSelf.photoSize.width),
+                                       ISCacheImageHeight: @(strongSelf.photoSize.height),
                                        ISCacheImageScaleMode: @(ISCacheImageScaleAspectFit)}];
     }];
     
