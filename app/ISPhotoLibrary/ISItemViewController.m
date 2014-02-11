@@ -85,9 +85,22 @@ typedef enum {
 }
 
 
+- (void)viewWillAppear:(BOOL)animated
+{
+  [super viewWillAppear:animated];
+  [self startObservingCacheItem];
+}
+
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+  [super viewDidDisappear:animated];
+  [self stopObservingCacheItem];
+}
+
+
 - (void)dealloc
 {
-  // TODO Do we need to do this in did disappear, etc.
   [self stopObservingCacheItem];
 }
 
