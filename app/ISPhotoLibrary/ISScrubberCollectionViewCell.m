@@ -40,6 +40,7 @@
     self.imageView = [[ISCacheImageView alloc] initWithFrame:self.bounds];
     self.imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    self.imageView.alpha = 0.0f;
     [self addSubview:self.imageView];
     
     self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -73,6 +74,10 @@
      ^(NSError *error) {
        ISScrubberCollectionViewCell *strongSelf = weakSelf;
        if (strongSelf) {
+         [UIView animateWithDuration:0.1f
+                          animations:^{
+                            strongSelf.imageView.alpha = 1.0f;
+                          }];
          [strongSelf.activityIndicatorView stopAnimating];
        }
      }];
