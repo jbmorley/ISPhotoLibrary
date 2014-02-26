@@ -18,9 +18,12 @@ PODS:
   - AFNetworking/UIKit (2.1.0):
     - AFNetworking/NSURLConnection
   - ISCache (0.0.1):
+    - AFNetworking (~> 2.0)
+    - ISUtilities
     - NSString-Hashes (~> 1.2.1)
   - ISListViewAdapter (0.0.1)
-  - ISToolkit (0.0.1)
+  - ISToolkit (0.0.1):
+    - ISCache
   - ISUtilities (0.0.1)
   - NSString-Hashes (1.2.1)
 
@@ -43,9 +46,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: c7d7901a83f631414c7eda1737261f696101a5cd
-  ISCache: 8f2d9592a4df165e61f8d475967e9707a8192b87
-  ISListViewAdapter: 5d3ab5f6d0d6a71414c637890b2122d461390ddd
-  ISToolkit: 492997f99553c508d919fcc09fdade7a54610053
+  ISCache: e1e5539928dc8c6602d7c5691fdf421216d5fd8f
+  ISListViewAdapter: 311af88b482896042a74ac240d0b7ce489daca92
+  ISToolkit: 6a69912597dbecec7dd8fd0be7341a8d07a50bdb
   ISUtilities: e6d3068e301231561acbab966d3fcc68758d2d2d
   NSString-Hashes: 7fafa67a32177c8a953f0bed099c8fcf111827b2
 

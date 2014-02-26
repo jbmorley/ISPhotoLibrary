@@ -68,7 +68,7 @@
                                    context:ISCacheImageContext
                                preferences:  @{ISCacheImageWidth: @(size.width),
                                                ISCacheImageHeight: @(size.height),
-                                               ISCacheImageScaleMode: @(ISCacheImageScaleAspectFit)}
+                                               ISCacheImageScaleMode: @(ISImageScaleAspectFit)}
                           placeholderImage:nil
                                      block:
      ^(NSError *error) {

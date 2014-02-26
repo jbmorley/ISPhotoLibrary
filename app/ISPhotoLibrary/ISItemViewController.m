@@ -161,7 +161,7 @@ typedef enum {
                                  context:context
                              preferences:@{ISCacheImageWidth: @(max),
                                            ISCacheImageHeight: @(max),
-                                           ISCacheImageScaleMode: @(ISCacheImageScaleAspectFit)}
+                                           ISCacheImageScaleMode: @(ISImageScaleAspectFit)}
                         placeholderImage:nil
                                    block:
    ^(NSError *error) {
@@ -191,52 +191,30 @@ typedef enum {
 
 - (void)startObservingCacheItem
 {
-  // Observe the cache item for progress changes.
-  [self.cacheItem addObserver:self
-                   forKeyPath:NSStringFromSelector(@selector(progress))
-                      options:NSKeyValueObservingOptionInitial
-                      context:NULL];
-  [self.cacheItem addObserver:self
-                   forKeyPath:NSStringFromSelector(@selector(state))
-                      options:NSKeyValueObservingOptionInitial
-                      context:NULL];
+  [self.cacheItem addCacheItemObserver:self options:ISCacheItemObserverOptionsInitial];
 }
 
 
 - (void)stopObservingCacheItem
 {
-  @try {
-    [self.cacheItem removeObserver:self
-                        forKeyPath:NSStringFromSelector(@selector(progress))];
-    [self.cacheItem removeObserver:self
-                        forKeyPath:NSStringFromSelector(@selector(state))];
-  }
-  @catch (NSException *exception) {}
+  [self.cacheItem removeCacheItemObserver:self];
 }
 
 
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context
+#pragma mark - ISCacheItemObserver
+
+
+- (void)cacheItemDidChange:(ISCacheItem *)cacheItem
 {
-  if (object == self.cacheItem) {
-    if ([keyPath isEqualToString:NSStringFromSelector(@selector(progress))]) {
-      self.progressView.progress = self.cacheItem.progress;
-    } else if ([keyPath isEqualToString:NSStringFromSelector(@selector(state))]) {
-      if (self.cacheItem.state ==
-          ISCacheItemStateFound) {
-        self.state = ISPhotoViewStateReady;
-      } else if (self.cacheItem.state ==
-                 ISCacheItemStateInProgress) {
-        self.state = ISPhotoViewStateDownloading;
-      } else if (self.cacheItem.state ==
-                 ISCacheItemStateNotFound) {
-        if (self.cacheItem.lastError) {
-          // TODO Show that we encountered an error.
-        }
-      }
+  self.progressView.progress = self.cacheItem.progress;
+  if (cacheItem.state == ISCacheItemStateNotFound) {
+    if (self.cacheItem.lastError) {
+      // TODO Show that we encountered an error.
     }
+  } else if (cacheItem.state == ISCacheItemStateInProgress) {
+    self.state = ISPhotoViewStateDownloading;
+  } else if (cacheItem.state == ISCacheItemStateFound) {
+    self.state = ISPhotoViewStateReady;
   }
 }
 

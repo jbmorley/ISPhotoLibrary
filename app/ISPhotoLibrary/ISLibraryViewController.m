@@ -62,8 +62,7 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
   
   // Create an adapter and connect it to the collection view.
   self.adapter = [[ISListViewAdapter alloc] initWithDataSource:self.photoService];
-  self.connector = [ISListViewAdapterConnector connectorWithCollectionView:self.collectionView];
-  [self.adapter addAdapterObserver:self.connector];
+  self.connector = [ISListViewAdapterConnector connectorWithAdapter:self.adapter collectionView:self.collectionView];
   
   // Add the refresh control.
   self.refreshControl = [UIRefreshControl new];
@@ -104,7 +103,7 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
     self.chromeState = ISViewControllerChromeStateShown;
   } else if ([segue.identifier isEqualToString:kDownloadsSegueIdentifier]) {
     UINavigationController *navigationController = segue.destinationViewController;
-    ISDownloadsViewController *viewController = (ISDownloadsViewController *)navigationController.topViewController;
+    ISCacheViewController *viewController = (ISCacheViewController *)navigationController.topViewController;
     viewController.delegate = self;
   }
 }
@@ -145,8 +144,9 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 
 - (IBAction)downloadsClicked:(id)sender
 {
-  ISDownloadsViewController *viewController = [ISDownloadsViewController downloadsViewController];
+  ISCacheViewController *viewController = [ISCacheViewController new];
   viewController.delegate = self;
+  viewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(downloadsComplete:)];
   
   UINavigationController *navigationController =
   [[UINavigationController alloc] initWithRootViewController:viewController];
@@ -186,7 +186,7 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
 - (NSInteger)collectionView:(UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section
 {
-  return self.adapter.count;
+  return self.connector.count;
 }
 
 
@@ -221,7 +221,7 @@ static NSString *kDownloadsSegueIdentifier = @"DownloadsSegue";
                                      context:ISCacheImageContext
                                     preferences:@{ISCacheImageWidth: @(self.thumbnailSize.width),
                                                ISCacheImageHeight: @(self.thumbnailSize.height),
-                                               ISCacheImageScaleMode: @(ISCacheImageScaleAspectFill)}
+                                               ISCacheImageScaleMode: @(ISImageScaleAspectFill)}
                             placeholderImage:self.thumbnail
                                        block:NULL];
       item.userInfo = dict;
@@ -276,13 +276,18 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 }
 
 
-#pragma mark - ISDownloadsViewControllerDelegate
+#pragma mark - ISCacheViewControllerDelegate
 
 
-- (void)downloadsViewControllerDidFinish:(ISDownloadsViewController *)downloadsViewController
+- (void)downloadsComplete:(id)sender
 {
   [self.navigationController dismissViewControllerAnimated:YES
                                                 completion:NULL];
+}
+
+
+- (void)cacheViewController:(ISCacheViewController *)cacheViewController didSelectCacheItem:(ISCacheItem *)cacheItem
+{
 }
 
 

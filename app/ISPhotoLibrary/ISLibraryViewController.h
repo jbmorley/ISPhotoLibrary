@@ -21,13 +21,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ISDownloadsViewController.h"
+#import <ISToolkit/ISToolkit.h>
 #import "ISPhotoService.h"
 
 @interface ISLibraryViewController : UIViewController
 <UICollectionViewDataSource
 ,UICollectionViewDelegate
-,ISDownloadsViewControllerDelegate
+,ISCacheViewControllerDelegate
 ,UICollectionViewDelegateFlowLayout
 ,ISPhotoServiceDelegate>
 

@@ -123,8 +123,7 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
   [self setToolbarItems:@[negativeSpace, barButtonItem]];
   
   // Connect to the adapter.
-  self.scrubberConnector = [ISListViewAdapterConnector connectorWithCollectionView:self.scrubberCollectionView];
-  [self.adapter addAdapterObserver:self.scrubberConnector];
+  self.scrubberConnector = [ISListViewAdapterConnector connectorWithAdapter:self.adapter collectionView:self.scrubberCollectionView];
   
   // Set the initial status bar state.
   _prefersStatusBarHidden = NO;
@@ -250,7 +249,7 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
                              context:ISCacheImageContext
                          preferences:@{ISCacheImageWidth: @(strongSelf.photoSize.width),
                                        ISCacheImageHeight: @(strongSelf.photoSize.height),
-                                       ISCacheImageScaleMode: @(ISCacheImageScaleAspectFit)}];
+                                       ISCacheImageScaleMode: @(ISImageScaleAspectFit)}];
     }];
     
     return controller;
@@ -337,7 +336,7 @@ static NSString *kScrubberCellReuseIdentifier = @"ScrubberCell";
 - (NSInteger)collectionView:(UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section
 {
-  return self.adapter.count;
+  return self.scrubberConnector.count;
 }
 
 

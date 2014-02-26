@@ -10,6 +10,7 @@
 #import <ISCache/ISCache.h>
 
 @interface ISItemViewController : UIViewController
+<ISCacheItemObserver>
 
 @property (nonatomic) NSUInteger index;
 
