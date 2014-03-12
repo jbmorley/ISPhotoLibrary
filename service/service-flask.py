@@ -7,10 +7,11 @@ import hashlib
 import os.path
 import mimetypes
 
+directory = "/Users/jbmorley/Movies/TV Shows (Downloads)"
+
 from flask import Flask, send_file
 app = Flask(__name__)
 index = None
-
 
 class Index:
 
@@ -60,6 +61,9 @@ class Index:
 
   def ids(self):
     return map(lambda x: x[0], self.index.items())
+
+
+index = Index(directory) 
 
 
 @app.route("/")
